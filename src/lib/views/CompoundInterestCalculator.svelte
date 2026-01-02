@@ -1,9 +1,15 @@
 <script>
   import Card from '../components/ui/Card.svelte';
-  import { PiggyBank, TrendingUp, Calendar } from 'lucide-svelte';
+  import { PiggyBank, TrendingUp, Calendar, ChartArea } from 'lucide-svelte';
   import { language, currencies } from '../stores/language.js';
+  import { onMount } from 'svelte';
+  import { Chart, registerables } from 'chart.js';
+
+  Chart.register(...registerables);
 
   let currentCurrency = $state('€');
+  let chartCanvas = $state();
+  let chart = null;
 
   language.subscribe(lang => {
     currentCurrency = currencies[lang] || '€';
@@ -34,6 +40,64 @@
       total: total.toFixed(2),
       breakdown: data
     };
+  });
+
+  $effect(() => {
+    if (chartCanvas && result.breakdown.length > 0) {
+      const ctx = chartCanvas.getContext('2d');
+      const data = {
+        labels: result.breakdown.map(d => `Year ${d.year}`),
+        datasets: [{
+          label: `Balance (${currentCurrency})`,
+          data: result.breakdown.map(d => d.balance),
+          fill: true,
+          backgroundColor: 'rgba(37, 99, 235, 0.1)',
+          borderColor: 'rgb(37, 99, 235)',
+          tension: 0.4,
+          pointRadius: 2,
+          pointHoverRadius: 5,
+        }]
+      };
+
+      if (chart) {
+        chart.data = data;
+        chart.update();
+      } else {
+        chart = new Chart(ctx, {
+          type: 'line',
+          data: data,
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                display: false
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    return `Balance: ${context.parsed.y} ${currentCurrency}`;
+                  }
+                }
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: false,
+                grid: {
+                  color: 'rgba(0, 0, 0, 0.05)'
+                }
+              },
+              x: {
+                grid: {
+                  display: false
+                }
+              }
+            }
+          }
+        });
+      }
+    }
   });
 </script>
 
@@ -93,7 +157,7 @@
               type="number"
               step="0.1"
               bind:value={rate}
-              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+              class="w-full pl-3 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
             />
             <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
               %
@@ -117,6 +181,12 @@
     </Card>
 
     <div class="lg:col-span-2 flex flex-col gap-6">
+      <Card title="Growth Projection">
+        <div class="h-[300px] w-full">
+          <canvas bind:this={chartCanvas}></canvas>
+        </div>
+      </Card>
+
       <Card>
         <div class="flex flex-col items-center justify-center py-10 bg-linear-to-br from-blue-50 to-indigo-50 rounded-xl">
           <div class="text-blue-600/60 text-sm font-semibold uppercase tracking-wider mb-2">Estimated Future Value</div>
