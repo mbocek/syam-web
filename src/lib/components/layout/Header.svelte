@@ -1,5 +1,6 @@
 <script>
   import { Menu } from 'lucide-svelte';
+  import LanguageSelector from '../ui/LanguageSelector.svelte';
   let { onToggleSidebar } = $props();
 </script>
 
@@ -13,5 +14,7 @@
       <Menu size={24} />
     </button>
   </div>
-  <div class="flex items-center gap-4"></div>
+  <div class="flex items-center gap-4">
+    <LanguageSelector />
+  </div>
 </header>

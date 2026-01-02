@@ -1,6 +1,13 @@
 <script>
   import Card from '../components/ui/Card.svelte';
-  import { PiggyBank, TrendingUp, Calendar, Euro } from 'lucide-svelte';
+  import { PiggyBank, TrendingUp, Calendar } from 'lucide-svelte';
+  import { language, currencies } from '../stores/language.js';
+
+  let currentCurrency = $state('€');
+
+  language.subscribe(lang => {
+    currentCurrency = currencies[lang] || '€';
+  });
 
   let principal = $state(1000);
   let rate = $state(5);
@@ -51,8 +58,8 @@
               bind:value={principal}
               class="w-full pl-3 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
             />
-            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
-              <Euro size={16} />
+            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400 text-sm font-medium">
+              {currentCurrency}
             </div>
           </div>
         </div>
@@ -69,8 +76,8 @@
               bind:value={monthlyContribution}
               class="w-full pl-3 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
             />
-            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
-              <Euro size={16} />
+            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400 text-sm font-medium">
+              {currentCurrency}
             </div>
           </div>
         </div>
@@ -113,7 +120,7 @@
       <Card>
         <div class="flex flex-col items-center justify-center py-10 bg-linear-to-br from-blue-50 to-indigo-50 rounded-xl">
           <div class="text-blue-600/60 text-sm font-semibold uppercase tracking-wider mb-2">Estimated Future Value</div>
-          <div class="text-5xl font-extrabold text-blue-600 tracking-tight">{result.total} €</div>
+          <div class="text-5xl font-extrabold text-blue-600 tracking-tight">{result.total} {currentCurrency}</div>
           <div class="mt-4 text-gray-500 text-sm text-center px-6">
             Based on a {rate}% annual interest rate over {years} years.
           </div>
@@ -133,7 +140,7 @@
               {#each result.breakdown as row}
                 <tr class="hover:bg-gray-50/50 transition-colors">
                   <td class="px-6 py-4 text-sm font-medium text-gray-900">Year {row.year}</td>
-                  <td class="px-6 py-4 text-sm font-bold text-blue-600">{row.balance} €</td>
+                  <td class="px-6 py-4 text-sm font-bold text-blue-600">{row.balance} {currentCurrency}</td>
                 </tr>
               {/each}
             </tbody>
