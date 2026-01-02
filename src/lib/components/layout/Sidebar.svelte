@@ -1,6 +1,7 @@
 <script>
   import { page } from '$app/stores';
   import { LayoutDashboard, Calculator, ChevronDown } from 'lucide-svelte';
+  import { t } from '../../stores/language.js';
   let { isCollapsed = false } = $props();
   
   let isCalculatorsOpen = $state(true);
@@ -23,7 +24,7 @@
             <LayoutDashboard size={20} />
           </div>
           {#if !isCollapsed}
-            <span class="nav-text font-medium">Dashboard</span>
+            <span class="nav-text font-medium">{$t('common.dashboard')}</span>
           {/if}
         </a>
       </li>
@@ -38,7 +39,7 @@
             <Calculator size={20} />
           </div>
           {#if !isCollapsed}
-            <span class="nav-text flex-1 text-left font-medium">Calculators</span>
+            <span class="nav-text flex-1 text-left font-medium">{$t('common.calculators')}</span>
             <div class="transition-transform duration-200 {isCalculatorsOpen ? 'rotate-180' : ''}">
               <ChevronDown size={16} />
             </div>
@@ -52,7 +53,7 @@
                 href="/calculator"
                 class="px-4 py-2 flex items-center gap-3 cursor-pointer rounded-md hover:bg-gray-800 transition-all {$page.url.pathname === '/calculator' ? 'bg-gray-800 text-blue-400' : 'text-gray-500 hover:text-white'}"
               >
-                <span class="nav-text text-sm font-medium">Compound Interest</span>
+                <span class="nav-text text-sm font-medium">{$t('sidebar.compoundInterest')}</span>
               </a>
             </li>
           </ul>

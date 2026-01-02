@@ -18,7 +18,7 @@
   let principal = $state(1000);
   let rate = $state(5);
   let years = $state(10);
-  let frequency = $state(12); // Compounding frequency per year (12 = monthly, 1 = annually, etc.)
+  let frequency = $state(1); // Compounding frequency per year (12 = monthly, 1 = annually, etc.)
   let monthlyContribution = $state(0);
 
   let result = $derived.by(() => {
@@ -93,7 +93,7 @@
               tooltip: {
                 callbacks: {
                   label: function(context) {
-                    return `Balance: ${context.parsed.y} ${currentCurrency}`;
+                    return `${$t('calculator.balance')}: ${context.parsed.y} ${currentCurrency}`;
                   }
                 }
               }
@@ -121,11 +121,11 @@
 <div class="flex flex-col gap-6">
   <div class="flex flex-col gap-1">
     <h2 class="m-0 text-2xl font-bold text-gray-900">{$t('calculator.title')}</h2>
-    <p class="text-gray-500 text-sm">See how your investments grow over time with compound interest.</p>
+    <p class="text-gray-500 text-sm">{$t('calculator.description')}</p>
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-    <Card title="Parameters">
+    <Card title={$t('calculator.parameters')}>
       <div class="flex flex-col gap-5">
         <div class="flex flex-col gap-1.5">
           <label for="principal" class="text-sm font-semibold text-gray-700 flex items-center gap-2">
@@ -148,7 +148,7 @@
         <div class="flex flex-col gap-1.5">
           <label for="monthlyContribution" class="text-sm font-semibold text-gray-700 flex items-center gap-2">
             <TrendingUp size={16} class="text-emerald-500" />
-            Monthly Contribution
+            {$t('calculator.monthlyContribution')}
           </label>
           <div class="relative">
             <input
@@ -185,17 +185,17 @@
         <div class="flex flex-col gap-1.5">
           <label for="frequency" class="text-sm font-semibold text-gray-700 flex items-center gap-2">
             <TrendingUp size={16} class="text-blue-400" />
-            Compounding Frequency
+            {$t('calculator.frequency')}
           </label>
           <select
             id="frequency"
             bind:value={frequency}
             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all bg-white"
           >
-            <option value={1}>Annually</option>
-            <option value={2}>Semi-annually</option>
-            <option value={4}>Quarterly</option>
-            <option value={12}>Monthly</option>
+            <option value={1}>{$t('calculator.frequencyOptions.annually')}</option>
+            <option value={2}>{$t('calculator.frequencyOptions.semiAnnually')}</option>
+            <option value={4}>{$t('calculator.frequencyOptions.quarterly')}</option>
+            <option value={12}>{$t('calculator.frequencyOptions.monthly')}</option>
           </select>
         </div>
 
@@ -215,7 +215,7 @@
     </Card>
 
     <div class="lg:col-span-2 flex flex-col gap-6">
-      <Card title="Growth Projection">
+      <Card title={$t('calculator.growthProjection')}>
         <div class="h-[300px] w-full">
           <canvas bind:this={chartCanvas}></canvas>
         </div>
@@ -223,10 +223,10 @@
 
       <Card>
         <div class="flex flex-col items-center justify-center py-10 bg-linear-to-br from-blue-50 to-indigo-50 rounded-xl">
-          <div class="text-blue-600/60 text-sm font-semibold uppercase tracking-wider mb-2">Estimated Future Value</div>
+          <div class="text-blue-600/60 text-sm font-semibold uppercase tracking-wider mb-2">{$t('calculator.estimatedValue')}</div>
           <div class="text-5xl font-extrabold text-blue-600 tracking-tight">{result.total} {currentCurrency}</div>
           <div class="mt-4 text-gray-500 text-sm text-center px-6">
-            Based on a {rate}% annual interest rate over {years} years.
+            {$t('calculator.basis', { rate, years })}
           </div>
         </div>
       </Card>

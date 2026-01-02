@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { language } from '../../stores/language.js';
+  import { language, t } from '../../stores/language.js';
 
   let languages = [
     { code: 'en', flag: '🇺🇸', name: 'English', currency: '$' },
@@ -30,7 +30,7 @@
   <button 
     class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-800 transition-colors cursor-pointer text-xl"
     onclick={() => isOpen = !isOpen}
-    aria-label="Select Language"
+    aria-label={$t('common.selectLanguage')}
   >
     {selectedFlag}
   </button>
@@ -54,7 +54,7 @@
     <button 
       class="fixed inset-0 z-40 bg-transparent border-none w-full h-full cursor-default" 
       onclick={() => isOpen = false}
-      aria-label="Close language selector"
+      aria-label={$t('common.closeLanguage')}
     ></button>
   {/if}
 </div>

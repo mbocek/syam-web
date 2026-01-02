@@ -1,6 +1,7 @@
 <script>
   import { Menu } from 'lucide-svelte';
   import LanguageSelector from '../ui/LanguageSelector.svelte';
+  import { t } from '../../stores/language.js';
   let { onToggleSidebar } = $props();
 </script>
 
@@ -9,7 +10,7 @@
     <button 
       class="bg-none border-none cursor-pointer p-2 rounded-md text-white hover:bg-gray-800 transition-colors" 
       onclick={onToggleSidebar}
-      aria-label="Toggle Sidebar"
+      aria-label={$t('common.toggleSidebar')}
     >
       <Menu size={24} />
     </button>

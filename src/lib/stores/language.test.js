@@ -33,17 +33,17 @@ describe('i18n store', () => {
 
   it('provides English translations by default', () => {
     const translate = get(t);
-    expect(translate('dashboard.title')).toBe('Dashboard');
+    expect(translate('common.dashboard')).toBe('Dashboard');
   });
 
   it('switches translations when language changes', () => {
     language.set('sk');
     let translate = get(t);
-    expect(translate('dashboard.title')).toBe('Prehľad');
+    expect(translate('common.dashboard')).toBe('Prehľad');
 
     language.set('cs');
     translate = get(t);
-    expect(translate('dashboard.title')).toBe('Přehled');
+    expect(translate('common.dashboard')).toBe('Přehled');
   });
 
   it('falls back to English for missing keys', () => {
@@ -55,6 +55,12 @@ describe('i18n store', () => {
 
   it('handles nested keys', () => {
     const translate = get(t);
-    expect(translate('dashboard.features.title')).toBe('Key Features');
+    expect(translate('dashboard.features.modern')).toBe('Modern UI: Built with Svelte 5 for a fast and responsive experience.');
+  });
+
+  it('supports interpolation', () => {
+    const translate = get(t);
+    expect(translate('calculator.basis', { rate: 5, years: 10 }))
+      .toBe('Based on a 5% annual interest rate over 10 years.');
   });
 });

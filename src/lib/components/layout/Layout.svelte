@@ -1,6 +1,7 @@
 <script>
   import Sidebar from './Sidebar.svelte';
   import Header from './Header.svelte';
+  import { t } from '../../stores/language.js';
   let { children } = $props();
   let isCollapsed = $state(false);
 
@@ -20,7 +21,7 @@
     </main>
 
     <footer class="p-4 bg-white border-t border-gray-200 text-center text-sm text-gray-500">
-      <p>&copy; 2026 SYAM. All rights reserved.</p>
+      <p>&copy; 2026 SYAM. {$t('common.rightsReserved')}</p>
     </footer>
   </div>
 </div>

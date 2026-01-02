@@ -34,7 +34,7 @@ export const currencies = {
 };
 
 export const t = derived(language, ($language) => {
-  return (key) => {
+  return (key, params = {}) => {
     const keys = key.split('.');
     let value = translations[$language] || translations['en'];
     
@@ -45,9 +45,16 @@ export const t = derived(language, ($language) => {
         for (const fk of keys) {
             fallback = fallback?.[fk];
         }
-        return fallback || key;
+        value = fallback || key;
+        break;
       }
       value = value[k];
+    }
+    
+    if (typeof value === 'string') {
+      Object.keys(params).forEach(param => {
+        value = value.replace(`{${param}}`, params[param]);
+      });
     }
     
     return value;

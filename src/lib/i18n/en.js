@@ -1,10 +1,22 @@
 export default {
+  common: {
+    dashboard: 'Dashboard',
+    calculators: 'Calculators',
+    languages: 'Languages',
+    technology: 'Technology',
+    readyToStart: 'Ready to start?',
+    rightsReserved: 'All rights reserved.',
+    selectLanguage: 'Select Language',
+    closeLanguage: 'Close language selector',
+    toggleSidebar: 'Toggle Sidebar'
+  },
+  sidebar: {
+    compoundInterest: 'Compound Interest'
+  },
   dashboard: {
-    title: 'Dashboard',
     welcome: 'Welcome to SYAM',
     description: 'SYAM (Smart Yield Analysis & Monitoring) is your personal financial toolkit designed to help you make informed decisions about your investments.',
     features: {
-      title: 'Key Features',
       calculators: 'Financial Calculators: Access tools like the Compound Interest Calculator to project your future wealth.',
       multilingual: 'Multilingual Support: Use the application in your preferred language (English, Slovak, or Czech).',
       modern: 'Modern UI: Built with Svelte 5 for a fast and responsive experience.'
@@ -13,16 +25,26 @@ export default {
   },
   calculator: {
     title: 'Compound Interest Calculator',
+    description: 'See how your investments grow over time with compound interest.',
+    parameters: 'Parameters',
     principal: 'Initial Deposit',
     rate: 'Annual Interest Rate (%)',
     years: 'Number of Years',
     frequency: 'Compounding Frequency',
+    frequencyOptions: {
+      annually: 'Annually',
+      semiAnnually: 'Semi-annually',
+      quarterly: 'Quarterly',
+      monthly: 'Monthly'
+    },
     monthlyContribution: 'Monthly Contribution',
-    result: 'Final Balance',
+    estimatedValue: 'Estimated Future Value',
+    basis: 'Based on a {rate}% annual interest rate over {years} years.',
     breakdown: 'Yearly Breakdown',
     year: 'Year',
     contributions: 'Total Contributions',
     interest: 'Total Interest',
-    balance: 'Balance'
+    balance: 'Balance',
+    growthProjection: 'Growth Projection'
   }
 };

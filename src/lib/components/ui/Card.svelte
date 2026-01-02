@@ -1,15 +1,10 @@
 <script>
   import { ChevronDown } from 'lucide-svelte';
-  let { title, children, footer, collapsible = false, isOpen = true } = $props();
-  let internalIsOpen = $state(isOpen);
-
-  $effect(() => {
-    internalIsOpen = isOpen;
-  });
+  let { title, children, footer, collapsible = false, isOpen = $bindable(true) } = $props();
 
   function toggle() {
     if (collapsible) {
-      internalIsOpen = !internalIsOpen;
+      isOpen = !isOpen;
     }
   }
 </script>
@@ -21,10 +16,10 @@
         type="button"
         class="w-full px-6 py-4 border-b border-gray-100 flex items-center justify-between cursor-pointer select-none hover:bg-gray-50/50 transition-colors" 
         onclick={toggle}
-        aria-expanded={internalIsOpen}
+        aria-expanded={isOpen}
       >
         <h3 class="m-0 text-base font-bold text-gray-900">{title}</h3>
-        <div class="transition-transform duration-200 {internalIsOpen ? 'rotate-180' : ''}">
+        <div class="transition-transform duration-200 {isOpen ? 'rotate-180' : ''}">
           <ChevronDown size={20} class="text-gray-400" />
         </div>
       </button>
@@ -35,7 +30,7 @@
     {/if}
   {/if}
   
-  {#if !collapsible || internalIsOpen}
+  {#if !collapsible || isOpen}
     <div class="p-6 flex-1">
       {@render children()}
     </div>
