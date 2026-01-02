@@ -2,46 +2,13 @@
   let { onToggleSidebar } = $props();
 </script>
 
-<header class="header">
-  <div class="header-left">
-    <button class="toggle-sidebar" onclick={onToggleSidebar}>☰</button>
+<header class="h-[60px] bg-[#111827] text-white border-b border-[#1f2937] flex items-center justify-between px-6">
+  <div class="flex items-center gap-4">
+    <button class="bg-none border-none text-2xl cursor-pointer p-2 rounded-md text-white hover:bg-[#1f2937]" onclick={onToggleSidebar}>☰</button>
     <div class="search-bar">Search...</div>
   </div>
-  <div class="header-right">
+  <div class="flex items-center gap-4">
     <div class="notifications">🔔</div>
     <div class="user-profile">Profile</div>
   </div>
 </header>
-
-<style>
-  .header {
-    height: 60px;
-    background-color: #111827;
-    color: white;
-    border-bottom: 1px solid #1f2937;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 1.5rem;
-  }
-
-  .toggle-sidebar {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 0.375rem;
-    color: white;
-  }
-
-  .toggle-sidebar:hover {
-    background-color: #1f2937;
-  }
-
-  .header-left, .header-right {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-</style>

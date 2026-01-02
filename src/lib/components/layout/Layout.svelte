@@ -9,17 +9,17 @@
   }
 </script>
 
-<div class="layout" class:sidebar-collapsed={isCollapsed}>
+<div class="flex h-screen w-screen">
   <Sidebar {isCollapsed} />
 
-  <div class="main-content">
+  <div class="flex-1 flex flex-col min-w-0">
     <Header onToggleSidebar={toggleSidebar} />
 
-    <main class="content">
+    <main class="flex-1 p-6 overflow-y-auto">
       {@render children()}
     </main>
 
-    <footer class="footer">
+    <footer class="p-4 bg-white border-t border-[#e5e7eb] text-center text-sm text-[#6b7280]">
       <p>&copy; 2026 SYAM. All rights reserved.</p>
     </footer>
   </div>
@@ -29,40 +29,10 @@
   :global(body) {
     margin: 0;
     font-family: 'Inter', sans-serif;
-    background-color: #f3f4f6;
-    height: 100vh;
-    overflow: hidden;
+    @apply bg-[#f3f4f6] h-screen overflow-hidden;
   }
 
   :global(#app) {
     height: 100%;
-  }
-
-  .layout {
-    display: flex;
-    height: 100vh;
-    width: 100vw;
-  }
-
-  .main-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    min-width: 0; /* Prevent layout breaking with long content */
-  }
-
-  .content {
-    flex: 1;
-    padding: 1.5rem;
-    overflow-y: auto;
-  }
-
-  .footer {
-    padding: 1rem 1.5rem;
-    background-color: white;
-    border-top: 1px solid #e5e7eb;
-    text-align: center;
-    font-size: 0.875rem;
-    color: #6b7280;
   }
 </style>
