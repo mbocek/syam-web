@@ -1,7 +1,7 @@
 <script>
   import Sidebar from './Sidebar.svelte';
   import Header from './Header.svelte';
-  let { children } = $props();
+  let { children, currentView, onViewChange } = $props();
   let isCollapsed = $state(false);
 
   function toggleSidebar() {
@@ -10,7 +10,7 @@
 </script>
 
 <div class="flex h-screen w-screen">
-  <Sidebar {isCollapsed} />
+  <Sidebar {isCollapsed} {currentView} {onViewChange} />
 
   <div class="flex-1 flex flex-col min-w-0">
     <Header onToggleSidebar={toggleSidebar} />
