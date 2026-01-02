@@ -197,7 +197,7 @@
         </div>
       </Card>
 
-      <Card title="Annual Overview">
+      <Card title="Annual Overview" collapsible={true} isOpen={false}>
         <div class="overflow-x-auto">
           <table class="w-full border-collapse text-left">
             <thead>
