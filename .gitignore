@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# SvelteKit
+.svelte-kit
+build
+
+# OS
+.DS_Store
+Thumbs.db
