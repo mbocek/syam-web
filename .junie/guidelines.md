@@ -2,6 +2,9 @@
 
 This document provides essential information for developers working on the SYAM web project.
 
+## Project Overview
+SYAM (Simple Yet Another Monitor) Web is a financial dashboard built with **SvelteKit** and **Tailwind CSS**.
+
 ## Build and Configuration
 
 ### Prerequisites
@@ -28,12 +31,35 @@ npm run build
 # or
 make build
 ```
-The output will be in the `dist/` directory.
+The output depends on the configured SvelteKit adapter (default is `@sveltejs/adapter-auto`).
+
+## Architecture and UI
+
+### Technology Stack
+- **Framework**: [SvelteKit](https://kit.svelte.dev/)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/) (using `@tailwindcss/vite`)
+- **Icons**: [Lucide Svelte](https://lucide.dev/guide/svelte)
+- **Charts**: [Chart.js](https://www.chartjs.org/)
+
+### Key Directories
+- `src/lib/components/ui`: Reusable UI components (Cards, Selectors, etc.)
+- `src/lib/stores`: Svelte stores for state management (e.g., language, user preferences)
+- `src/lib/i18n`: Translation files (`en.js`, `sk.js`, `cs.js`)
+- `src/lib/views`: Larger functional components or page sections
+- `src/routes`: SvelteKit routing structure
+
+### Internationalization (i18n)
+The project uses a custom store-based i18n system. Use the `$t` store to translate strings:
+```javascript
+import { t } from '$lib/stores/language';
+// In markup:
+// {$t('common.save')}
+```
 
 ## Testing
 
 ### Configuration
-The project uses **Vitest** for unit and component testing, along with **Svelte Testing Library**.
+The project uses **Vitest** for unit and component testing.
 
 Key configuration in `vite.config.js`:
 - Environment: `jsdom`
@@ -53,23 +79,16 @@ npx vitest
 ```
 
 ### Adding New Tests
-Tests should be placed in the `src/` directory with the `.test.js` (or `.spec.js`) extension.
+Tests should be placed next to the file they are testing or in the same directory with the `.test.js` extension.
 
-Example component test (`src/App.test.js`):
+Example unit test (`src/lib/stores/language.test.js`):
 ```javascript
-import { render, screen, fireEvent } from '@testing-library/svelte';
 import { expect, test } from 'vitest';
-import App from './App.svelte';
+import { get } from 'svelte/store';
+import { language } from './language';
 
-test('increments count on button click', async () => {
-  render(App);
-  const button = screen.getByRole('button');
-  
-  expect(button.textContent).toContain('Count is 0');
-  
-  await fireEvent.click(button);
-  
-  expect(button.textContent).toContain('Count is 1');
+test('initial language is en', () => {
+  expect(get(language)).toBe('en');
 });
 ```
 
@@ -78,10 +97,10 @@ test('increments count on button click', async () => {
 ### Code Style
 - **Svelte 5 Runes**: This project uses Svelte 5. Prefer runes like `$state`, `$derived`, and `$effect` over legacy Svelte 4 syntax.
 - **Modern JavaScript**: The project is configured for `esnext` target. You can use modern ECMA features.
-- **CSS**: Plain CSS is used, scoped within Svelte components or in `src/app.css`.
+- **Tailwind CSS**: Use Tailwind classes for styling. Global styles are in `src/app.css`.
 
 ### Linting
-Currently, a placeholder is defined for linting. It is recommended to set up ESLint with `eslint-plugin-svelte` for Svelte 5 support.
+Currently, a placeholder is defined for linting.
 ```bash
 npm run lint
 # or
