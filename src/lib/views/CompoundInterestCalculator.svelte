@@ -1,7 +1,7 @@
 <script>
   import Card from '../components/ui/Card.svelte';
   import { PiggyBank, TrendingUp, Calendar, ChartArea } from 'lucide-svelte';
-  import { language, currencies } from '../stores/language.js';
+  import { language, currencies, t } from '../stores/language.js';
   import { onMount } from 'svelte';
   import { Chart, registerables } from 'chart.js';
 
@@ -63,9 +63,9 @@
     if (chartCanvas && result.breakdown.length > 0) {
       const ctx = chartCanvas.getContext('2d');
       const data = {
-        labels: result.breakdown.map(d => `Year ${d.year}`),
+        labels: result.breakdown.map(d => `${$t('calculator.year')} ${d.year}`),
         datasets: [{
-          label: `Balance (${currentCurrency})`,
+          label: `${$t('calculator.balance')} (${currentCurrency})`,
           data: result.breakdown.map(d => d.balance),
           fill: true,
           backgroundColor: 'rgba(37, 99, 235, 0.1)',
@@ -120,7 +120,7 @@
 
 <div class="flex flex-col gap-6">
   <div class="flex flex-col gap-1">
-    <h2 class="m-0 text-2xl font-bold text-gray-900">Compound Interest Calculator</h2>
+    <h2 class="m-0 text-2xl font-bold text-gray-900">{$t('calculator.title')}</h2>
     <p class="text-gray-500 text-sm">See how your investments grow over time with compound interest.</p>
   </div>
 
@@ -130,7 +130,7 @@
         <div class="flex flex-col gap-1.5">
           <label for="principal" class="text-sm font-semibold text-gray-700 flex items-center gap-2">
             <PiggyBank size={16} class="text-blue-500" />
-            Initial Deposit
+            {$t('calculator.principal')}
           </label>
           <div class="relative">
             <input
@@ -166,7 +166,7 @@
         <div class="flex flex-col gap-1.5">
           <label for="rate" class="text-sm font-semibold text-gray-700 flex items-center gap-2">
             <TrendingUp size={16} class="text-amber-500 rotate-45" />
-            Annual Interest Rate (%)
+            {$t('calculator.rate')}
           </label>
           <div class="relative">
             <input
@@ -202,7 +202,7 @@
         <div class="flex flex-col gap-1.5">
           <label for="years" class="text-sm font-semibold text-gray-700 flex items-center gap-2">
             <Calendar size={16} class="text-violet-500" />
-            Number of Years
+            {$t('calculator.years')}
           </label>
           <input
             id="years"
@@ -231,21 +231,21 @@
         </div>
       </Card>
 
-      <Card title="Annual Overview" collapsible={true} isOpen={false}>
+      <Card title={$t('calculator.breakdown')} collapsible={true} isOpen={false}>
         <div class="overflow-x-auto">
           <table class="w-full border-collapse text-left">
             <thead>
               <tr>
-                <th class="px-6 py-4 border-b border-gray-100 bg-gray-50/50 font-semibold text-xs uppercase tracking-wider text-gray-500">Year</th>
-                <th class="px-6 py-4 border-b border-gray-100 bg-gray-50/50 font-semibold text-xs uppercase tracking-wider text-gray-500 text-right">Contributions</th>
-                <th class="px-6 py-4 border-b border-gray-100 bg-gray-50/50 font-semibold text-xs uppercase tracking-wider text-gray-500 text-right">Interest</th>
-                <th class="px-6 py-4 border-b border-gray-100 bg-gray-50/50 font-semibold text-xs uppercase tracking-wider text-gray-500 text-right">Balance</th>
+                <th class="px-6 py-4 border-b border-gray-100 bg-gray-50/50 font-semibold text-xs uppercase tracking-wider text-gray-500">{$t('calculator.year')}</th>
+                <th class="px-6 py-4 border-b border-gray-100 bg-gray-50/50 font-semibold text-xs uppercase tracking-wider text-gray-500 text-right">{$t('calculator.contributions')}</th>
+                <th class="px-6 py-4 border-b border-gray-100 bg-gray-50/50 font-semibold text-xs uppercase tracking-wider text-gray-500 text-right">{$t('calculator.interest')}</th>
+                <th class="px-6 py-4 border-b border-gray-100 bg-gray-50/50 font-semibold text-xs uppercase tracking-wider text-gray-500 text-right">{$t('calculator.balance')}</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-100">
               {#each result.breakdown as row}
                 <tr class="hover:bg-gray-50/50 transition-colors">
-                  <td class="px-6 py-4 text-sm font-medium text-gray-900">Year {row.year}</td>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">{$t('calculator.year')} {row.year}</td>
                   <td class="px-6 py-4 text-sm text-gray-600 text-right">{row.totalContributions} {currentCurrency}</td>
                   <td class="px-6 py-4 text-sm text-emerald-600 text-right">+{row.totalInterest} {currentCurrency}</td>
                   <td class="px-6 py-4 text-sm font-bold text-blue-600 text-right">{row.balance} {currentCurrency}</td>

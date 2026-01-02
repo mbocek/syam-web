@@ -1,5 +1,5 @@
 <script>
-  import SalesDashboard from '$lib/views/SalesDashboard.svelte';
+  import Dashboard from '$lib/views/Dashboard.svelte';
 </script>
 
-<SalesDashboard />
+<Dashboard />

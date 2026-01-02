@@ -44,8 +44,7 @@
         >
           <span class="text-lg">{lang.flag}</span>
           <div class="flex flex-col items-start">
-            <span>{lang.name}</span>
-            <span class="text-[10px] text-gray-400 uppercase tracking-wider">{lang.currency}</span>
+            <span>{lang.name} <span class="text-[10px] text-gray-400 uppercase tracking-wider">({lang.currency})</span></span>
           </div>
         </button>
       {/each}
