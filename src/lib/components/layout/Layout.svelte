@@ -19,7 +19,7 @@
       {@render children()}
     </main>
 
-    <footer class="p-4 bg-white border-t border-[#e5e7eb] text-center text-sm text-[#6b7280]">
+    <footer class="p-4 bg-white border-t border-gray-200 text-center text-sm text-gray-500">
       <p>&copy; 2026 SYAM. All rights reserved.</p>
     </footer>
   </div>
@@ -29,7 +29,8 @@
   :global(body) {
     margin: 0;
     font-family: 'Inter', sans-serif;
-    @apply bg-[#f3f4f6] h-screen overflow-hidden;
+    @reference "tailwindcss";
+    @apply bg-gray-100 h-screen overflow-hidden;
   }
 
   :global(#app) {

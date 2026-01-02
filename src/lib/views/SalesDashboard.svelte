@@ -9,176 +9,64 @@
   ];
 </script>
 
-<div class="sales-dashboard">
-  <div class="page-header">
-    <h2>Sales Dashboard</h2>
-    <div class="actions">
-      <button class="btn btn-primary">Download Report</button>
+<div class="flex flex-col gap-4">
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="m-0 text-2xl font-bold">Sales Dashboard</h2>
+    <div>
+      <button class="px-4 py-2 rounded-md font-medium cursor-pointer border border-transparent bg-blue-500 text-white">Download Report</button>
     </div>
   </div>
 
-  <div class="stats-grid">
+  <div class="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-6">
     {#each stats as stat}
       <Card>
-        <div class="stat-content">
-          <div class="stat-label">{stat.label}</div>
-          <div class="stat-value">{stat.value}</div>
-          <div class="stat-change" class:positive={stat.change.startsWith('+')} class:negative={stat.change.startsWith('-')}>
-            {stat.change} <span>vs last month</span>
+        <div class="flex flex-col gap-2">
+          <div class="text-gray-500 text-sm font-medium">{stat.label}</div>
+          <div class="text-2xl font-bold text-gray-900">{stat.value}</div>
+          <div class="text-xs font-semibold {stat.change.startsWith('+') ? 'text-emerald-500' : 'text-red-500'}">
+            {stat.change} <span class="text-gray-500 font-normal">vs last month</span>
           </div>
         </div>
       </Card>
     {/each}
   </div>
 
-  <div class="charts-grid">
+  <div class="grid grid-cols-[repeat(auto-fit,minmax(400px,1fr))] gap-6">
     <Card title="Sales Revenue">
-      <div class="chart-placeholder">Sales Chart Placeholder</div>
+      <div class="h-[300px] bg-gray-50 border-2 border-dashed border-gray-200 flex items-center justify-center color-gray-400 rounded-lg">Sales Chart Placeholder</div>
     </Card>
     <Card title="Order Status">
-      <div class="chart-placeholder">Order Status Chart Placeholder</div>
+      <div class="h-[300px] bg-gray-50 border-2 border-dashed border-gray-200 flex items-center justify-center color-gray-400 rounded-lg">Order Status Chart Placeholder</div>
     </Card>
   </div>
 
   <Card title="Recent Transactions">
-    <table class="data-table">
+    <table class="w-full border-collapse text-left">
       <thead>
         <tr>
-          <th>Order ID</th>
-          <th>Customer</th>
-          <th>Date</th>
-          <th>Amount</th>
-          <th>Status</th>
+          <th class="px-4 py-3 border-b border-gray-200 bg-gray-50 font-semibold text-sm text-gray-700">Order ID</th>
+          <th class="px-4 py-3 border-b border-gray-200 bg-gray-50 font-semibold text-sm text-gray-700">Customer</th>
+          <th class="px-4 py-3 border-b border-gray-200 bg-gray-50 font-semibold text-sm text-gray-700">Date</th>
+          <th class="px-4 py-3 border-b border-gray-200 bg-gray-50 font-semibold text-sm text-gray-700">Amount</th>
+          <th class="px-4 py-3 border-b border-gray-200 bg-gray-50 font-semibold text-sm text-gray-700">Status</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>#ORD-7823</td>
-          <td>John Doe</td>
-          <td>Oct 24, 2023</td>
-          <td>$120.00</td>
-          <td><span class="badge badge-success">Completed</span></td>
+          <td class="px-4 py-3 border-b border-gray-200">#ORD-7823</td>
+          <td class="px-4 py-3 border-b border-gray-200">John Doe</td>
+          <td class="px-4 py-3 border-b border-gray-200">Oct 24, 2023</td>
+          <td class="px-4 py-3 border-b border-gray-200">$120.00</td>
+          <td class="px-4 py-3 border-b border-gray-200"><span class="px-2 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">Completed</span></td>
         </tr>
         <tr>
-          <td>#ORD-7824</td>
-          <td>Jane Smith</td>
-          <td>Oct 25, 2023</td>
-          <td>$85.50</td>
-          <td><span class="badge badge-pending">Pending</span></td>
+          <td class="px-4 py-3 border-b border-gray-200">#ORD-7824</td>
+          <td class="px-4 py-3 border-b border-gray-200">Jane Smith</td>
+          <td class="px-4 py-3 border-b border-gray-200">Oct 25, 2023</td>
+          <td class="px-4 py-3 border-b border-gray-200">$85.50</td>
+          <td class="px-4 py-3 border-b border-gray-200"><span class="px-2 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800">Pending</span></td>
         </tr>
       </tbody>
     </table>
   </Card>
 </div>
-
-<style>
-  .sales-dashboard {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .page-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-  }
-
-  .page-header h2 {
-    margin: 0;
-    font-size: 1.5rem;
-    font-weight: 700;
-  }
-
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .stat-content {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .stat-label {
-    color: #6b7280;
-    font-size: 0.875rem;
-    font-weight: 500;
-  }
-
-  .stat-value {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #111827;
-  }
-
-  .stat-change {
-    font-size: 0.75rem;
-    font-weight: 600;
-  }
-
-  .stat-change.positive { color: #10b981; }
-  .stat-change.negative { color: #ef4444; }
-  .stat-change span { color: #6b7280; font-weight: normal; }
-
-  .charts-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .chart-placeholder {
-    height: 300px;
-    background-color: #f9fafb;
-    border: 2px dashed #e5e7eb;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #9ca3af;
-    border-radius: 0.5rem;
-  }
-
-  .btn {
-    padding: 0.5rem 1rem;
-    border-radius: 0.375rem;
-    font-weight: 500;
-    cursor: pointer;
-    border: 1px solid transparent;
-  }
-
-  .btn-primary {
-    background-color: #3b82f6;
-    color: white;
-  }
-
-  .data-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-  }
-
-  .data-table th, .data-table td {
-    padding: 0.75rem 1rem;
-    border-bottom: 1px solid #e5e7eb;
-  }
-
-  .data-table th {
-    background-color: #f9fafb;
-    font-weight: 600;
-    font-size: 0.875rem;
-    color: #374151;
-  }
-
-  .badge {
-    padding: 0.25rem 0.5rem;
-    border-radius: 9999px;
-    font-size: 0.75rem;
-    font-weight: 600;
-  }
-
-  .badge-success { background-color: #d1fae5; color: #065f46; }
-  .badge-pending { background-color: #fef3c7; color: #92400e; }
-</style>

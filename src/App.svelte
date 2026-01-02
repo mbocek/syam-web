@@ -6,7 +6,3 @@
 <Layout>
   <SalesDashboard />
 </Layout>
-
-<style>
-  /* Global styles are handled in Layout.svelte */
-</style>
