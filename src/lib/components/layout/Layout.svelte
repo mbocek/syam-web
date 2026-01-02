@@ -28,9 +28,9 @@
 <style>
   :global(body) {
     margin: 0;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
     @reference "tailwindcss";
-    @apply bg-gray-100 h-screen overflow-hidden;
+    @apply bg-gray-50 h-screen overflow-hidden text-gray-900;
   }
 
   :global(#app) {

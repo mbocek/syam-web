@@ -1,5 +1,6 @@
 <script>
   import Card from '../components/ui/Card.svelte';
+  import { PiggyBank, TrendingUp, Calendar, Euro } from 'lucide-svelte';
 
   let principal = $state(1000);
   let rate = $state(5);
@@ -30,61 +31,92 @@
 </script>
 
 <div class="flex flex-col gap-6">
-  <div class="flex justify-between items-center">
-    <h2 class="m-0 text-2xl font-bold">Compound Interest Calculator</h2>
+  <div class="flex flex-col gap-1">
+    <h2 class="m-0 text-2xl font-bold text-gray-900">Compound Interest Calculator</h2>
+    <p class="text-gray-500 text-sm">See how your investments grow over time with compound interest.</p>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
     <Card title="Parameters">
-      <div class="flex flex-col gap-4">
-        <div class="flex flex-col gap-1">
-          <label for="principal" class="text-sm font-medium text-gray-700">Initial Deposit</label>
-          <input
-            id="principal"
-            type="number"
-            bind:value={principal}
-            class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+      <div class="flex flex-col gap-5">
+        <div class="flex flex-col gap-1.5">
+          <label for="principal" class="text-sm font-semibold text-gray-700 flex items-center gap-2">
+            <PiggyBank size={16} class="text-blue-500" />
+            Initial Deposit
+          </label>
+          <div class="relative">
+            <input
+              id="principal"
+              type="number"
+              bind:value={principal}
+              class="w-full pl-3 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+            />
+            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
+              <Euro size={16} />
+            </div>
+          </div>
         </div>
 
-        <div class="flex flex-col gap-1">
-          <label for="monthlyContribution" class="text-sm font-medium text-gray-700">Monthly Contribution</label>
-          <input
-            id="monthlyContribution"
-            type="number"
-            bind:value={monthlyContribution}
-            class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+        <div class="flex flex-col gap-1.5">
+          <label for="monthlyContribution" class="text-sm font-semibold text-gray-700 flex items-center gap-2">
+            <TrendingUp size={16} class="text-emerald-500" />
+            Monthly Contribution
+          </label>
+          <div class="relative">
+            <input
+              id="monthlyContribution"
+              type="number"
+              bind:value={monthlyContribution}
+              class="w-full pl-3 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+            />
+            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
+              <Euro size={16} />
+            </div>
+          </div>
         </div>
 
-        <div class="flex flex-col gap-1">
-          <label for="rate" class="text-sm font-medium text-gray-700">Annual Interest Rate (%)</label>
-          <input
-            id="rate"
-            type="number"
-            step="0.1"
-            bind:value={rate}
-            class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+        <div class="flex flex-col gap-1.5">
+          <label for="rate" class="text-sm font-semibold text-gray-700 flex items-center gap-2">
+            <TrendingUp size={16} class="text-amber-500 rotate-45" />
+            Annual Interest Rate (%)
+          </label>
+          <div class="relative">
+            <input
+              id="rate"
+              type="number"
+              step="0.1"
+              bind:value={rate}
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+            />
+            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
+              %
+            </div>
+          </div>
         </div>
 
-        <div class="flex flex-col gap-1">
-          <label for="years" class="text-sm font-medium text-gray-700">Number of Years</label>
+        <div class="flex flex-col gap-1.5">
+          <label for="years" class="text-sm font-semibold text-gray-700 flex items-center gap-2">
+            <Calendar size={16} class="text-violet-500" />
+            Number of Years
+          </label>
           <input
             id="years"
             type="number"
             bind:value={years}
-            class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
           />
         </div>
       </div>
     </Card>
 
-    <div class="md:col-span-2 flex flex-col gap-6">
+    <div class="lg:col-span-2 flex flex-col gap-6">
       <Card>
-        <div class="flex flex-col items-center justify-center py-8">
-          <div class="text-gray-500 text-sm font-medium mb-1">Future Value</div>
-          <div class="text-4xl font-bold text-blue-600">{result.total} €</div>
+        <div class="flex flex-col items-center justify-center py-10 bg-linear-to-br from-blue-50 to-indigo-50 rounded-xl">
+          <div class="text-blue-600/60 text-sm font-semibold uppercase tracking-wider mb-2">Estimated Future Value</div>
+          <div class="text-5xl font-extrabold text-blue-600 tracking-tight">{result.total} €</div>
+          <div class="mt-4 text-gray-500 text-sm text-center px-6">
+            Based on a {rate}% annual interest rate over {years} years.
+          </div>
         </div>
       </Card>
 
@@ -93,15 +125,15 @@
           <table class="w-full border-collapse text-left">
             <thead>
               <tr>
-                <th class="px-4 py-3 border-b border-gray-200 bg-gray-50 font-semibold text-sm text-gray-700">Year</th>
-                <th class="px-4 py-3 border-b border-gray-200 bg-gray-50 font-semibold text-sm text-gray-700">Balance</th>
+                <th class="px-6 py-4 border-b border-gray-100 bg-gray-50/50 font-semibold text-xs uppercase tracking-wider text-gray-500">Year</th>
+                <th class="px-6 py-4 border-b border-gray-100 bg-gray-50/50 font-semibold text-xs uppercase tracking-wider text-gray-500">Balance</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody class="divide-y divide-gray-100">
               {#each result.breakdown as row}
-                <tr>
-                  <td class="px-4 py-3 border-b border-gray-200">{row.year}</td>
-                  <td class="px-4 py-3 border-b border-gray-200 font-medium">{row.balance} €</td>
+                <tr class="hover:bg-gray-50/50 transition-colors">
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">Year {row.year}</td>
+                  <td class="px-6 py-4 text-sm font-bold text-blue-600">{row.balance} €</td>
                 </tr>
               {/each}
             </tbody>

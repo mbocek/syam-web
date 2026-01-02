@@ -2,10 +2,10 @@
   let { title, children, footer } = $props();
 </script>
 
-<div class="bg-white rounded-lg shadow-sm flex flex-col overflow-hidden mb-6">
+<div class="bg-white rounded-xl shadow-xs border border-gray-100 flex flex-col overflow-hidden mb-6 transition-all hover:shadow-md">
   {#if title}
-    <div class="px-6 py-4 border-b border-gray-200">
-      <h3 class="m-0 text-lg font-semibold text-gray-900">{title}</h3>
+    <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+      <h3 class="m-0 text-base font-bold text-gray-900">{title}</h3>
     </div>
   {/if}
   
@@ -14,7 +14,7 @@
   </div>
 
   {#if footer}
-    <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+    <div class="px-6 py-4 bg-gray-50/50 border-t border-gray-100">
       {@render footer()}
     </div>
   {/if}
