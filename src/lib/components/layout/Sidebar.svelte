@@ -29,18 +29,6 @@
           {/if}
         </a>
       </li>
-      <li class="px-4 py-3 flex items-center gap-3 cursor-pointer rounded-md hover:bg-gray-800">
-        <span class="min-w-[24px] text-center {isCollapsed ? 'mx-auto' : ''}">💰</span>
-        {#if !isCollapsed}
-          <span class="nav-text">Sales</span>
-        {/if}
-      </li>
-      <li class="px-4 py-3 flex items-center gap-3 cursor-pointer rounded-md hover:bg-gray-800">
-        <span class="min-w-[24px] text-center {isCollapsed ? 'mx-auto' : ''}">📈</span>
-        {#if !isCollapsed}
-          <span class="nav-text">Analytics</span>
-        {/if}
-      </li>
     </ul>
   </nav>
 </aside>
