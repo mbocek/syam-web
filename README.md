@@ -1,6 +1,6 @@
 # SYAM - Smart Yield Analysis & Monitoring
 
-SYAM (Simple Yet Another Monitor) is a modern, lightweight financial dashboard and toolkit designed to empower users with clear insights into their investments and financial growth.
+SYAM (Simple Yield Analysis & Monitoring) is a modern, lightweight financial dashboard and toolkit designed to empower users with clear insights into their investments and financial growth.
 
 Built with performance and user experience in mind, SYAM provides essential tools for financial planning and wealth monitoring.
 
