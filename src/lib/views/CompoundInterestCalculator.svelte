@@ -18,22 +18,39 @@
   let principal = $state(1000);
   let rate = $state(5);
   let years = $state(10);
-  let frequency = $state(1); // 1 for annual, 12 for monthly, etc.
+  let frequency = $state(12); // Compounding frequency per year (12 = monthly, 1 = annually, etc.)
   let monthlyContribution = $state(0);
 
   let result = $derived.by(() => {
     let total = principal;
     let data = [];
-    const monthlyRate = (rate / 100) / 12;
+    const compoundingPeriodRate = (rate / 100) / frequency;
     const totalMonths = years * 12;
 
+    let currentYearInterest = 0;
+    let currentYearContributions = 0;
+    let lastYearBalance = principal;
+
+    total = principal;
     for (let month = 1; month <= totalMonths; month++) {
-      total = total * (1 + monthlyRate) + monthlyContribution;
+      total += monthlyContribution;
+      currentYearContributions += monthlyContribution;
+      
+      const balanceBeforeInterest = total;
+      if (month % (12 / frequency) === 0) {
+        total = total * (1 + compoundingPeriodRate);
+      }
+      currentYearInterest += (total - balanceBeforeInterest);
+
       if (month % 12 === 0) {
         data.push({
           year: month / 12,
+          totalContributions: currentYearContributions.toFixed(2),
+          totalInterest: currentYearInterest.toFixed(2),
           balance: total.toFixed(2)
         });
+        currentYearInterest = 0;
+        currentYearContributions = 0;
       }
     }
     return {
@@ -166,6 +183,23 @@
         </div>
 
         <div class="flex flex-col gap-1.5">
+          <label for="frequency" class="text-sm font-semibold text-gray-700 flex items-center gap-2">
+            <TrendingUp size={16} class="text-blue-400" />
+            Compounding Frequency
+          </label>
+          <select
+            id="frequency"
+            bind:value={frequency}
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all bg-white"
+          >
+            <option value={1}>Annually</option>
+            <option value={2}>Semi-annually</option>
+            <option value={4}>Quarterly</option>
+            <option value={12}>Monthly</option>
+          </select>
+        </div>
+
+        <div class="flex flex-col gap-1.5">
           <label for="years" class="text-sm font-semibold text-gray-700 flex items-center gap-2">
             <Calendar size={16} class="text-violet-500" />
             Number of Years
@@ -203,14 +237,18 @@
             <thead>
               <tr>
                 <th class="px-6 py-4 border-b border-gray-100 bg-gray-50/50 font-semibold text-xs uppercase tracking-wider text-gray-500">Year</th>
-                <th class="px-6 py-4 border-b border-gray-100 bg-gray-50/50 font-semibold text-xs uppercase tracking-wider text-gray-500">Balance</th>
+                <th class="px-6 py-4 border-b border-gray-100 bg-gray-50/50 font-semibold text-xs uppercase tracking-wider text-gray-500 text-right">Contributions</th>
+                <th class="px-6 py-4 border-b border-gray-100 bg-gray-50/50 font-semibold text-xs uppercase tracking-wider text-gray-500 text-right">Interest</th>
+                <th class="px-6 py-4 border-b border-gray-100 bg-gray-50/50 font-semibold text-xs uppercase tracking-wider text-gray-500 text-right">Balance</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-100">
               {#each result.breakdown as row}
                 <tr class="hover:bg-gray-50/50 transition-colors">
                   <td class="px-6 py-4 text-sm font-medium text-gray-900">Year {row.year}</td>
-                  <td class="px-6 py-4 text-sm font-bold text-blue-600">{row.balance} {currentCurrency}</td>
+                  <td class="px-6 py-4 text-sm text-gray-600 text-right">{row.totalContributions} {currentCurrency}</td>
+                  <td class="px-6 py-4 text-sm text-emerald-600 text-right">+{row.totalInterest} {currentCurrency}</td>
+                  <td class="px-6 py-4 text-sm font-bold text-blue-600 text-right">{row.balance} {currentCurrency}</td>
                 </tr>
               {/each}
             </tbody>
