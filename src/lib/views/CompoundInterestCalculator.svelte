@@ -13,21 +13,20 @@
 
   let principal = $state(1000);
   let rate = $state(5);
+  let variance = $state(2);
   let years = $state(10);
   let frequency = $state(1); // Compounding frequency per year (12 = monthly, 1 = annually, etc.)
   let monthlyContribution = $state(0);
 
-  let result = $derived.by(() => {
+  function calculateForRate(r) {
     let total = principal;
     let data = [];
-    const compoundingPeriodRate = (rate / 100) / frequency;
+    const compoundingPeriodRate = (r / 100) / frequency;
     const totalMonths = years * 12;
 
     let currentYearInterest = 0;
     let currentYearContributions = 0;
-    let lastYearBalance = principal;
 
-    total = principal;
     for (let month = 1; month <= totalMonths; month++) {
       total += monthlyContribution;
       currentYearContributions += monthlyContribution;
@@ -53,32 +52,86 @@
       total: total.toFixed(2),
       breakdown: data
     };
+  }
+
+  let result = $derived.by(() => {
+    const base = calculateForRate(rate);
+    const low = calculateForRate(rate - variance);
+    const high = calculateForRate(rate + variance);
+
+    // Merge breakdown data
+    const mergedBreakdown = base.breakdown.map((row, index) => {
+      return {
+        ...row,
+        lowInterest: low.breakdown[index].totalInterest,
+        highInterest: high.breakdown[index].totalInterest,
+        lowBalance: low.breakdown[index].balance,
+        highBalance: high.breakdown[index].balance
+      };
+    });
+
+    return {
+      base,
+      low,
+      high,
+      mergedBreakdown
+    };
   });
 
   $effect(() => {
-    if (chartCanvas && result.breakdown.length > 0) {
+    if (chartCanvas && result.base.breakdown.length > 0) {
       const ctx = chartCanvas.getContext('2d');
-      const data = {
-        labels: result.breakdown.map(d => `${$t('calculator.year')} ${d.year}`),
-        datasets: [{
+      const labels = result.base.breakdown.map(d => `${$t('calculator.year')} ${d.year}`);
+      
+      const datasets = [
+        {
           label: `${$t('calculator.balance')} (${currentCurrency})`,
-          data: result.breakdown.map(d => d.balance),
-          fill: true,
-          backgroundColor: 'rgba(37, 99, 235, 0.1)',
+          data: result.base.breakdown.map(d => d.balance),
+          fill: false,
           borderColor: 'rgb(37, 99, 235)',
           tension: 0.4,
           pointRadius: 2,
           pointHoverRadius: 5,
-        }]
+          zIndex: 3
+        }
+      ];
+
+      if (variance > 0) {
+        datasets.push({
+          label: `${$t('calculator.balance')} (High) (${currentCurrency})`,
+          data: result.high.breakdown.map(d => d.balance),
+          fill: '+1',
+          backgroundColor: 'rgba(37, 99, 235, 0.05)',
+          borderColor: 'rgba(37, 99, 235, 0.2)',
+          borderDash: [5, 5],
+          tension: 0.4,
+          pointRadius: 0,
+          zIndex: 1
+        });
+        datasets.push({
+          label: `${$t('calculator.balance')} (Low) (${currentCurrency})`,
+          data: result.low.breakdown.map(d => d.balance),
+          fill: false,
+          borderColor: 'rgba(37, 99, 235, 0.2)',
+          borderDash: [5, 5],
+          tension: 0.4,
+          pointRadius: 0,
+          zIndex: 2
+        });
+      }
+
+      const chartData = {
+        labels: labels,
+        datasets: datasets
       };
 
       if (chart) {
-        chart.data = data;
+        chart.data = chartData;
         chart.update();
       } else {
         chart = new Chart(ctx, {
           type: 'line',
-          data: data,
+          data: chartData,
           options: {
             responsive: true,
             maintainAspectRatio: false,
@@ -89,7 +142,7 @@
               tooltip: {
                 callbacks: {
                   label: function(context) {
-                    return `${$t('calculator.balance')}: ${context.parsed.y} ${currentCurrency}`;
+                    return `${context.dataset.label}: ${context.parsed.y} ${currentCurrency}`;
                   }
                 }
               }
@@ -183,6 +236,26 @@
         </div>
 
         <div class="flex flex-col gap-1.5">
+          <label for="variance" class="text-sm font-semibold text-gray-700 flex items-center gap-2">
+            <ChartArea size={16} class="text-amber-400" />
+            {$t('calculator.variance')}
+          </label>
+          <div class="relative">
+            <input
+              id="variance"
+              type="number"
+              step="0.1"
+              min="0"
+              bind:value={variance}
+              class="w-full pl-3 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+            />
+            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
+              %
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-1.5">
           <label for="frequency" class="text-sm font-semibold text-gray-700 flex items-center gap-2">
             <TrendingUp size={16} class="text-blue-400" />
             {$t('calculator.frequency')}
@@ -224,7 +297,12 @@
       <Card>
         <div class="flex flex-col items-center justify-center py-10 bg-linear-to-br from-blue-50 to-indigo-50 rounded-xl">
           <div class="text-blue-600/60 text-sm font-semibold uppercase tracking-wider mb-2">{$t('calculator.estimatedValue')}</div>
-          <div class="text-5xl font-extrabold text-blue-600 tracking-tight">{result.total} {currentCurrency}</div>
+          <div class="text-5xl font-extrabold text-blue-600 tracking-tight">{result.base.total} {currentCurrency}</div>
+          {#if variance > 0}
+            <div class="mt-2 text-blue-400 font-medium">
+              {$t('calculator.range')}: {result.low.total} - {result.high.total} {currentCurrency}
+            </div>
+          {/if}
           <div class="mt-4 text-gray-500 text-sm text-center px-6">
             {$t('calculator.basis', { rate, years })}
           </div>
@@ -232,23 +310,58 @@
       </Card>
 
       <Card title={$t('calculator.breakdown')} collapsible={true} isOpen={false}>
-        <div class="overflow-x-auto">
+        <div class="overflow-x-auto -mx-6">
           <table class="w-full border-collapse text-left">
             <thead>
-              <tr>
-                <th class="px-6 py-4 border-b border-gray-100 bg-gray-50/50 font-semibold text-xs uppercase tracking-wider text-gray-500">{$t('calculator.year')}</th>
-                <th class="px-6 py-4 border-b border-gray-100 bg-gray-50/50 font-semibold text-xs uppercase tracking-wider text-gray-500 text-right">{$t('calculator.contributions')}</th>
-                <th class="px-6 py-4 border-b border-gray-100 bg-gray-50/50 font-semibold text-xs uppercase tracking-wider text-gray-500 text-right">{$t('calculator.interest')}</th>
-                <th class="px-6 py-4 border-b border-gray-100 bg-gray-50/50 font-semibold text-xs uppercase tracking-wider text-gray-500 text-right">{$t('calculator.balance')}</th>
+              <tr class="bg-gray-50/50">
+                <th class="pl-6 pr-4 py-4 border-b border-gray-100 font-bold text-[11px] uppercase tracking-widest text-gray-400">{$t('calculator.year')}</th>
+                <th class="px-4 py-4 border-b border-gray-100 font-bold text-[11px] uppercase tracking-widest text-gray-400 text-right">{$t('calculator.contributions')}</th>
+                <th class="px-4 py-4 border-b border-gray-100 font-bold text-[11px] uppercase tracking-widest text-gray-400 text-right">
+                  {$t('calculator.interest')}
+                </th>
+                <th class="pl-4 pr-6 py-4 border-b border-gray-100 font-bold text-[11px] uppercase tracking-widest text-gray-400 text-right">
+                  {$t('calculator.balance')}
+                </th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-100">
-              {#each result.breakdown as row}
-                <tr class="hover:bg-gray-50/50 transition-colors">
-                  <td class="px-6 py-4 text-sm font-medium text-gray-900">{$t('calculator.year')} {row.year}</td>
-                  <td class="px-6 py-4 text-sm text-gray-600 text-right">{row.totalContributions} {currentCurrency}</td>
-                  <td class="px-6 py-4 text-sm text-emerald-600 text-right">+{row.totalInterest} {currentCurrency}</td>
-                  <td class="px-6 py-4 text-sm font-bold text-blue-600 text-right">{row.balance} {currentCurrency}</td>
+              {#each result.mergedBreakdown as row}
+                <tr class="hover:bg-blue-50/30 transition-colors group">
+                  <td class="pl-6 pr-4 py-4">
+                    <div class="flex items-center gap-2">
+                      <span class="flex items-center justify-center w-6 h-6 rounded-full bg-gray-100 text-[10px] font-bold text-gray-500 group-hover:bg-blue-100 group-hover:text-blue-600 transition-colors">
+                        {row.year}
+                      </span>
+                      <span class="text-sm font-semibold text-gray-900">{$t('calculator.year')} {row.year}</span>
+                    </div>
+                  </td>
+                  <td class="px-4 py-4 text-sm text-gray-600 text-right whitespace-nowrap">
+                    <span class="font-medium text-gray-900">{row.totalContributions}</span> <span class="text-gray-400 text-xs">{currentCurrency}</span>
+                  </td>
+                  <td class="px-4 py-4 text-right whitespace-nowrap">
+                    <div class="text-sm font-bold text-emerald-600">
+                      +{row.totalInterest} <span class="text-emerald-500/60 text-xs font-normal">{currentCurrency}</span>
+                    </div>
+                    {#if variance > 0}
+                      <div class="mt-1 flex items-center justify-end gap-1.5 text-[10px] font-medium text-gray-400 bg-gray-50 rounded px-1.5 py-0.5 inline-flex ml-auto group-hover:bg-white transition-colors">
+                        <span class="text-emerald-600/50">{row.lowInterest}</span>
+                        <span class="w-1 h-px bg-gray-200"></span>
+                        <span class="text-emerald-600/50">{row.highInterest}</span>
+                      </div>
+                    {/if}
+                  </td>
+                  <td class="pl-4 pr-6 py-4 text-right whitespace-nowrap">
+                    <div class="text-sm font-black text-blue-600">
+                      {row.balance} <span class="text-blue-500/60 text-xs font-normal">{currentCurrency}</span>
+                    </div>
+                    {#if variance > 0}
+                      <div class="mt-1 flex items-center justify-end gap-1.5 text-[10px] font-medium text-gray-400 bg-gray-50 rounded px-1.5 py-0.5 inline-flex ml-auto group-hover:bg-white transition-colors">
+                        <span class="text-blue-600/50">{row.lowBalance}</span>
+                        <span class="w-1 h-px bg-gray-200"></span>
+                        <span class="text-blue-600/50">{row.highBalance}</span>
+                      </div>
+                    {/if}
+                  </td>
                 </tr>
               {/each}
             </tbody>

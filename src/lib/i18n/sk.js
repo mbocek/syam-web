@@ -30,6 +30,7 @@ export default {
     parameters: 'Parametre',
     principal: 'Počiatočný vklad',
     rate: 'Ročná úroková miera (%)',
+    variance: 'Variancia úrokovej miery (%)',
     years: 'Počet rokov',
     frequency: 'Frekvencia úročenia',
     frequencyOptions: {
@@ -46,7 +47,10 @@ export default {
     contributions: 'Celkové príspevky',
     interest: 'Celkový úrok',
     balance: 'Zostatok',
-    growthProjection: 'Projekcia rastu'
+    growthProjection: 'Projekcia rastu',
+    range: 'Rozpätie',
+    min: 'min',
+    max: 'max'
   },
   blog: {
     backToBlog: 'Späť na blog',

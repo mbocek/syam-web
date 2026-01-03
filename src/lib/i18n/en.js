@@ -30,6 +30,7 @@ export default {
     parameters: 'Parameters',
     principal: 'Initial Deposit',
     rate: 'Annual Interest Rate (%)',
+    variance: 'Interest Rate Variance (%)',
     years: 'Number of Years',
     frequency: 'Compounding Frequency',
     frequencyOptions: {
@@ -46,7 +47,10 @@ export default {
     contributions: 'Total Contributions',
     interest: 'Total Interest',
     balance: 'Balance',
-    growthProjection: 'Growth Projection'
+    growthProjection: 'Growth Projection',
+    range: 'Range',
+    min: 'min',
+    max: 'max'
   },
   blog: {
     backToBlog: 'Back to blog',
