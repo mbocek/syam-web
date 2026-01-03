@@ -6,8 +6,8 @@
 
 <article class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
     <div class="mb-8">
-        <a href="/blog" class="inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 transition-colors">
-            <ChevronLeft class="mr-1 h-4 w-4" />
+        <a href="/blog" class="group inline-flex items-center font-semibold text-blue-600 hover:text-blue-800 transition-colors">
+            <ChevronLeft class="mr-1 h-4 w-4 transition-transform group-hover:-translate-x-1" />
             {$t('blog.backToBlog')}
         </a>
     </div>
@@ -27,8 +27,8 @@
 	</div>
 
     <div class="mt-16 pt-8 border-t border-gray-200">
-        <a href="/blog" class="inline-flex items-center text-blue-600 font-semibold hover:text-blue-800 transition-colors">
-            <ChevronLeft class="mr-1 h-4 w-4" />
+        <a href="/blog" class="group inline-flex items-center text-blue-600 font-semibold hover:text-blue-800 transition-colors">
+            <ChevronLeft class="mr-1 h-4 w-4 transition-transform group-hover:-translate-x-1" />
             {$t('blog.backToBlog')}
         </a>
     </div>
