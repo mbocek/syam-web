@@ -1,5 +1,4 @@
 <script>
-  import Card from '../components/ui/Card.svelte';
   import { t } from '../stores/language.js';
   import { 
     Info,
@@ -10,52 +9,61 @@
   } from 'lucide-svelte';
 </script>
 
-<div class="flex flex-col gap-8 max-w-4xl mx-auto">
-  <div class="text-center">
-    <h2 class="m-0 text-3xl font-bold text-gray-900">{$t('dashboard.welcome')}</h2>
-    <p class="text-gray-500 text-lg mt-2">{$t('dashboard.description')}</p>
+<div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+  <div class="text-center mb-16">
+    <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl lg:text-6xl">
+      {$t('dashboard.welcome')}
+    </h1>
+    <p class="mt-6 text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed">
+      {$t('dashboard.description')}
+    </p>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-    <Card>
-      <div class="flex flex-col items-center text-center gap-4">
-        <div class="p-3 rounded-full bg-blue-50 text-blue-600">
-          <Calculator size={32} />
-        </div>
-        <h3 class="text-lg font-semibold text-gray-900 m-0">{$t('common.calculators')}</h3>
-        <p class="text-sm text-gray-500 m-0">{$t('dashboard.features.calculators')}</p>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+    <div class="group relative bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300">
+      <div class="inline-flex p-3 rounded-xl bg-blue-50 text-blue-600 mb-6 group-hover:scale-110 transition-transform duration-300">
+        <Calculator size={32} />
       </div>
-    </Card>
+      <h3 class="text-xl font-bold text-gray-900 mb-3">{$t('common.calculators')}</h3>
+      <p class="text-gray-600 leading-relaxed">{$t('dashboard.features.calculators')}</p>
+    </div>
 
-    <Card>
-      <div class="flex flex-col items-center text-center gap-4">
-        <div class="p-3 rounded-full bg-emerald-50 text-emerald-600">
-          <Languages size={32} />
-        </div>
-        <h3 class="text-lg font-semibold text-gray-900 m-0">{$t('common.languages')}</h3>
-        <p class="text-sm text-gray-500 m-0">{$t('dashboard.features.multilingual')}</p>
+    <div class="group relative bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300">
+      <div class="inline-flex p-3 rounded-xl bg-emerald-50 text-emerald-600 mb-6 group-hover:scale-110 transition-transform duration-300">
+        <Languages size={32} />
       </div>
-    </Card>
+      <h3 class="text-xl font-bold text-gray-900 mb-3">{$t('common.languages')}</h3>
+      <p class="text-gray-600 leading-relaxed">{$t('dashboard.features.multilingual')}</p>
+    </div>
 
-    <Card>
-      <div class="flex flex-col items-center text-center gap-4">
-        <div class="p-3 rounded-full bg-violet-50 text-violet-600">
-          <Cpu size={32} />
-        </div>
-        <h3 class="text-lg font-semibold text-gray-900 m-0">{$t('common.technology')}</h3>
-        <p class="text-sm text-gray-500 m-0">{$t('dashboard.features.modern')}</p>
+    <div class="group relative bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300">
+      <div class="inline-flex p-3 rounded-xl bg-violet-50 text-violet-600 mb-6 group-hover:scale-110 transition-transform duration-300">
+        <Cpu size={32} />
       </div>
-    </Card>
+      <h3 class="text-xl font-bold text-gray-900 mb-3">{$t('common.technology')}</h3>
+      <p class="text-gray-600 leading-relaxed">{$t('dashboard.features.modern')}</p>
+    </div>
   </div>
 
-  <div class="bg-blue-600 rounded-2xl p-8 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-lg">
-    <div class="flex flex-col gap-2">
-      <h3 class="text-xl font-bold m-0">{$t('common.readyToStart')}</h3>
-      <p class="text-blue-100 m-0">{$t('dashboard.getStarted')}</p>
+  <div class="relative overflow-hidden rounded-3xl bg-gray-900 px-8 py-12 shadow-2xl sm:px-12 sm:py-16">
+    <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+      <div class="text-center md:text-left">
+        <h3 class="text-2xl font-bold text-white sm:text-3xl">{$t('common.readyToStart')}</h3>
+        <p class="mt-4 text-lg text-gray-300">{$t('dashboard.getStarted')}</p>
+      </div>
+      <div class="flex items-center gap-3 bg-white/10 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/10 shadow-inner">
+        <div class="flex h-10 w-10 items-center justify-center rounded-full bg-blue-500/20 text-blue-400">
+          <Info size={24} />
+        </div>
+        <div class="flex flex-col">
+          <span class="text-xs font-semibold uppercase tracking-wider text-gray-400">Version</span>
+          <span class="text-lg font-bold text-white">v1.0.0</span>
+        </div>
+      </div>
     </div>
-    <div class="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-lg backdrop-blur-sm">
-      <Info size={20} />
-      <span class="font-medium text-sm">v1.0.0</span>
-    </div>
+    
+    <!-- Decorative elements -->
+    <div class="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-blue-600/20 blur-3xl"></div>
+    <div class="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-indigo-600/10 blur-3xl"></div>
   </div>
 </div>
