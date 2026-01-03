@@ -6,23 +6,15 @@ import cs from '../i18n/cs.js';
 
 const translations = { en, sk, cs };
 
-const initialLang = (browser) 
-  ? 'en' 
-  : 'en';
-
-// Move localStorage access to a function or $effect if possible, but store needs it early
-// Let's try to just avoid it during test if not available
 function getStoredLanguage() {
-    if (browser) {
-        try {
-            if (typeof localStorage !== 'undefined') {
-                return localStorage.getItem('language') || 'en';
-            }
-        } catch (e) {
-            // Ignore
-        }
+  if (browser) {
+    try {
+      return localStorage.getItem('language') || 'en';
+    } catch (e) {
+      // Ignore
     }
-    return 'en';
+  }
+  return 'en';
 }
 
 export const language = writable(getStoredLanguage());
@@ -39,21 +31,21 @@ export const t = derived(language, ($language) => {
     let value = translations[$language] || translations['en'];
     
     for (const k of keys) {
-      if (value[k] === undefined) {
+      value = value?.[k];
+      if (value === undefined) {
         // Fallback to English if key missing in current language
         let fallback = translations['en'];
         for (const fk of keys) {
-            fallback = fallback?.[fk];
+          fallback = fallback?.[fk];
         }
         value = fallback || key;
         break;
       }
-      value = value[k];
     }
     
     if (typeof value === 'string') {
-      Object.keys(params).forEach(param => {
-        value = value.replace(`{${param}}`, params[param]);
+      Object.entries(params).forEach(([param, val]) => {
+        value = value.replace(`{${param}}`, val);
       });
     }
     
@@ -64,11 +56,9 @@ export const t = derived(language, ($language) => {
 if (browser) {
   language.subscribe(value => {
     try {
-        if (typeof localStorage !== 'undefined') {
-            localStorage.setItem('language', value);
-        }
+      localStorage.setItem('language', value);
     } catch (e) {
-        // Ignore storage errors in restricted environments
+      // Ignore
     }
   });
 }

@@ -9,6 +9,6 @@ export async function load({ params }) {
 			meta: post.metadata
 		};
 	} catch (e) {
-		throw error(404, `Príspevok ${params.slug} nebol nájdený`);
+		throw error(404, `Post ${params.slug} not found`);
 	}
 }

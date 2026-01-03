@@ -13,9 +13,11 @@
 
 body {
   margin: 0;
-  min-width: 320px;
+  font-family: 'Inter', system-ui, sans-serif;
+  @apply bg-gray-50 h-screen overflow-hidden text-gray-900;
 }
 
 #app {
   width: 100%;
+  height: 100%;
 }

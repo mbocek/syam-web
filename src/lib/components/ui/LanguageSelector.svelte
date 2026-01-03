@@ -8,22 +8,14 @@
     { code: 'cs', flag: '🇨🇿', name: 'Čeština', currency: 'Kč' }
   ];
 
-  let currentLang = $state('en');
   let isOpen = $state(false);
-
-  onMount(() => {
-    const unsubscribe = language.subscribe(value => {
-      currentLang = value;
-    });
-    return unsubscribe;
-  });
 
   function selectLanguage(code) {
     language.set(code);
     isOpen = false;
   }
 
-  const selectedFlag = $derived(languages.find(l => l.code === currentLang)?.flag || '🇺🇸');
+  const selectedFlag = $derived(languages.find(l => l.code === $language)?.flag || '🇺🇸');
 </script>
 
 <div class="relative">
@@ -39,7 +31,7 @@
     <div class="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-gray-100 py-1 z-50">
       {#each languages as lang}
         <button
-          class="w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer {currentLang === lang.code ? 'bg-gray-50 font-semibold' : ''}"
+          class="w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer {$language === lang.code ? 'bg-gray-50 font-semibold' : ''}"
           onclick={() => selectLanguage(lang.code)}
         >
           <span class="text-lg">{lang.flag}</span>

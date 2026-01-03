@@ -7,13 +7,9 @@
 
   Chart.register(...registerables);
 
-  let currentCurrency = $state('€');
+  let currentCurrency = $derived(currencies[$language] || '€');
   let chartCanvas = $state();
   let chart = null;
-
-  language.subscribe(lang => {
-    currentCurrency = currencies[lang] || '€';
-  });
 
   let principal = $state(1000);
   let rate = $state(5);

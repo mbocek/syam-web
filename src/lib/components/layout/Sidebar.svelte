@@ -9,27 +9,19 @@
   let isBlogOpen = $state(false);
   let openYears = $state([]);
 
-  let lastInBlog = false;
   $effect(() => {
     const pathname = page.url.pathname;
-    const isInBlog = pathname.startsWith('/blog');
-    untrack(() => {
-      if (isInBlog && !lastInBlog) {
-        isBlogOpen = true;
-      }
-      
-      if (isInBlog) {
-        const parts = pathname.split('/');
-        // /blog/archive/[year] or /blog/archive/[year]/[month]
-        if (parts.length >= 4 && parts[2] === 'archive') {
-          const year = parts[3];
-          if (year && !openYears.includes(year.toString())) {
-            openYears.push(year.toString());
-          }
+    if (pathname.startsWith('/blog')) {
+      isBlogOpen = true;
+      const parts = pathname.split('/');
+      // /blog/archive/[year] or /blog/archive/[year]/[month]
+      if (parts.length >= 4 && parts[2] === 'archive') {
+        const year = parts[3].toString();
+        if (!openYears.includes(year)) {
+          openYears.push(year);
         }
       }
-      lastInBlog = isInBlog;
-    });
+    }
   });
 
   function toggleCalculators() {
