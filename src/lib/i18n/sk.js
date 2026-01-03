@@ -8,7 +8,8 @@ export default {
     rightsReserved: 'Všetky práva vyhradené.',
     selectLanguage: 'Vybrať jazyk',
     closeLanguage: 'Zatvoriť výber jazyka',
-    toggleSidebar: 'Prepnúť bočný panel'
+    toggleSidebar: 'Prepnúť bočný panel',
+    blog: 'Blog'
   },
   sidebar: {
     compoundInterest: 'Zložené úročenie'
@@ -46,5 +47,9 @@ export default {
     interest: 'Celkový úrok',
     balance: 'Zostatok',
     growthProjection: 'Projekcia rastu'
+  },
+  blog: {
+    backToBlog: 'Späť na blog',
+    publishedAt: 'Publikované'
   }
 };

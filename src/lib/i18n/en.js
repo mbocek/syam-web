@@ -8,7 +8,8 @@ export default {
     rightsReserved: 'All rights reserved.',
     selectLanguage: 'Select Language',
     closeLanguage: 'Close language selector',
-    toggleSidebar: 'Toggle Sidebar'
+    toggleSidebar: 'Toggle Sidebar',
+    blog: 'Blog'
   },
   sidebar: {
     compoundInterest: 'Compound Interest'
@@ -46,5 +47,9 @@ export default {
     interest: 'Total Interest',
     balance: 'Balance',
     growthProjection: 'Growth Projection'
+  },
+  blog: {
+    backToBlog: 'Back to blog',
+    publishedAt: 'Published at'
   }
 };

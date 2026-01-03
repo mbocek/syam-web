@@ -1,6 +1,6 @@
 <script>
   import { page } from '$app/stores';
-  import { LayoutDashboard, Calculator, ChevronDown } from 'lucide-svelte';
+  import { LayoutDashboard, Calculator, ChevronDown, BookOpen } from 'lucide-svelte';
   import { t } from '../../stores/language.js';
   let { isCollapsed = false } = $props();
   
@@ -25,6 +25,20 @@
           </div>
           {#if !isCollapsed}
             <span class="nav-text font-medium">{$t('common.dashboard')}</span>
+          {/if}
+        </a>
+      </li>
+
+      <li>
+        <a 
+          href="/blog"
+          class="px-4 py-3 flex items-center gap-3 cursor-pointer rounded-md hover:bg-gray-800 transition-all {$page.url.pathname.startsWith('/blog') ? 'bg-gray-800 text-blue-400' : 'text-gray-400 hover:text-white'}"
+        >
+          <div class="flex items-center justify-center {isCollapsed ? 'mx-auto' : ''}">
+            <BookOpen size={20} />
+          </div>
+          {#if !isCollapsed}
+            <span class="nav-text font-medium">{$t('common.blog')}</span>
           {/if}
         </a>
       </li>
