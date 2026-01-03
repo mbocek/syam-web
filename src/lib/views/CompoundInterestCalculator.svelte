@@ -114,10 +114,14 @@
   });
 </script>
 
-<div class="flex flex-col gap-6">
-  <div class="flex flex-col gap-1">
-    <h2 class="m-0 text-2xl font-bold text-gray-900">{$t('calculator.title')}</h2>
-    <p class="text-gray-500 text-sm">{$t('calculator.description')}</p>
+<div class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+  <div class="mb-12">
+    <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
+      {$t('calculator.title')}
+    </h1>
+    <p class="mt-4 text-lg text-gray-500">
+      {$t('calculator.description')}
+    </p>
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
