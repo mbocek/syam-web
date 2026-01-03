@@ -9,11 +9,16 @@
   let isBlogOpen = $state(false);
   let openYears = $state([]);
 
+  let lastInBlog = false;
   $effect(() => {
     const pathname = page.url.pathname;
+    const isInBlog = pathname.startsWith('/blog');
     untrack(() => {
-      if (pathname.startsWith('/blog')) {
+      if (isInBlog && !lastInBlog) {
         isBlogOpen = true;
+      }
+      
+      if (isInBlog) {
         const parts = pathname.split('/');
         // /blog/archive/[year] or /blog/archive/[year]/[month]
         if (parts.length >= 4 && parts[2] === 'archive') {
@@ -23,6 +28,7 @@
           }
         }
       }
+      lastInBlog = isInBlog;
     });
   });
 
@@ -80,15 +86,15 @@
         </li>
 
         <li class="pt-4 pb-1 relative group">
-          {#if !isCollapsed}
-            <div class="px-3 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-              {$t('common.blog')}
-            </div>
-          {/if}
           <div class="flex flex-col">
             <div class="flex items-center">
               <a 
                 href="/blog"
+                onclick={() => {
+                  if (!isCollapsed) {
+                    isBlogOpen = !isBlogOpen;
+                  }
+                }}
                 class="flex-1 flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 {page.url.pathname === '/blog' ? 'bg-blue-600/10 text-blue-400' : 'text-gray-400 hover:bg-gray-800 hover:text-white'}"
               >
                 <div class="flex items-center justify-center {isCollapsed ? 'mx-auto' : 'mr-3'}">
