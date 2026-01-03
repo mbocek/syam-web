@@ -50,6 +50,21 @@ export default {
   },
   blog: {
     backToBlog: 'Back to blog',
-    publishedAt: 'Published at'
+    publishedAt: 'Published at',
+    noPostsFound: 'No posts found.'
+  },
+  month: {
+    january: 'January',
+    february: 'February',
+    march: 'March',
+    april: 'April',
+    may: 'May',
+    june: 'June',
+    july: 'July',
+    august: 'August',
+    september: 'September',
+    october: 'October',
+    november: 'November',
+    december: 'December'
   }
 };

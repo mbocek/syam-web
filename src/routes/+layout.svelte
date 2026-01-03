@@ -2,9 +2,9 @@
   import Layout from '$lib/components/layout/Layout.svelte';
   import '../app.css';
 
-  let { children } = $props();
+  let { data, children } = $props();
 </script>
 
-<Layout>
+<Layout {data}>
   {@render children()}
 </Layout>

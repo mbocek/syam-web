@@ -50,6 +50,21 @@ export default {
   },
   blog: {
     backToBlog: 'Späť na blog',
-    publishedAt: 'Publikované'
+    publishedAt: 'Publikované',
+    noPostsFound: 'Nenašli sa žiadne články.'
+  },
+  month: {
+    january: 'Január',
+    february: 'Február',
+    march: 'Marec',
+    april: 'Apríl',
+    may: 'Máj',
+    june: 'Jún',
+    july: 'Júl',
+    august: 'August',
+    september: 'September',
+    october: 'Október',
+    november: 'November',
+    december: 'December'
   }
 };

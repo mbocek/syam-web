@@ -1,6 +1,6 @@
 ---
-title: Môj prvý blog post
-date: '2025-01-02'
+title: Môj treti blog post
+date: '2026-01-02'
 description: 'Krátky popis o tom, ako som pridal blog do SYAM.'
 ---
 
