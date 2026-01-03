@@ -5,9 +5,44 @@
   import { t } from '../../stores/language.js';
   let { isCollapsed = false, blogArchive = [] } = $props();
 
+  let sidebarWidth = $state(256); // Default width (w-64)
+  let isResizing = $state(false);
+
   let isCalculatorsOpen = $state(true);
   let isBlogOpen = $state(false);
   let openYears = $state([]);
+
+  function startResizing(event) {
+    isResizing = true;
+    event.preventDefault();
+  }
+
+  function stopResizing() {
+    isResizing = false;
+  }
+
+  function handleMouseMove(event) {
+    if (isResizing) {
+      const newWidth = event.clientX;
+      if (newWidth >= 80 && newWidth <= 600) {
+        sidebarWidth = newWidth;
+      }
+    }
+  }
+
+  $effect(() => {
+    if (isResizing) {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseup', stopResizing);
+    } else {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', stopResizing);
+    }
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', stopResizing);
+    };
+  });
 
   $effect(() => {
     const pathname = page.url.pathname;
@@ -58,8 +93,11 @@
   };
 </script>
 
-<aside class="bg-gray-900 text-white flex flex-col transition-[width] duration-300 ease-in-out {isCollapsed ? 'w-20' : 'w-64'} border-r border-gray-800">
-  <div class="flex-1 overflow-y-visible py-4 px-3">
+<aside 
+  class="bg-gray-900 text-white flex flex-col relative {isResizing ? '' : 'transition-[width] duration-300 ease-in-out'} border-r border-gray-800"
+  style="width: {isCollapsed ? '80px' : sidebarWidth + 'px'}"
+>
+  <div class="flex-1 overflow-y-visible py-4 px-3 {isCollapsed ? 'overflow-x-hidden' : ''}">
     <!-- Sidebar content -->
     <nav class="space-y-1">
       <ul>
@@ -192,4 +230,15 @@
       </ul>
     </nav>
   </div>
+
+  <!-- Resizer -->
+  {#if !isCollapsed}
+    <div
+      role="separator"
+      aria-orientation="vertical"
+      tabindex="-1"
+      onmousedown={startResizing}
+      class="absolute right-0 top-0 w-1 h-full cursor-col-resize hover:bg-blue-500/50 transition-colors z-50 {isResizing ? 'bg-blue-500' : ''}"
+    ></div>
+  {/if}
 </aside>
