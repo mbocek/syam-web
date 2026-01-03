@@ -1,3 +1,6 @@
+export const prerender = true;
+export const trailingSlash = 'always';
+
 export async function load() {
     const posts = import.meta.glob('/src/lib/posts/*.md');
     const iterablePosts = Object.entries(posts);
