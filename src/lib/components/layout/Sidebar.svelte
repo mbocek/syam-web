@@ -1,7 +1,7 @@
 <script>
   import { page } from '$app/state';
   import { untrack } from 'svelte';
-  import { LayoutDashboard, Calculator, ChevronDown, BookOpen } from 'lucide-svelte';
+  import { LayoutDashboard, Calculator, ChevronDown, BookOpen, Calendar, FileText, Dot } from 'lucide-svelte';
   import { t } from '../../stores/language.js';
   let { isCollapsed = false, blogArchive = [] } = $props();
 
@@ -60,123 +60,138 @@
   };
 </script>
 
-<aside class="bg-gray-900 text-white p-4 transition-[width] duration-300 ease-in-out overflow-hidden {isCollapsed ? 'w-20 px-2' : 'w-[250px]'} border-r border-gray-800">
-  <!-- Sidebar content -->
-  <nav>
-    <ul class="list-none p-0 m-0 flex flex-col gap-1">
-      <li>
-        <a 
-          href="/"
-          class="px-4 py-3 flex items-center gap-3 cursor-pointer rounded-md hover:bg-gray-800 transition-all {page.url.pathname === '/' ? 'bg-gray-800 text-blue-400' : 'text-gray-400 hover:text-white'}"
-        >
-          <div class="flex items-center justify-center {isCollapsed ? 'mx-auto' : ''}">
-            <LayoutDashboard size={20} />
-          </div>
-          {#if !isCollapsed}
-            <span class="nav-text font-medium">{$t('common.dashboard')}</span>
-          {/if}
-        </a>
-      </li>
-
-      <li>
-        <div class="flex flex-col">
-          <div class="flex items-center">
-            <a 
-              href="/blog"
-              class="flex-1 px-4 py-3 flex items-center gap-3 cursor-pointer rounded-md hover:bg-gray-800 transition-all {page.url.pathname === '/blog' ? 'bg-gray-800 text-blue-400' : 'text-gray-400 hover:text-white'}"
-            >
-              <div class="flex items-center justify-center {isCollapsed ? 'mx-auto' : ''}">
-                <BookOpen size={20} />
-              </div>
-              {#if !isCollapsed}
-                <span class="nav-text font-medium">{$t('common.blog')}</span>
-              {/if}
-            </a>
-            {#if !isCollapsed && blogArchive.length > 0}
-              <button 
-                onclick={toggleBlog}
-                class="p-2 mr-1 text-gray-400 hover:text-white transition-all"
-              >
-                <div class="transition-transform duration-200 {isBlogOpen ? 'rotate-180' : ''}">
-                  <ChevronDown size={16} />
-                </div>
-              </button>
+<aside class="bg-gray-900 text-white flex flex-col transition-[width] duration-300 ease-in-out overflow-hidden {isCollapsed ? 'w-20' : 'w-64'} border-r border-gray-800">
+  <div class="flex-1 overflow-y-auto py-4 px-3">
+    <!-- Sidebar content -->
+    <nav class="space-y-1">
+      <ul>
+        <li>
+          <a 
+            href="/"
+            class="group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 {page.url.pathname === '/' ? 'bg-blue-600/10 text-blue-400' : 'text-gray-400 hover:bg-gray-800 hover:text-white'}"
+          >
+            <div class="flex items-center justify-center {isCollapsed ? 'mx-auto' : 'mr-3'}">
+              <LayoutDashboard size={20} class="transition-colors {page.url.pathname === '/' ? 'text-blue-400' : 'text-gray-400 group-hover:text-white'}" />
+            </div>
+            {#if !isCollapsed}
+              <span>{$t('common.dashboard')}</span>
             {/if}
-          </div>
+          </a>
+        </li>
 
-          {#if !isCollapsed && isBlogOpen && blogArchive.length > 0}
-            <ul class="list-none p-0 m-0 ml-6 mt-1 flex flex-col gap-1 border-l border-gray-800">
-              {#each blogArchive as { year, months }}
-                <li class="flex flex-col">
-                  <div class="flex items-center">
-                    <a 
-                      href="/blog/archive/{year}"
-                      onclick={() => toggleYear(year)}
-                      class="flex-1 px-4 py-1 flex items-center gap-3 cursor-pointer rounded-md hover:bg-gray-800 transition-all {page.url.pathname === `/blog/archive/${year}` ? 'bg-gray-800 text-blue-400' : 'text-xs font-semibold text-gray-500 uppercase tracking-wider hover:text-white'}"
-                    >
-                      {year}
-                    </a>
-                    <button 
-                      onclick={() => toggleYear(year)}
-                      class="p-1 mr-1 text-gray-400 hover:text-white transition-all"
-                    >
-                      <div class="transition-transform duration-200 {openYears.includes(year.toString()) ? 'rotate-180' : ''}">
-                        <ChevronDown size={14} />
-                      </div>
-                    </button>
-                  </div>
-                  
-                  {#if openYears.includes(year.toString())}
-                    <ul class="list-none p-0 m-0 ml-2 mt-1 flex flex-col gap-1 border-l border-gray-800">
-                      {#each months as month}
-                        <li>
-                          <a 
-                            href="/blog/archive/{year}/{month}"
-                            class="px-4 py-2 flex items-center gap-3 cursor-pointer rounded-md hover:bg-gray-800 transition-all {page.url.pathname === `/blog/archive/${year}/${month}` ? 'bg-gray-800 text-blue-400' : 'text-gray-500 hover:text-white'}"
-                          >
-                            <span class="nav-text text-sm font-medium">{$t(`month.${monthNames[month]}`)}</span>
-                          </a>
-                        </li>
-                      {/each}
-                    </ul>
-                  {/if}
-                </li>
-              {/each}
-            </ul>
-          {/if}
-        </div>
-      </li>
-
-      <!-- Calculators Group -->
-      <li>
-        <button 
-          onclick={toggleCalculators}
-          class="w-full px-4 py-3 flex items-center gap-3 cursor-pointer rounded-md hover:bg-gray-800 text-gray-400 hover:text-white transition-all"
-        >
-          <div class="flex items-center justify-center {isCollapsed ? 'mx-auto' : ''}">
-            <Calculator size={20} />
-          </div>
+        <li class="pt-4 pb-1">
           {#if !isCollapsed}
-            <span class="nav-text flex-1 text-left font-medium">{$t('common.calculators')}</span>
-            <div class="transition-transform duration-200 {isCalculatorsOpen ? 'rotate-180' : ''}">
-              <ChevronDown size={16} />
+            <div class="px-3 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              {$t('common.blog')}
             </div>
           {/if}
-        </button>
-        
-        {#if !isCollapsed && isCalculatorsOpen}
-          <ul class="list-none p-0 m-0 ml-6 mt-1 flex flex-col gap-1 border-l border-gray-800">
-            <li>
+          <div class="flex flex-col">
+            <div class="flex items-center group">
               <a 
-                href="/calculator"
-                class="px-4 py-2 flex items-center gap-3 cursor-pointer rounded-md hover:bg-gray-800 transition-all {page.url.pathname === '/calculator' ? 'bg-gray-800 text-blue-400' : 'text-gray-500 hover:text-white'}"
+                href="/blog"
+                class="flex-1 flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 {page.url.pathname === '/blog' ? 'bg-blue-600/10 text-blue-400' : 'text-gray-400 hover:bg-gray-800 hover:text-white'}"
               >
-                <span class="nav-text text-sm font-medium">{$t('sidebar.compoundInterest')}</span>
+                <div class="flex items-center justify-center {isCollapsed ? 'mx-auto' : 'mr-3'}">
+                  <BookOpen size={20} class="transition-colors {page.url.pathname === '/blog' ? 'text-blue-400' : 'text-gray-400 group-hover:text-white'}" />
+                </div>
+                {#if !isCollapsed}
+                  <span>{$t('common.blog')}</span>
+                {/if}
               </a>
-            </li>
-          </ul>
-        {/if}
-      </li>
-    </ul>
-  </nav>
+              {#if !isCollapsed && blogArchive.length > 0}
+                <button 
+                  onclick={toggleBlog}
+                  class="p-2 ml-1 text-gray-500 hover:text-white transition-all rounded-md hover:bg-gray-800"
+                >
+                  <div class="transition-transform duration-300 {isBlogOpen ? 'rotate-180' : ''}">
+                    <ChevronDown size={16} />
+                  </div>
+                </button>
+              {/if}
+            </div>
+
+            {#if !isCollapsed && isBlogOpen && blogArchive.length > 0}
+              <ul class="mt-1 ml-4 border-l border-gray-800 space-y-1">
+                {#each blogArchive as { year, months }}
+                  <li class="flex flex-col">
+                    <div class="flex items-center group">
+                      <a 
+                        href="/blog/archive/{year}"
+                        onclick={(e) => { e.preventDefault(); toggleYear(year); }}
+                        class="flex-1 ml-2 px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 flex items-center {page.url.pathname.startsWith(`/blog/archive/${year}`) ? 'text-blue-400' : 'text-gray-500 hover:bg-gray-800 hover:text-gray-300'}"
+                      >
+                        <Calendar size={14} class="mr-2 opacity-70" />
+                        {year}
+                      </a>
+                      <button 
+                        onclick={() => toggleYear(year)}
+                        class="p-1.5 text-gray-600 hover:text-white transition-all rounded-md hover:bg-gray-800"
+                      >
+                        <div class="transition-transform duration-300 {openYears.includes(year.toString()) ? 'rotate-180' : ''}">
+                          <ChevronDown size={14} />
+                        </div>
+                      </button>
+                    </div>
+                    
+                    {#if openYears.includes(year.toString())}
+                      <ul class="mt-1 ml-4 border-l border-gray-800 space-y-1">
+                        {#each months as month}
+                          <li>
+                            <a 
+                              href="/blog/archive/{year}/{month}"
+                              class="ml-2 px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 flex items-center {page.url.pathname === `/blog/archive/${year}/${month}` ? 'text-blue-400' : 'text-gray-500 hover:bg-gray-800 hover:text-gray-300'}"
+                            >
+                              <Dot size={14} class="mr-1 opacity-50" />
+                              {$t(`month.${monthNames[month]}`)}
+                            </a>
+                          </li>
+                        {/each}
+                      </ul>
+                    {/if}
+                  </li>
+                {/each}
+              </ul>
+            {/if}
+          </div>
+        </li>
+
+        <!-- Calculators Group -->
+        <li class="pt-4 pb-1">
+          {#if !isCollapsed}
+            <div class="px-3 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              {$t('common.calculators')}
+            </div>
+          {/if}
+          <button 
+            onclick={toggleCalculators}
+            class="w-full group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 {isCalculatorsOpen && !isCollapsed ? 'text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white'}"
+          >
+            <div class="flex items-center justify-center {isCollapsed ? 'mx-auto' : 'mr-3'}">
+              <Calculator size={20} class="transition-colors {isCalculatorsOpen && !isCollapsed ? 'text-blue-400' : 'text-gray-400 group-hover:text-white'}" />
+            </div>
+            {#if !isCollapsed}
+              <span class="flex-1 text-left">{$t('common.calculators')}</span>
+              <div class="transition-transform duration-300 {isCalculatorsOpen ? 'rotate-180' : ''}">
+                <ChevronDown size={16} class="text-gray-500" />
+              </div>
+            {/if}
+          </button>
+          
+          {#if !isCollapsed && isCalculatorsOpen}
+            <ul class="mt-1 ml-4 border-l border-gray-800 space-y-1">
+              <li>
+                <a 
+                  href="/calculator"
+                  class="ml-2 px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 flex items-center {page.url.pathname === '/calculator' ? 'text-blue-400' : 'text-gray-500 hover:bg-gray-800 hover:text-gray-300'}"
+                >
+                  <FileText size={14} class="mr-2 opacity-70" />
+                  {$t('sidebar.compoundInterest')}
+                </a>
+              </li>
+            </ul>
+          {/if}
+        </li>
+      </ul>
+    </nav>
+  </div>
 </aside>
