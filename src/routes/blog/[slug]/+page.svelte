@@ -1,19 +1,35 @@
 <script>
     import { t } from '$lib/stores/language.js';
+    import { Calendar, ChevronLeft } from 'lucide-svelte';
 	let { data } = $props();
 </script>
 
-<article class="w-full p-6">
+<article class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
     <div class="mb-8">
-        <a href="/blog" class="text-blue-600 hover:underline">← {$t('blog.backToBlog')}</a>
+        <a href="/blog" class="inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 transition-colors">
+            <ChevronLeft class="mr-1 h-4 w-4" />
+            {$t('blog.backToBlog')}
+        </a>
     </div>
 
-	<header class="mb-8">
-		<h1 class="text-4xl font-bold mb-2">{data.meta.title}</h1>
-		<p class="text-gray-500">{$t('blog.publishedAt')}: {data.meta.date}</p>
+	<header class="mb-12">
+		<h1 class="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl mb-4">
+            {data.meta.title}
+        </h1>
+        <div class="flex items-center text-sm text-gray-500">
+            <Calendar class="mr-1.5 h-4 w-4 flex-none" />
+            <span>{$t('blog.publishedAt')}: {data.meta.date}</span>
+        </div>
 	</header>
 	
-	<div class="prose lg:prose-xl max-w-none">
+	<div class="prose prose-blue lg:prose-xl max-w-none prose-headings:font-bold prose-a:text-blue-600">
 		<data.content />
 	</div>
+
+    <div class="mt-16 pt-8 border-t border-gray-200">
+        <a href="/blog" class="inline-flex items-center text-blue-600 font-semibold hover:text-blue-800 transition-colors">
+            <ChevronLeft class="mr-1 h-4 w-4" />
+            {$t('blog.backToBlog')}
+        </a>
+    </div>
 </article>

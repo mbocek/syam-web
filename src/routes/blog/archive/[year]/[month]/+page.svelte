@@ -1,5 +1,6 @@
 <script>
 	import { t } from '$lib/stores/language.js';
+	import { Calendar, ArrowRight } from 'lucide-svelte';
 	let { data } = $props();
 
 	const monthNames = {
@@ -18,22 +19,38 @@
 	};
 </script>
 
-<div class="w-full p-6">
-	<div class="mb-8">
-		<h1 class="text-3xl font-bold">{$t('common.blog')}</h1>
-		<p class="text-gray-500 mt-2">
+<div class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+	<div class="mb-12">
+		<h1 class="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
+			{$t('common.blog')}
+		</h1>
+		<p class="mt-4 text-lg text-gray-500">
 			{data.year} - {$t(`month.${monthNames[data.month]}`)}
 		</p>
 	</div>
 
-	<div class="grid gap-6">
+	<div class="grid gap-10">
 		{#if data.posts.length > 0}
 			{#each data.posts as post}
-				<a href="/blog/{post.slug}" class="block p-6 bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-					<h2 class="text-xl font-semibold mb-2">{post.meta.title}</h2>
-					<p class="text-gray-500 text-sm mb-4">{post.meta.date}</p>
-					<p class="text-gray-700">{post.meta.description}</p>
-				</a>
+				<article class="group relative flex flex-col items-start">
+					<h2 class="text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
+						<a href="/blog/{post.slug}">
+							<span class="absolute -inset-y-2.5 -inset-x-4 z-20 sm:-inset-x-6 sm:rounded-2xl"></span>
+							<span class="relative z-10">{post.meta.title}</span>
+						</a>
+					</h2>
+					<div class="relative z-10 order-first mb-3 flex items-center text-sm text-gray-500">
+						<Calendar class="mr-1.5 h-4 w-4 flex-none" />
+						<time datetime={post.meta.date}>{post.meta.date}</time>
+					</div>
+					<p class="relative z-10 mt-2 text-gray-600 leading-relaxed">
+						{post.meta.description}
+					</p>
+					<div class="relative z-10 mt-4 flex items-center text-sm font-semibold text-blue-600">
+						{$t('blog.readMore') || 'Read more'}
+						<ArrowRight class="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+					</div>
+				</article>
 			{/each}
 		{:else}
 			<p class="text-gray-600">{$t('blog.noPostsFound')}</p>

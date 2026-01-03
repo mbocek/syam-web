@@ -51,7 +51,8 @@ export default {
   blog: {
     backToBlog: 'Back to blog',
     publishedAt: 'Published at',
-    noPostsFound: 'No posts found.'
+    noPostsFound: 'No posts found.',
+    readMore: 'Read more'
   },
   month: {
     january: 'January',

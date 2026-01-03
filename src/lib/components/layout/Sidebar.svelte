@@ -153,7 +153,6 @@
                     <div class="flex items-center group/year">
                       <a 
                         href="/blog/archive/{year}"
-                        onclick={(e) => { if (!isCollapsed) { e.preventDefault(); toggleYear(year); } }}
                         class="flex-1 px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 flex items-center {page.url.pathname.startsWith(`/blog/archive/${year}`) ? 'text-blue-400' : 'text-gray-500 hover:bg-gray-800 hover:text-gray-300'} {!isCollapsed ? 'ml-2' : ''}"
                       >
                         <Calendar size={14} class="mr-2 opacity-70" />
