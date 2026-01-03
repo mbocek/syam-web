@@ -1,5 +1,5 @@
 <script>
-    import { t } from '$lib/stores/language.js';
+    import { t, formatDate } from '$lib/stores/language.js';
     import { Calendar, ChevronLeft } from 'lucide-svelte';
 	let { data } = $props();
 </script>
@@ -18,7 +18,7 @@
         </h1>
         <div class="flex items-center text-sm text-gray-500">
             <Calendar class="mr-1.5 h-4 w-4 flex-none" />
-            <span>{$t('blog.publishedAt')}: {data.meta.date}</span>
+            <span>{$t('blog.publishedAt')}: {$formatDate(data.meta.date)}</span>
         </div>
 	</header>
 	

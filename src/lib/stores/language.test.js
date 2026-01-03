@@ -24,11 +24,40 @@ const localStorageMock = (() => {
 })();
 global.localStorage = localStorageMock;
 
-import { language, t } from './language.js';
+import { language, t, formatDate } from './language.js';
 
 describe('i18n store', () => {
   beforeEach(() => {
     language.set('en');
+  });
+
+  it('formats dates in English', () => {
+    const format = get(formatDate);
+    const date = '2020-05-01';
+    // Depending on the environment, long month might have different spacing or characters, 
+    // but typically it's "May 1, 2020" or similar for 'en'
+    expect(format(date)).toContain('May 1');
+    expect(format(date)).toContain('2020');
+  });
+
+  it('formats dates in Slovak', () => {
+    language.set('sk');
+    const format = get(formatDate);
+    const date = '2020-05-01';
+    // For 'sk', it should be "1. mája 2020" or similar
+    expect(format(date)).toContain('1.');
+    expect(format(date)).toContain('mája');
+    expect(format(date)).toContain('2020');
+  });
+
+  it('formats dates in Czech', () => {
+    language.set('cs');
+    const format = get(formatDate);
+    const date = '2020-05-01';
+    // For 'cs', it should be "1. května 2020" or similar
+    expect(format(date)).toContain('1.');
+    expect(format(date)).toContain('května');
+    expect(format(date)).toContain('2020');
   });
 
   it('provides English translations by default', () => {

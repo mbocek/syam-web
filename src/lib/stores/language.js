@@ -53,6 +53,18 @@ export const t = derived(language, ($language) => {
   };
 });
 
+export const formatDate = derived(language, ($language) => {
+  return (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat($language, {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    }).format(date);
+  };
+});
+
 if (browser) {
   language.subscribe(value => {
     try {
