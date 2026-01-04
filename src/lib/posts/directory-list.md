@@ -7,7 +7,7 @@ tags: ['linux', 'ls', 'technology']
 
 ## Ako zistiť obsah adresára v linuxe
 V linuxe slúži pre zobrazenie obsahu adresára príkaz `ls`
-```console
+```bash
 $ ls
 eipp.log.xz  history.log  term.log
 ```

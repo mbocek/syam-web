@@ -1,5 +1,5 @@
 <script>
-	import { t } from '$lib/stores/language.js';
+	import { t, formatDate } from '$lib/stores/language.js';
 	import { Calendar, ArrowRight } from 'lucide-svelte';
 	let { data } = $props();
 
@@ -41,7 +41,7 @@
 					</h2>
 					<div class="relative z-10 order-first mb-3 flex items-center text-sm text-gray-500">
 						<Calendar class="mr-1.5 h-4 w-4 flex-none" />
-						<time datetime={post.meta.date}>{post.meta.date}</time>
+						<time datetime={post.meta.date}>{$formatDate(post.meta.date)}</time>
 					</div>
 					<p class="relative z-10 mt-2 text-gray-600 leading-relaxed">
 						{post.meta.description}
