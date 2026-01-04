@@ -97,20 +97,24 @@
   class="bg-gray-900 text-white flex flex-col relative {isResizing ? '' : 'transition-[width] duration-300 ease-in-out'} border-r border-gray-800"
   style="width: {isCollapsed ? '80px' : sidebarWidth + 'px'}"
 >
-  <div class="flex-1 overflow-y-visible py-4 px-3 {isCollapsed ? 'overflow-x-hidden' : ''}">
+  <div class="flex-1 overflow-y-visible py-4 px-3 {isCollapsed ? '' : ''}">
     <!-- Sidebar content -->
     <nav class="space-y-1">
       <ul>
-        <li>
+        <li class="relative group">
           <a 
             href="/"
-            class="group flex items-center px-3 py-2 text-base font-medium rounded-lg transition-all duration-200 {page.url.pathname === '/' ? 'bg-blue-600/10 text-blue-400' : 'text-gray-400 hover:bg-gray-800 hover:text-white'}"
+            class="group/link flex items-center px-3 py-2 text-base font-medium rounded-lg transition-all duration-200 {page.url.pathname === '/' ? 'bg-blue-600/10 text-blue-400' : 'text-gray-400 hover:bg-gray-800 hover:text-white'}"
           >
             <div class="flex items-center justify-center {isCollapsed ? 'mx-auto' : 'mr-3'}">
-              <LayoutDashboard size={20} class="transition-colors {page.url.pathname === '/' ? 'text-blue-400' : 'text-gray-400 group-hover:text-white'}" />
+              <LayoutDashboard size={20} class="transition-colors {page.url.pathname === '/' ? 'text-blue-400' : 'text-gray-400 group-hover/link:text-white'}" />
             </div>
             {#if !isCollapsed}
               <span>{i18n.t('common.dashboard')}</span>
+            {:else}
+              <div class="hidden group-hover:block absolute left-full top-0 ml-2 bg-gray-900 border border-gray-800 rounded-lg py-2 px-3 shadow-xl z-50 whitespace-nowrap">
+                <span class="text-sm font-medium text-white">{i18n.t('common.dashboard')}</span>
+              </div>
             {/if}
           </a>
         </li>
@@ -148,6 +152,11 @@
 
             {#if blogArchive.length > 0}
               <ul class="mt-1 space-y-1 {isCollapsed ? 'hidden group-hover:block absolute left-full top-0 ml-2 w-48 bg-gray-900 border border-gray-800 rounded-lg p-2 shadow-xl z-50' : (isBlogOpen ? 'ml-4 border-l border-gray-800' : 'hidden')}">
+                {#if isCollapsed}
+                  <li class="px-3 py-2 mb-1 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-800">
+                    {i18n.t('common.blog')}
+                  </li>
+                {/if}
                 {#each blogArchive as { year, months }}
                   <li class="flex flex-col">
                     <div class="flex items-center group/year">
@@ -215,6 +224,11 @@
           </button>
           
           <ul class="mt-1 space-y-1 {isCollapsed ? 'hidden group-hover:block absolute left-full top-0 ml-2 w-48 bg-gray-900 border border-gray-800 rounded-lg p-2 shadow-xl z-50' : (isCalculatorsOpen ? 'ml-4 border-l border-gray-800' : 'hidden')}">
+            {#if isCollapsed}
+              <li class="px-3 py-2 mb-1 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-800">
+                {i18n.t('common.calculators')}
+              </li>
+            {/if}
             <li>
               <a 
                 href="/calculator"
