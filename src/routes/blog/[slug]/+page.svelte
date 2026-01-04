@@ -54,7 +54,7 @@
         </nav>
     {/if}
 	
-	<div class="prose prose-blue lg:prose-xl max-w-none">
+	<div class="prose prose-blue max-w-none">
 		<data.content />
 	</div>
 

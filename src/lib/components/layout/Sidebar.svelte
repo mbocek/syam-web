@@ -104,7 +104,7 @@
         <li>
           <a 
             href="/"
-            class="group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 {page.url.pathname === '/' ? 'bg-blue-600/10 text-blue-400' : 'text-gray-400 hover:bg-gray-800 hover:text-white'}"
+            class="group flex items-center px-3 py-2 text-base font-medium rounded-lg transition-all duration-200 {page.url.pathname === '/' ? 'bg-blue-600/10 text-blue-400' : 'text-gray-400 hover:bg-gray-800 hover:text-white'}"
           >
             <div class="flex items-center justify-center {isCollapsed ? 'mx-auto' : 'mr-3'}">
               <LayoutDashboard size={20} class="transition-colors {page.url.pathname === '/' ? 'text-blue-400' : 'text-gray-400 group-hover:text-white'}" />
@@ -125,7 +125,7 @@
                     isBlogOpen = !isBlogOpen;
                   }
                 }}
-                class="flex-1 flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 {page.url.pathname === '/blog' ? 'bg-blue-600/10 text-blue-400' : 'text-gray-400 hover:bg-gray-800 hover:text-white'}"
+                class="flex-1 flex items-center px-3 py-2 text-base font-medium rounded-lg transition-all duration-200 {page.url.pathname === '/blog' ? 'bg-blue-600/10 text-blue-400' : 'text-gray-400 hover:bg-gray-800 hover:text-white'}"
               >
                 <div class="flex items-center justify-center {isCollapsed ? 'mx-auto' : 'mr-3'}">
                   <BookOpen size={20} class="transition-colors {page.url.pathname === '/blog' ? 'text-blue-400' : 'text-gray-400 group-hover:text-white'}" />
@@ -151,9 +151,9 @@
                 {#each blogArchive as { year, months }}
                   <li class="flex flex-col">
                     <div class="flex items-center group/year">
-                      <a 
+                        <a 
                         href="/blog/archive/{year}"
-                        class="flex-1 px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 flex items-center {page.url.pathname.startsWith(`/blog/archive/${year}`) ? 'text-blue-400' : 'text-gray-500 hover:bg-gray-800 hover:text-gray-300'} {!isCollapsed ? 'ml-2' : ''}"
+                        class="flex-1 px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200 flex items-center {page.url.pathname.startsWith(`/blog/archive/${year}`) ? 'text-blue-400' : 'text-gray-500 hover:bg-gray-800 hover:text-gray-300'} {!isCollapsed ? 'ml-2' : ''}"
                       >
                         <Calendar size={14} class="mr-2 opacity-70" />
                         {year}
@@ -176,7 +176,7 @@
                           <li>
                             <a 
                               href="/blog/archive/{year}/{month}"
-                              class="px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 flex items-center {page.url.pathname === `/blog/archive/${year}/${month}` ? 'text-blue-400' : 'text-gray-500 hover:bg-gray-800 hover:text-gray-300'} {!isCollapsed ? 'ml-2' : ''}"
+                              class="px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200 flex items-center {page.url.pathname === `/blog/archive/${year}/${month}` ? 'text-blue-400' : 'text-gray-500 hover:bg-gray-800 hover:text-gray-300'} {!isCollapsed ? 'ml-2' : ''}"
                             >
                               <Dot size={14} class="mr-1 opacity-50" />
                               {i18n.t(`month.${monthNames[month]}`)}
@@ -195,13 +195,13 @@
         <!-- Calculators Group -->
         <li class="pt-4 pb-1 relative group">
           {#if !isCollapsed}
-            <div class="px-3 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+            <div class="px-3 mb-2 text-sm font-semibold text-gray-500 uppercase tracking-wider">
               {i18n.t('common.calculators')}
             </div>
           {/if}
           <button 
             onclick={toggleCalculators}
-            class="w-full flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 {isCalculatorsOpen && !isCollapsed ? 'text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white'}"
+            class="w-full flex items-center px-3 py-2 text-base font-medium rounded-lg transition-all duration-200 {isCalculatorsOpen && !isCollapsed ? 'text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white'}"
           >
             <div class="flex items-center justify-center {isCollapsed ? 'mx-auto' : 'mr-3'}">
               <Calculator size={20} class="transition-colors {isCalculatorsOpen && !isCollapsed ? 'text-blue-400' : 'text-gray-400 group-hover:text-white'}" />
@@ -218,7 +218,7 @@
             <li>
               <a 
                 href="/calculator"
-                class="px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 flex items-center {page.url.pathname === '/calculator' ? 'text-blue-400' : 'text-gray-500 hover:bg-gray-800 hover:text-gray-300'} {!isCollapsed ? 'ml-2' : ''}"
+                class="px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200 flex items-center {page.url.pathname === '/calculator' ? 'text-blue-400' : 'text-gray-500 hover:bg-gray-800 hover:text-gray-300'} {!isCollapsed ? 'ml-2' : ''}"
               >
                 <FileText size={14} class="mr-2 opacity-70" />
                 {i18n.t('sidebar.compoundInterest')}
