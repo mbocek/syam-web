@@ -246,12 +246,11 @@
 
   <!-- Resizer -->
   {#if !isCollapsed}
-    <div
-      role="separator"
-      aria-orientation="vertical"
-      tabindex="-1"
+    <button
+      type="button"
+      aria-label="Resize sidebar"
       onmousedown={startResizing}
       class="absolute right-0 top-0 w-1 h-full cursor-col-resize hover:bg-blue-500/50 transition-colors z-50 {isResizing ? 'bg-blue-500' : ''}"
-    ></div>
+    ></button>
   {/if}
 </aside>
