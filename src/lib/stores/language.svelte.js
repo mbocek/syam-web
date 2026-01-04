@@ -1,4 +1,3 @@
-import { writable, derived } from 'svelte/store';
 import { browser } from '$app/environment';
 import en from '../i18n/en.js';
 import sk from '../i18n/sk.js';
@@ -17,23 +16,40 @@ function getStoredLanguage() {
   return 'en';
 }
 
-export const language = writable(getStoredLanguage());
+class LanguageStore {
+  current = $state(getStoredLanguage());
+  
+  currencies = {
+    en: '$',
+    sk: '€',
+    cs: 'Kč'
+  };
 
-export const currencies = {
-  en: '$',
-  sk: '€',
-  cs: 'Kč'
-};
+  constructor() {
+    $effect.root(() => {
+      $effect(() => {
+        if (browser) {
+          try {
+            localStorage.setItem('language', this.current);
+          } catch (e) {
+            // Ignore
+          }
+        }
+      });
+    });
+  }
 
-export const t = derived(language, ($language) => {
-  return (key, params = {}) => {
+  set(value) {
+    this.current = value;
+  }
+
+  t = (key, params = {}) => {
     const keys = key.split('.');
-    let value = translations[$language] || translations['en'];
+    let value = translations[this.current] || translations['en'];
     
     for (const k of keys) {
       value = value?.[k];
       if (value === undefined) {
-        // Fallback to English if key missing in current language
         let fallback = translations['en'];
         for (const fk of keys) {
           fallback = fallback?.[fk];
@@ -51,26 +67,20 @@ export const t = derived(language, ($language) => {
     
     return value;
   };
-});
 
-export const formatDate = derived(language, ($language) => {
-  return (dateString) => {
+  formatDate = (dateString) => {
     if (!dateString) return '';
     const date = new Date(dateString);
-    return new Intl.DateTimeFormat($language, {
+    return new Intl.DateTimeFormat(this.current, {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
     }).format(date);
   };
-});
 
-if (browser) {
-  language.subscribe(value => {
-    try {
-      localStorage.setItem('language', value);
-    } catch (e) {
-      // Ignore
-    }
-  });
+  get currency() {
+    return this.currencies[this.current] || '€';
+  }
 }
+
+export const i18n = new LanguageStore();

@@ -1,5 +1,5 @@
 <script>
-	import { t, formatDate } from '$lib/stores/language.js';
+	import { i18n } from '$lib/stores/language.svelte.js';
 	import { Calendar, ArrowRight } from 'lucide-svelte';
 	let { data } = $props();
 </script>
@@ -7,7 +7,7 @@
 <div class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
 	<div class="mb-12">
 		<h1 class="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
-			{$t('common.blog')}
+			{i18n.t('common.blog')}
 		</h1>
 		<p class="mt-4 text-lg text-gray-500">
 			{data.year}
@@ -26,19 +26,19 @@
 					</h2>
 					<div class="relative z-10 order-first mb-3 flex items-center text-sm text-gray-500">
 						<Calendar class="mr-1.5 h-4 w-4 flex-none" />
-						<time datetime={post.meta.date}>{$formatDate(post.meta.date)}</time>
+						<time datetime={post.meta.date}>{i18n.formatDate(post.meta.date)}</time>
 					</div>
 					<p class="relative z-10 mt-2 text-gray-600 leading-relaxed">
 						{post.meta.description}
 					</p>
 					<div class="relative z-10 mt-4 flex items-center text-sm font-semibold text-blue-600">
-						{$t('blog.readMore') || 'Read more'}
+						{i18n.t('blog.readMore') || 'Read more'}
 						<ArrowRight class="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
 					</div>
 				</article>
 			{/each}
 		{:else}
-			<p class="text-gray-600">{$t('blog.noPostsFound')}</p>
+			<p class="text-gray-600">{i18n.t('blog.noPostsFound')}</p>
 		{/if}
 	</div>
 </div>

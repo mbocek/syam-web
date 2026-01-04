@@ -1,7 +1,7 @@
 <script>
   import Sidebar from './Sidebar.svelte';
   import Header from './Header.svelte';
-  import { t } from '../../stores/language.js';
+  import { i18n } from '../../stores/language.svelte.js';
   let { data, children } = $props();
   let isCollapsed = $state(false);
 
@@ -21,10 +21,7 @@
     </main>
 
     <footer class="p-4 bg-white border-t border-gray-200 text-center text-sm text-gray-500">
-      <p>&copy; 2026 SYAM. {$t('common.rightsReserved')}</p>
+      <p>&copy; 2026 SYAM. {i18n.t('common.rightsReserved')}</p>
     </footer>
   </div>
 </div>
-
-<style>
-</style>

@@ -1,6 +1,5 @@
 <script>
-  import { onMount } from 'svelte';
-  import { language, t } from '../../stores/language.js';
+  import { i18n } from '../../stores/language.svelte.js';
 
   let languages = [
     { code: 'en', flag: '🇺🇸', name: 'English', currency: '$' },
@@ -11,18 +10,18 @@
   let isOpen = $state(false);
 
   function selectLanguage(code) {
-    language.set(code);
+    i18n.set(code);
     isOpen = false;
   }
 
-  const selectedFlag = $derived(languages.find(l => l.code === $language)?.flag || '🇺🇸');
+  const selectedFlag = $derived(languages.find(l => l.code === i18n.current)?.flag || '🇺🇸');
 </script>
 
 <div class="relative">
   <button 
     class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-800 transition-colors cursor-pointer text-xl"
     onclick={() => isOpen = !isOpen}
-    aria-label={$t('common.selectLanguage')}
+    aria-label={i18n.t('common.selectLanguage')}
   >
     {selectedFlag}
   </button>
@@ -31,7 +30,7 @@
     <div class="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-gray-100 py-1 z-50">
       {#each languages as lang}
         <button
-          class="w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer {$language === lang.code ? 'bg-gray-50 font-semibold' : ''}"
+          class="w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer {i18n.current === lang.code ? 'bg-gray-50 font-semibold' : ''}"
           onclick={() => selectLanguage(lang.code)}
         >
           <span class="text-lg">{lang.flag}</span>
@@ -46,7 +45,7 @@
     <button 
       class="fixed inset-0 z-40 bg-transparent border-none w-full h-full cursor-default" 
       onclick={() => isOpen = false}
-      aria-label={$t('common.closeLanguage')}
+      aria-label={i18n.t('common.closeLanguage')}
     ></button>
   {/if}
 </div>

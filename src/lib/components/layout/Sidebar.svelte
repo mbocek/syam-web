@@ -2,7 +2,7 @@
   import { page } from '$app/state';
   import { untrack } from 'svelte';
   import { LayoutDashboard, Calculator, ChevronDown, BookOpen, Calendar, FileText, Dot } from 'lucide-svelte';
-  import { t } from '../../stores/language.js';
+  import { i18n } from '../../stores/language.svelte.js';
   let { isCollapsed = false, blogArchive = [] } = $props();
 
   let sidebarWidth = $state(256); // Default width (w-64)
@@ -110,7 +110,7 @@
               <LayoutDashboard size={20} class="transition-colors {page.url.pathname === '/' ? 'text-blue-400' : 'text-gray-400 group-hover:text-white'}" />
             </div>
             {#if !isCollapsed}
-              <span>{$t('common.dashboard')}</span>
+              <span>{i18n.t('common.dashboard')}</span>
             {/if}
           </a>
         </li>
@@ -131,7 +131,7 @@
                   <BookOpen size={20} class="transition-colors {page.url.pathname === '/blog' ? 'text-blue-400' : 'text-gray-400 group-hover:text-white'}" />
                 </div>
                 {#if !isCollapsed}
-                  <span>{$t('common.blog')}</span>
+                  <span>{i18n.t('common.blog')}</span>
                 {/if}
               </a>
               {#if !isCollapsed && blogArchive.length > 0}
@@ -179,7 +179,7 @@
                               class="px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 flex items-center {page.url.pathname === `/blog/archive/${year}/${month}` ? 'text-blue-400' : 'text-gray-500 hover:bg-gray-800 hover:text-gray-300'} {!isCollapsed ? 'ml-2' : ''}"
                             >
                               <Dot size={14} class="mr-1 opacity-50" />
-                              {$t(`month.${monthNames[month]}`)}
+                              {i18n.t(`month.${monthNames[month]}`)}
                             </a>
                           </li>
                         {/each}
@@ -196,7 +196,7 @@
         <li class="pt-4 pb-1 relative group">
           {#if !isCollapsed}
             <div class="px-3 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-              {$t('common.calculators')}
+              {i18n.t('common.calculators')}
             </div>
           {/if}
           <button 
@@ -207,7 +207,7 @@
               <Calculator size={20} class="transition-colors {isCalculatorsOpen && !isCollapsed ? 'text-blue-400' : 'text-gray-400 group-hover:text-white'}" />
             </div>
             {#if !isCollapsed}
-              <span class="flex-1 text-left">{$t('common.calculators')}</span>
+              <span class="flex-1 text-left">{i18n.t('common.calculators')}</span>
               <div class="transition-transform duration-300 {isCalculatorsOpen ? 'rotate-180' : ''}">
                 <ChevronDown size={16} class="text-gray-500" />
               </div>
@@ -221,7 +221,7 @@
                 class="px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 flex items-center {page.url.pathname === '/calculator' ? 'text-blue-400' : 'text-gray-500 hover:bg-gray-800 hover:text-gray-300'} {!isCollapsed ? 'ml-2' : ''}"
               >
                 <FileText size={14} class="mr-2 opacity-70" />
-                {$t('sidebar.compoundInterest')}
+                {i18n.t('sidebar.compoundInterest')}
               </a>
             </li>
           </ul>

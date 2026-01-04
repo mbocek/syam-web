@@ -2,7 +2,6 @@
  * @vitest-environment jsdom
  */
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { get } from 'svelte/store';
 
 // Mock browser environment for SvelteKit
 vi.mock('$app/environment', () => ({
@@ -24,15 +23,15 @@ const localStorageMock = (() => {
 })();
 global.localStorage = localStorageMock;
 
-import { language, t, formatDate } from './language.js';
+import { i18n } from './language.svelte.js';
 
 describe('i18n store', () => {
   beforeEach(() => {
-    language.set('en');
+    i18n.set('en');
   });
 
   it('formats dates in English', () => {
-    const format = get(formatDate);
+    const format = i18n.formatDate;
     const date = '2020-05-01';
     // Depending on the environment, long month might have different spacing or characters, 
     // but typically it's "May 1, 2020" or similar for 'en'
@@ -41,8 +40,8 @@ describe('i18n store', () => {
   });
 
   it('formats dates in Slovak', () => {
-    language.set('sk');
-    const format = get(formatDate);
+    i18n.set('sk');
+    const format = i18n.formatDate;
     const date = '2020-05-01';
     // For 'sk', it should be "1. mája 2020" or similar
     expect(format(date)).toContain('1.');
@@ -51,8 +50,8 @@ describe('i18n store', () => {
   });
 
   it('formats dates in Czech', () => {
-    language.set('cs');
-    const format = get(formatDate);
+    i18n.set('cs');
+    const format = i18n.formatDate;
     const date = '2020-05-01';
     // For 'cs', it should be "1. května 2020" or similar
     expect(format(date)).toContain('1.');
@@ -61,34 +60,34 @@ describe('i18n store', () => {
   });
 
   it('provides English translations by default', () => {
-    const translate = get(t);
+    const translate = i18n.t;
     expect(translate('common.dashboard')).toBe('Dashboard');
   });
 
   it('switches translations when language changes', () => {
-    language.set('sk');
-    let translate = get(t);
+    i18n.set('sk');
+    let translate = i18n.t;
     expect(translate('common.dashboard')).toBe('Prehľad');
 
-    language.set('cs');
-    translate = get(t);
+    i18n.set('cs');
+    translate = i18n.t;
     expect(translate('common.dashboard')).toBe('Přehled');
   });
 
   it('falls back to English for missing keys', () => {
-    language.set('sk');
-    const translate = get(t);
+    i18n.set('sk');
+    const translate = i18n.t;
     // Assuming 'nonexistent.key' is not in any file
     expect(translate('nonexistent.key')).toBe('nonexistent.key');
   });
 
   it('handles nested keys', () => {
-    const translate = get(t);
+    const translate = i18n.t;
     expect(translate('dashboard.features.modern')).toBe('Modern UI: Built with Svelte 5 for a fast and responsive experience.');
   });
 
   it('supports interpolation', () => {
-    const translate = get(t);
+    const translate = i18n.t;
     expect(translate('calculator.basis', { rate: 5, years: 10 }))
       .toBe('Based on a 5% annual interest rate over 10 years.');
   });

@@ -1,5 +1,5 @@
 <script>
-    import { t, formatDate } from '$lib/stores/language.js';
+    import { i18n } from '$lib/stores/language.svelte.js';
     import { Calendar, ChevronLeft, List } from 'lucide-svelte';
 	let { data } = $props();
 
@@ -22,7 +22,7 @@
     <div class="mb-8">
         <a href="/blog" class="group inline-flex items-center font-semibold text-blue-600 hover:text-blue-800 transition-colors">
             <ChevronLeft class="mr-1 h-4 w-4 transition-transform group-hover:-translate-x-1" />
-            {$t('blog.backToBlog')}
+            {i18n.t('blog.backToBlog')}
         </a>
     </div>
 
@@ -32,7 +32,7 @@
         </h1>
         <div class="flex items-center text-sm text-gray-500">
             <Calendar class="mr-1.5 h-4 w-4 flex-none" />
-            <span>{$t('blog.publishedAt')}: {$formatDate(data.meta.date)}</span>
+            <span>{i18n.t('blog.publishedAt')}: {i18n.formatDate(data.meta.date)}</span>
         </div>
 	</header>
 
@@ -40,7 +40,7 @@
         <nav class="mb-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
             <div class="flex items-center mb-4 text-gray-900 font-bold">
                 <List class="mr-2 h-5 w-5" />
-                <span>{$t('blog.toc')}</span>
+                <span>{i18n.t('blog.toc')}</span>
             </div>
             <ul class="space-y-2">
                 {#each headings as heading}
@@ -61,7 +61,7 @@
     <div class="mt-16 pt-8 border-t border-gray-200">
         <a href="/blog" class="group inline-flex items-center text-blue-600 font-semibold hover:text-blue-800 transition-colors">
             <ChevronLeft class="mr-1 h-4 w-4 transition-transform group-hover:-translate-x-1" />
-            {$t('blog.backToBlog')}
+            {i18n.t('blog.backToBlog')}
         </a>
     </div>
 </article>
