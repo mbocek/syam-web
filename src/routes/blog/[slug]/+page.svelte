@@ -1,7 +1,21 @@
 <script>
     import { t, formatDate } from '$lib/stores/language.js';
-    import { Calendar, ChevronLeft } from 'lucide-svelte';
+    import { Calendar, ChevronLeft, List } from 'lucide-svelte';
 	let { data } = $props();
+
+    let headings = $state([]);
+
+    $effect(() => {
+        const articleElement = document.querySelector('.prose');
+        if (articleElement) {
+            const headingElements = articleElement.querySelectorAll('h2, h3');
+            headings = Array.from(headingElements).map(h => ({
+                text: h.innerText,
+                id: h.id,
+                level: h.tagName.toLowerCase()
+            }));
+        }
+    });
 </script>
 
 <article class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
@@ -21,6 +35,24 @@
             <span>{$t('blog.publishedAt')}: {$formatDate(data.meta.date)}</span>
         </div>
 	</header>
+
+    {#if headings.length > 0}
+        <nav class="mb-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
+            <div class="flex items-center mb-4 text-gray-900 font-bold">
+                <List class="mr-2 h-5 w-5" />
+                <span>{$t('blog.toc')}</span>
+            </div>
+            <ul class="space-y-2">
+                {#each headings as heading}
+                    <li class={heading.level === 'h3' ? 'ml-4' : ''}>
+                        <a href="#{heading.id}" class="text-blue-600 hover:underline">
+                            {heading.text}
+                        </a>
+                    </li>
+                {/each}
+            </ul>
+        </nav>
+    {/if}
 	
 	<div class="prose prose-blue lg:prose-xl max-w-none prose-headings:font-bold prose-a:text-blue-600">
 		<data.content />

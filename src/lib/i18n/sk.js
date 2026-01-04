@@ -56,7 +56,8 @@ export default {
     backToBlog: 'Späť na blog',
     publishedAt: 'Publikované',
     noPostsFound: 'Nenašli sa žiadne články.',
-    readMore: 'Čítať viac'
+    readMore: 'Čítať viac',
+    toc: 'Obsah článku'
   },
   month: {
     january: 'Január',

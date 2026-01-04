@@ -56,7 +56,8 @@ export default {
     backToBlog: 'Back to blog',
     publishedAt: 'Published at',
     noPostsFound: 'No posts found.',
-    readMore: 'Read more'
+    readMore: 'Read more',
+    toc: 'Table of Contents'
   },
   month: {
     january: 'January',
