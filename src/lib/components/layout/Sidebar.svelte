@@ -1,7 +1,7 @@
 <script>
   import { page } from '$app/state';
   import { untrack } from 'svelte';
-  import { LayoutDashboard, Calculator, ChevronDown, BookOpen, Calendar, FileText, Dot } from 'lucide-svelte';
+  import { LayoutDashboard, Calculator, ChevronDown, BookOpen, Calendar, FileText, Dot, House } from 'lucide-svelte';
   import { i18n } from '../../stores/language.svelte.js';
   let { isCollapsed = false, blogArchive = [] } = $props();
 
@@ -236,6 +236,15 @@
               >
                 <FileText size={14} class="mr-2 opacity-70" />
                 {i18n.t('sidebar.compoundInterest')}
+              </a>
+            </li>
+            <li>
+              <a 
+                href="/mortgage"
+                class="px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200 flex items-center {page.url.pathname === '/mortgage' ? 'text-blue-400' : 'text-gray-500 hover:bg-gray-800 hover:text-gray-300'} {!isCollapsed ? 'ml-2' : ''}"
+              >
+                <House size={14} class="mr-2 opacity-70" />
+                {i18n.t('sidebar.mortgage')}
               </a>
             </li>
           </ul>

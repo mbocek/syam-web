@@ -12,13 +12,14 @@ export default {
     blog: 'Blog'
   },
   sidebar: {
-    compoundInterest: 'Compound Interest'
+    compoundInterest: 'Compound Interest',
+    mortgage: 'Mortgage'
   },
   dashboard: {
     welcome: 'Welcome to SYAM',
     description: 'SYAM (Smart Yield Analysis & Monitoring) is your personal financial toolkit designed to help you make informed decisions about your investments.',
     features: {
-      calculators: 'Financial Calculators: Access tools like the Compound Interest Calculator to project your future wealth.',
+      calculators: 'Financial Calculators: Access tools like the Compound Interest Calculator and Mortgage Calculator.',
       multilingual: 'Multilingual Support: Use the application in your preferred language (English, Slovak, or Czech).',
       modern: 'Modern UI: Built with Svelte 5 for a fast and responsive experience.'
     },
@@ -51,6 +52,22 @@ export default {
     range: 'Range',
     min: 'min',
     max: 'max'
+  },
+  mortgage: {
+    title: 'Mortgage Calculator',
+    description: 'Calculate your monthly payment and total cost of your mortgage.',
+    parameters: 'Mortgage Parameters',
+    amount: 'Loan Amount',
+    rate: 'Interest Rate (%)',
+    years: 'Loan Term (years)',
+    monthlyPayment: 'Monthly Payment',
+    totalRepayment: 'Total Repayment',
+    totalInterest: 'Total Interest',
+    amortizationSchedule: 'Amortization Schedule',
+    principal: 'Principal',
+    interest: 'Interest',
+    balance: 'Balance',
+    basis: 'Based on a {rate}% interest rate over {years} years.'
   },
   blog: {
     backToBlog: 'Back to blog',

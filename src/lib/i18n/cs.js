@@ -12,13 +12,14 @@ export default {
     blog: 'Blog'
   },
   sidebar: {
-    compoundInterest: 'Složené úročení'
+    compoundInterest: 'Složené úročení',
+    mortgage: 'Hypotéka'
   },
   dashboard: {
     welcome: 'Vítejte v SYAM',
     description: 'SYAM (Smart Yield Analysis & Monitoring) je váš osobní finanční nástroj navržený tak, aby vám pomohl činit informovaná rozhodnutí o vašich investicích.',
     features: {
-      calculators: 'Finanční kalkulačky: Získejte přístup k nástrojům jako Kalkulačka složeného úročení pro předpovídání vašeho budoucího majetku.',
+      calculators: 'Finanční kalkulačky: Získejte přístup k nástrojům jako Kalkulačka složeného úročení a Hypoteční kalkulačka.',
       multilingual: 'Vícejazyčná podpora: Používejte aplikaci ve vašem preferovaném jazyce (angličtina, slovenština nebo čeština).',
       modern: 'Moderní uživatelské rozhraní: Postaveno na Svelte 5 pro rychlý a responzivní zážitek.'
     },
@@ -47,10 +48,26 @@ export default {
     contributions: 'Celkové příspěvky',
     interest: 'Celkový úrok',
     balance: 'Zůstatek',
-    growthProjection: 'Projekce růstu',
+    growthProjection: 'Projekcia růstu',
     range: 'Rozpětí',
     min: 'min',
     max: 'max'
+  },
+  mortgage: {
+    title: 'Hypoteční kalkulačka',
+    description: 'Spočítejte si měsíční splátku a celkové náklady na vaši hypotéku.',
+    parameters: 'Parametry hypotéky',
+    amount: 'Výše úvěru',
+    rate: 'Úroková sazba (%)',
+    years: 'Doba splácení (roky)',
+    monthlyPayment: 'Měsíční splátka',
+    totalRepayment: 'Celková částka ke splacení',
+    totalInterest: 'Celkový úrok',
+    amortizationSchedule: 'Amortizační plán',
+    principal: 'Úmor',
+    interest: 'Úrok',
+    balance: 'Zůstatek',
+    basis: 'Založeno na {rate}% úrokové sazbě po dobu {years} let.'
   },
   blog: {
     backToBlog: 'Zpět na blog',
