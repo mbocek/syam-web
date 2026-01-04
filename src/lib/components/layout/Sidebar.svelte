@@ -112,7 +112,7 @@
             {#if !isCollapsed}
               <span>{i18n.t('common.dashboard')}</span>
             {:else}
-              <div class="hidden group-hover:block absolute left-full top-0 ml-2 bg-gray-900 border border-gray-800 rounded-lg py-2 px-3 shadow-xl z-50 whitespace-nowrap">
+              <div class="hidden group-hover:block absolute left-[52px] top-0 ml-0 bg-gray-900 border border-gray-800 rounded-lg py-2 px-3 shadow-xl z-50 whitespace-nowrap">
                 <span class="text-sm font-medium text-white">{i18n.t('common.dashboard')}</span>
               </div>
             {/if}
@@ -151,7 +151,7 @@
             </div>
 
             {#if blogArchive.length > 0}
-              <ul class="mt-1 space-y-1 {isCollapsed ? 'hidden group-hover:block absolute left-full top-0 ml-2 w-48 bg-gray-900 border border-gray-800 rounded-lg p-2 shadow-xl z-50' : (isBlogOpen ? 'ml-4 border-l border-gray-800' : 'hidden')}">
+              <ul class="mt-1 space-y-1 {isCollapsed ? 'hidden group-hover:block absolute left-[52px] top-0 ml-0 w-48 bg-gray-900 border border-gray-800 rounded-lg p-2 shadow-xl z-50' : (isBlogOpen ? 'ml-4 border-l border-gray-800' : 'hidden')}">
                 {#if isCollapsed}
                   <li class="px-3 py-2 mb-1 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-800">
                     {i18n.t('common.blog')}
@@ -223,7 +223,7 @@
             {/if}
           </button>
           
-          <ul class="mt-1 space-y-1 {isCollapsed ? 'hidden group-hover:block absolute left-full top-0 ml-2 w-48 bg-gray-900 border border-gray-800 rounded-lg p-2 shadow-xl z-50' : (isCalculatorsOpen ? 'ml-4 border-l border-gray-800' : 'hidden')}">
+          <ul class="mt-1 space-y-1 {isCollapsed ? 'hidden group-hover:block absolute left-[52px] top-0 ml-0 w-48 bg-gray-900 border border-gray-800 rounded-lg p-2 shadow-xl z-50' : (isCalculatorsOpen ? 'ml-4 border-l border-gray-800' : 'hidden')}">
             {#if isCollapsed}
               <li class="px-3 py-2 mb-1 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-800">
                 {i18n.t('common.calculators')}
