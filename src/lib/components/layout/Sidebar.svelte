@@ -1,9 +1,9 @@
 <script>
   import { page } from '$app/state';
   import { untrack } from 'svelte';
-  import { LayoutDashboard, Calculator, ChevronDown, BookOpen, Calendar, FileText, Dot, House } from 'lucide-svelte';
+  import { LayoutDashboard, Calculator, ChevronDown, BookOpen, Calendar, FileText, Dot, House, X } from 'lucide-svelte';
   import { i18n } from '../../stores/language.svelte.js';
-  let { isCollapsed = false, blogArchive = [] } = $props();
+  let { isCollapsed = false, isMobileMenuOpen = false, onClose, blogArchive = [] } = $props();
 
   let sidebarWidth = $state(256); // Default width (w-64)
   let isResizing = $state(false);
@@ -46,6 +46,13 @@
 
   $effect(() => {
     const pathname = page.url.pathname;
+    // Close mobile menu on navigation
+    untrack(() => {
+      if (isMobileMenuOpen && onClose) {
+        onClose();
+      }
+    });
+
     if (pathname.startsWith('/blog')) {
       isBlogOpen = true;
       const parts = pathname.split('/');
@@ -93,11 +100,30 @@
   };
 </script>
 
+<!-- Mobile backdrop -->
+{#if isMobileMenuOpen}
+  <div 
+    class="fixed inset-0 bg-black/50 z-40 lg:hidden" 
+    onclick={onClose}
+    onkeydown={(e) => e.key === 'Escape' && onClose()}
+    role="button"
+    tabindex="0"
+    aria-label="Close sidebar"
+  ></div>
+{/if}
+
 <aside 
-  class="bg-gray-900 text-white flex flex-col relative {isResizing ? '' : 'transition-[width] duration-300 ease-in-out'} border-r border-gray-800"
+  class="bg-gray-900 text-white flex flex-col fixed inset-y-0 left-0 z-50 lg:relative lg:flex {isResizing ? '' : 'transition-[width,transform] duration-300 ease-in-out'} border-r border-gray-800 {isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}"
   style="width: {isCollapsed ? '80px' : sidebarWidth + 'px'}"
 >
-  <div class="flex-1 overflow-y-visible py-4 px-3 {isCollapsed ? '' : ''}">
+  <div class="flex items-center justify-between p-4 lg:hidden">
+    <span class="text-xl font-bold">SYAM</span>
+    <button onclick={onClose} class="p-2 text-gray-400 hover:text-white">
+      <X size={24} />
+    </button>
+  </div>
+
+  <div class="flex-1 overflow-y-auto lg:overflow-y-visible py-4 px-3">
     <!-- Sidebar content -->
     <nav class="space-y-1">
       <ul>
@@ -259,7 +285,7 @@
       type="button"
       aria-label="Resize sidebar"
       onmousedown={startResizing}
-      class="absolute right-0 top-0 w-1 h-full cursor-col-resize hover:bg-blue-500/50 transition-colors z-50 {isResizing ? 'bg-blue-500' : ''}"
+      class="hidden lg:block absolute right-0 top-0 w-1 h-full cursor-col-resize hover:bg-blue-500/50 transition-colors z-50 {isResizing ? 'bg-blue-500' : ''}"
     ></button>
   {/if}
 </aside>

@@ -4,14 +4,28 @@
   import { i18n } from '../../stores/language.svelte.js';
   let { data, children } = $props();
   let isCollapsed = $state(false);
+  let isMobileMenuOpen = $state(false);
 
   function toggleSidebar() {
-    isCollapsed = !isCollapsed;
+    if (window.innerWidth < 1024) {
+      isMobileMenuOpen = !isMobileMenuOpen;
+    } else {
+      isCollapsed = !isCollapsed;
+    }
+  }
+
+  function closeMobileMenu() {
+    isMobileMenuOpen = false;
   }
 </script>
 
-<div class="flex h-screen w-screen">
-  <Sidebar {isCollapsed} blogArchive={data?.blogArchive} />
+<div class="flex h-screen w-screen overflow-hidden">
+  <Sidebar 
+    {isCollapsed} 
+    {isMobileMenuOpen} 
+    onClose={closeMobileMenu}
+    blogArchive={data?.blogArchive} 
+  />
 
   <div class="flex-1 flex flex-col min-w-0">
     <Header onToggleSidebar={toggleSidebar} />
