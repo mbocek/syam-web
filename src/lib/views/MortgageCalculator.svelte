@@ -206,13 +206,13 @@
         <Card>
           <div class="flex flex-col items-center justify-center py-6 bg-linear-to-br from-blue-50 to-indigo-50 rounded-xl">
             <div class="text-blue-600/60 text-xs font-semibold uppercase tracking-wider mb-1">{i18n.t('mortgage.monthlyPayment')}</div>
-            <div class="text-3xl font-extrabold text-blue-600 tracking-tight">{monthlyPayment.toFixed(2)} {i18n.currency}</div>
+            <div class="text-3xl font-extrabold text-blue-600 tracking-tight">{i18n.formatNumber(monthlyPayment)} {i18n.currency}</div>
           </div>
         </Card>
         <Card>
           <div class="flex flex-col items-center justify-center py-6 bg-linear-to-br from-emerald-50 to-teal-50 rounded-xl">
             <div class="text-emerald-600/60 text-xs font-semibold uppercase tracking-wider mb-1">{i18n.t('mortgage.totalRepayment')}</div>
-            <div class="text-3xl font-extrabold text-emerald-600 tracking-tight">{schedule.totalRepayment} {i18n.currency}</div>
+            <div class="text-3xl font-extrabold text-emerald-600 tracking-tight">{i18n.formatNumber(schedule.totalRepayment)} {i18n.currency}</div>
           </div>
         </Card>
       </div>
@@ -240,16 +240,16 @@
                     </div>
                   </td>
                   <td class="px-4 py-4 text-sm text-gray-600 text-right whitespace-nowrap">
-                    <span class="font-medium text-gray-900">{row.principal}</span> <span class="text-gray-400 text-xs">{i18n.currency}</span>
+                    <span class="font-medium text-gray-900">{i18n.formatNumber(row.principal)}</span> <span class="text-gray-400 text-xs">{i18n.currency}</span>
                   </td>
                   <td class="px-4 py-4 text-right whitespace-nowrap">
                     <div class="text-sm font-bold text-amber-600">
-                      {row.interest} <span class="text-amber-500/60 text-xs font-normal">{i18n.currency}</span>
+                      {i18n.formatNumber(row.interest)} <span class="text-amber-500/60 text-xs font-normal">{i18n.currency}</span>
                     </div>
                   </td>
                   <td class="pl-4 pr-6 py-4 text-right whitespace-nowrap">
                     <div class="text-sm font-black text-blue-600">
-                      {row.balance} <span class="text-blue-500/60 text-xs font-normal">{i18n.currency}</span>
+                      {i18n.formatNumber(row.balance)} <span class="text-blue-500/60 text-xs font-normal">{i18n.currency}</span>
                     </div>
                   </td>
                 </tr>

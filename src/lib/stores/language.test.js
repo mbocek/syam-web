@@ -91,4 +91,14 @@ describe('i18n store', () => {
     expect(translate('calculator.basis', { rate: 5, years: 10 }))
       .toBe('Based on a 5% annual interest rate over 10 years.');
   });
+
+  it('formats numbers with spaces as thousand separators', () => {
+    i18n.set('sk');
+    expect(i18n.formatNumber(1234.56)).toBe('1 234,56');
+    expect(i18n.formatNumber(1000000)).toBe('1 000 000,00');
+    
+    i18n.set('en');
+    // We forced space separator for 'en' by using 'fr-FR' and replacing nbsp
+    expect(i18n.formatNumber(1234.56)).toBe('1 234,56');
+  });
 });

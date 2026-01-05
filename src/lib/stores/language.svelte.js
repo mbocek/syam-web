@@ -78,6 +78,15 @@ class LanguageStore {
     }).format(date);
   };
 
+  formatNumber = (number, decimals = 2) => {
+    if (number === undefined || number === null) return '';
+    const val = typeof number === 'string' ? parseFloat(number) : number;
+    return new Intl.NumberFormat(this.current === 'en' ? 'fr-FR' : this.current, {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals
+    }).format(val).replace(/\u00a0/g, ' ').replace(/\u202f/g, ' ');
+  };
+
   get currency() {
     return this.currencies[this.current] || '€';
   }

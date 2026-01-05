@@ -295,10 +295,10 @@
       <Card>
         <div class="flex flex-col items-center justify-center py-10 bg-linear-to-br from-blue-50 to-indigo-50 rounded-xl">
           <div class="text-blue-600/60 text-sm font-semibold uppercase tracking-wider mb-2">{i18n.t('calculator.estimatedValue')}</div>
-          <div class="text-5xl font-extrabold text-blue-600 tracking-tight">{result.base.total} {i18n.currency}</div>
+          <div class="text-5xl font-extrabold text-blue-600 tracking-tight">{i18n.formatNumber(result.base.total)} {i18n.currency}</div>
           {#if variance > 0}
             <div class="mt-2 text-blue-400 font-medium">
-              {i18n.t('calculator.range')}: {result.low.total} - {result.high.total} {i18n.currency}
+              {i18n.t('calculator.range')}: {i18n.formatNumber(result.low.total)} - {i18n.formatNumber(result.high.total)} {i18n.currency}
             </div>
           {/if}
           <div class="mt-4 text-gray-500 text-sm text-center px-6">
@@ -334,29 +334,29 @@
                     </div>
                   </td>
                   <td class="px-4 py-4 text-sm text-gray-600 text-right whitespace-nowrap">
-                    <span class="font-medium text-gray-900">{row.totalContributions}</span> <span class="text-gray-400 text-xs">{i18n.currency}</span>
+                    <span class="font-medium text-gray-900">{i18n.formatNumber(row.totalContributions)}</span> <span class="text-gray-400 text-xs">{i18n.currency}</span>
                   </td>
                   <td class="px-4 py-4 text-right whitespace-nowrap">
                     <div class="text-sm font-bold text-emerald-600">
-                      +{row.totalInterest} <span class="text-emerald-500/60 text-xs font-normal">{i18n.currency}</span>
+                      +{i18n.formatNumber(row.totalInterest)} <span class="text-emerald-500/60 text-xs font-normal">{i18n.currency}</span>
                     </div>
                     {#if variance > 0}
                       <div class="mt-1 flex items-center justify-end gap-1.5 text-[10px] font-medium text-gray-400 bg-gray-50 rounded px-1.5 py-0.5 inline-flex ml-auto group-hover:bg-white transition-colors">
-                        <span class="text-emerald-600/50">{row.lowInterest}</span>
+                        <span class="text-emerald-600/50">{i18n.formatNumber(row.lowInterest)}</span>
                         <span class="w-1 h-px bg-gray-200"></span>
-                        <span class="text-emerald-600/50">{row.highInterest}</span>
+                        <span class="text-emerald-600/50">{i18n.formatNumber(row.highInterest)}</span>
                       </div>
                     {/if}
                   </td>
                   <td class="pl-4 pr-6 py-4 text-right whitespace-nowrap">
                     <div class="text-sm font-black text-blue-600">
-                      {row.balance} <span class="text-blue-500/60 text-xs font-normal">{i18n.currency}</span>
+                      {i18n.formatNumber(row.balance)} <span class="text-blue-500/60 text-xs font-normal">{i18n.currency}</span>
                     </div>
                     {#if variance > 0}
                       <div class="mt-1 flex items-center justify-end gap-1.5 text-[10px] font-medium text-gray-400 bg-gray-50 rounded px-1.5 py-0.5 inline-flex ml-auto group-hover:bg-white transition-colors">
-                        <span class="text-blue-600/50">{row.lowBalance}</span>
+                        <span class="text-blue-600/50">{i18n.formatNumber(row.lowBalance)}</span>
                         <span class="w-1 h-px bg-gray-200"></span>
-                        <span class="text-blue-600/50">{row.highBalance}</span>
+                        <span class="text-blue-600/50">{i18n.formatNumber(row.highBalance)}</span>
                       </div>
                     {/if}
                   </td>
