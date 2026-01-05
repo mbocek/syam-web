@@ -63,6 +63,7 @@ export default {
     monthlyPayment: 'Monthly Payment',
     totalRepayment: 'Total Repayment',
     totalInterest: 'Total Interest',
+    year: 'Year',
     amortizationSchedule: 'Amortization Schedule',
     principal: 'Principal',
     interest: 'Interest',

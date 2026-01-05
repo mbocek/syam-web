@@ -63,6 +63,7 @@ export default {
     monthlyPayment: 'Mesačná splátka',
     totalRepayment: 'Celková suma na splatenie',
     totalInterest: 'Celkový úrok',
+    year: 'Rok',
     amortizationSchedule: 'Amortizačný plán',
     principal: 'Istina',
     interest: 'Úrok',
