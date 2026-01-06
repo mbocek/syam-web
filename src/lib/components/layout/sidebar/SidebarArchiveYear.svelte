@@ -37,15 +37,12 @@
     >
       <Calendar size={14} class="mr-2 opacity-70" />
       {year}
+      {#if !isCollapsed}
+        <div class="ml-auto transition-transform duration-300 {isOpen ? 'rotate-180' : ''}">
+          <ChevronDown size={14} class="text-gray-600 group-hover/year:text-white" />
+        </div>
+      {/if}
     </a>
-    <button 
-      onclick={onToggle}
-      class="p-1.5 text-gray-600 hover:text-white transition-all rounded-md hover:bg-gray-800"
-    >
-      <div class="transition-transform duration-300 {isOpen ? 'rotate-180' : ''}">
-        <ChevronDown size={14} />
-      </div>
-    </button>
   </div>
   
   {#if isOpen}

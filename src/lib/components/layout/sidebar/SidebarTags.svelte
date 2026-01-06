@@ -25,7 +25,7 @@
       {i18n.t('blog.tags')}
       {#if !isCollapsed}
         <div class="ml-auto transition-transform duration-300 {isOpen ? 'rotate-180' : ''}">
-          <ChevronDown size={14} />
+          <ChevronDown size={14} class="text-gray-600 group-hover/tags:text-white" />
         </div>
       {/if}
     </button>

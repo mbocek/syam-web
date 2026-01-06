@@ -34,7 +34,7 @@
     {#if !isCollapsed}
       <span class="flex-1 text-left">{label}</span>
       <div class="transition-transform duration-300 {isOpen ? 'rotate-180' : ''}">
-        <ChevronDown size={16} class="text-gray-500" />
+        <ChevronDown size={16} class="text-gray-500 group-hover:text-white" />
       </div>
     {/if}
   </button>
