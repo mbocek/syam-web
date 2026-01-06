@@ -1,18 +1,21 @@
 <script>
   import { page } from '$app/state';
   import { untrack } from 'svelte';
-  import { LayoutDashboard, Calculator, ChevronDown, BookOpen, Calendar, FileText, Dot, House, X } from 'lucide-svelte';
+  import { LayoutDashboard, Calculator, ChevronDown, BookOpen, Calendar, FileText, Dot, House, X, Tag } from 'lucide-svelte';
   import { i18n } from '../../stores/language.svelte.js';
   import SidebarItem from './sidebar/SidebarItem.svelte';
   import SidebarGroup from './sidebar/SidebarGroup.svelte';
+  import SidebarArchiveYear from './sidebar/SidebarArchiveYear.svelte';
+  import SidebarTags from './sidebar/SidebarTags.svelte';
 
-  let { isCollapsed = false, isMobileMenuOpen = false, onClose, blogArchive = [] } = $props();
+  let { isCollapsed = false, isMobileMenuOpen = false, onClose, blogArchive = [], blogTags = [] } = $props();
 
   let sidebarWidth = $state(256); // Default width (w-64)
   let isResizing = $state(false);
 
   let isCalculatorsOpen = $state(true);
   let isBlogOpen = $state(false);
+  let isTagsOpen = $state(false);
   let openYears = $state([]);
 
   function startResizing(event) {
@@ -52,19 +55,23 @@
       }
     });
 
-    if (pathname.startsWith('/blog')) {
-      isBlogOpen = true;
-      const parts = pathname.split('/');
-      // /blog/archive/[year] or /blog/archive/[year]/[month]
-      if (parts.length >= 4 && parts[2] === 'archive') {
-        const year = parts[3].toString();
-        if (!openYears.includes(year)) {
-          openYears = [...openYears, year];
+    untrack(() => {
+      if (pathname.startsWith('/blog')) {
+        isBlogOpen = true;
+        const parts = pathname.split('/');
+        // /blog/archive/[year] or /blog/archive/[year]/[month]
+        if (parts.length >= 4 && parts[2] === 'archive') {
+          const year = parts[3].toString();
+          if (!openYears.includes(year)) {
+            openYears = [...openYears, year];
+          }
         }
+      } else if (pathname.startsWith('/blog/tag/')) {
+        isTagsOpen = true;
+      } else if (pathname.startsWith('/calculators')) {
+        isCalculatorsOpen = true;
       }
-    } else if (pathname.startsWith('/calculators')) {
-      isCalculatorsOpen = true;
-    }
+    });
   });
 
   function toggleYear(year) {
@@ -75,21 +82,6 @@
       openYears = [...openYears, yearStr];
     }
   }
-
-  const monthNames = {
-    1: 'january',
-    2: 'february',
-    3: 'march',
-    4: 'april',
-    5: 'may',
-    6: 'june',
-    7: 'july',
-    8: 'august',
-    9: 'september',
-    10: 'october',
-    11: 'november',
-    12: 'december'
-  };
 </script>
 
 <!-- Mobile backdrop -->
@@ -133,42 +125,21 @@
           bind:isOpen={isBlogOpen}
         >
           {#each blogArchive as { year, months }}
-            <li class="flex flex-col">
-              <div class="flex items-center group/year">
-                <a 
-                  href="/blog/archive/{year}"
-                  class="flex-1 px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200 flex items-center {page.url.pathname.startsWith(`/blog/archive/${year}`) ? 'text-blue-400' : 'text-gray-500 hover:bg-gray-800 hover:text-gray-300'} {!isCollapsed ? 'ml-2' : ''}"
-                >
-                  <Calendar size={14} class="mr-2 opacity-70" />
-                  {year}
-                </a>
-                {#if !isCollapsed}
-                  <button 
-                    onclick={() => toggleYear(year)}
-                    class="p-1.5 text-gray-600 hover:text-white transition-all rounded-md hover:bg-gray-800"
-                  >
-                    <div class="transition-transform duration-300 {openYears.includes(year.toString()) ? 'rotate-180' : ''}">
-                      <ChevronDown size={14} />
-                    </div>
-                  </button>
-                {/if}
-              </div>
-              
-              {#if isCollapsed || openYears.includes(year.toString())}
-                <ul class="mt-1 space-y-1 {isCollapsed ? 'ml-4' : 'ml-4 border-l border-gray-800'}">
-                  {#each months as month}
-                    <SidebarItem 
-                      href="/blog/archive/{year}/{month}" 
-                      label={i18n.t(`month.${monthNames[month]}`)} 
-                      icon={Dot} 
-                      {isCollapsed} 
-                      indent={true}
-                    />
-                  {/each}
-                </ul>
-              {/if}
-            </li>
+            <SidebarArchiveYear 
+              {year} 
+              {months} 
+              {isCollapsed} 
+              isOpen={openYears.includes(year.toString())}
+              onToggle={() => toggleYear(year)}
+            />
           {/each}
+
+          <SidebarTags 
+            tags={blogTags} 
+            {isCollapsed} 
+            {isBlogOpen} 
+            bind:isOpen={isTagsOpen} 
+          />
         </SidebarGroup>
 
         <SidebarGroup 

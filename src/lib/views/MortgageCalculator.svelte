@@ -68,7 +68,7 @@
   $effect(() => {
     if (chartCanvas && schedule.breakdown.length > 0) {
       const ctx = chartCanvas.getContext('2d');
-      const labels = schedule.breakdown.map(d => `${i18n.t('mortgage.year') || i18n.t('calculator.year')} ${d.year}`);
+      const labels = schedule.breakdown.map(d => `${i18n.t('calculator.year')} ${d.year}`);
       
       const datasets = [
         {

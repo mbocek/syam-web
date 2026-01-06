@@ -1,10 +1,13 @@
-import { getPosts } from '$lib/posts';
+import { getPosts, getAllTags } from '$lib/posts';
 
 export const prerender = true;
 export const trailingSlash = 'always';
 
 export async function load() {
-    const allPosts = await getPosts();
+    const [allPosts, allTags] = await Promise.all([
+        getPosts(),
+        getAllTags()
+    ]);
 
     const archive = {};
 
@@ -28,6 +31,7 @@ export async function load() {
         }));
 
     return {
-        blogArchive: sortedArchive
+        blogArchive: sortedArchive,
+        blogTags: allTags
     };
 }

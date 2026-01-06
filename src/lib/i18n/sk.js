@@ -75,7 +75,14 @@ export default {
     publishedAt: 'Publikované',
     noPostsFound: 'Nenašli sa žiadne články.',
     readMore: 'Čítať viac',
-    toc: 'Obsah článku'
+    toc: 'Obsah článku',
+    tags: 'Tagy',
+    searchPlaceholder: 'Hľadať články alebo tagy...',
+    postsTaggedWith: 'Články s tagom',
+    archiveForYear: 'Archív článkov z roku',
+    archiveForMonth: 'Archív článkov za',
+    blogDescription: 'Hĺbkové analýzy, aktualizácie a postrehy tímu SYAM o finančnom monitoringu a technológiách.',
+    blogSubtitle: 'Hĺbkové analýzy, aktualizácie a postrehy tímu SYAM.'
   },
   month: {
     january: 'Január',

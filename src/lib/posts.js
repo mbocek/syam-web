@@ -15,3 +15,14 @@ export async function getPosts() {
 
     return allPosts.sort((a, b) => new Date(b.meta.date) - new Date(a.meta.date));
 }
+
+export async function getAllTags() {
+    const posts = await getPosts();
+    const tags = new Set();
+    posts.forEach(post => {
+        if (post.meta.tags) {
+            post.meta.tags.forEach(tag => tags.add(tag));
+        }
+    });
+    return Array.from(tags).sort();
+}

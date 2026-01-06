@@ -6,7 +6,7 @@
 
 <svelte:head>
 	<title>{i18n.t('common.blog')} - {data.year} | SYAM</title>
-	<meta name="description" content="Archive of blog posts from year {data.year}." />
+	<meta name="description" content="{i18n.t('blog.archiveForYear')} {data.year}." />
 </svelte:head>
 
 <div class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
@@ -37,7 +37,7 @@
 						{post.meta.description}
 					</p>
 					<div class="relative z-10 mt-4 flex items-center text-sm font-semibold text-blue-600">
-						{i18n.t('blog.readMore') || 'Read more'}
+						{i18n.t('blog.readMore')}
 						<ArrowRight class="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
 					</div>
 				</article>

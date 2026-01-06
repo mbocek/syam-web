@@ -75,7 +75,14 @@ export default {
     publishedAt: 'Published at',
     noPostsFound: 'No posts found.',
     readMore: 'Read more',
-    toc: 'Table of Contents'
+    toc: 'Table of Contents',
+    tags: 'Tags',
+    searchPlaceholder: 'Search posts or tags...',
+    postsTaggedWith: 'Posts tagged with',
+    archiveForYear: 'Archive of blog posts from year',
+    archiveForMonth: 'Archive of blog posts from',
+    blogDescription: 'Deep dives, updates, and thoughts from the SYAM team about financial monitoring and technology.',
+    blogSubtitle: 'Deep dives, updates, and thoughts from the SYAM team.'
   },
   month: {
     january: 'January',

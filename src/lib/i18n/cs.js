@@ -75,7 +75,14 @@ export default {
     publishedAt: 'Publikováno',
     noPostsFound: 'Nebyly nalezeny žádné články.',
     readMore: 'Číst více',
-    toc: 'Obsah článku'
+    toc: 'Obsah článku',
+    tags: 'Tagy',
+    searchPlaceholder: 'Hledat články nebo tagy...',
+    postsTaggedWith: 'Články s tagem',
+    archiveForYear: 'Archiv článků z roku',
+    archiveForMonth: 'Archiv článků za',
+    blogDescription: 'Hloubkové analýzy, aktualizace a postřehy týmu SYAM o finančním monitoringu a technologiích.',
+    blogSubtitle: 'Hloubkové analýzy, aktualizace a postřehy týmu SYAM.'
   },
   month: {
     january: 'Leden',

@@ -84,6 +84,19 @@
 		<data.content />
 	</div>
 
+    {#if data.meta.tags}
+        <div class="flex flex-wrap gap-2 mt-8">
+            {#each data.meta.tags as tag}
+                <a 
+                    href="/blog/tag/{tag}" 
+                    class="px-2 py-1 bg-blue-100 text-blue-700 rounded-md text-xs font-medium hover:bg-blue-200 transition-colors"
+                >
+                    #{tag}
+                </a>
+            {/each}
+        </div>
+    {/if}
+
     <div class="mt-16 pt-8 border-t border-gray-200">
         <a href="/blog" class="group inline-flex items-center text-blue-600 font-semibold hover:text-blue-800 transition-colors">
             <ChevronLeft class="mr-1 h-4 w-4 transition-transform group-hover:-translate-x-1" />
