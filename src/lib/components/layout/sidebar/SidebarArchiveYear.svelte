@@ -1,7 +1,7 @@
 <script>
   import { page } from '$app/state';
   import { Calendar, ChevronDown, Dot } from 'lucide-svelte';
-  import { i18n } from '../../../stores/language.svelte.js';
+  import { i18n } from '$lib/stores/language.svelte.js';
   import SidebarItem from './SidebarItem.svelte';
 
   let { 
