@@ -1,19 +1,9 @@
-export async function load() {
-    const posts = import.meta.glob('/src/lib/posts/*.md');
-    const iterablePosts = Object.entries(posts);
+import { getPosts } from '$lib/posts';
 
-    const allPosts = await Promise.all(
-        iterablePosts.map(async ([path, resolver]) => {
-            const { metadata } = await resolver();
-            const slug = path.split('/').pop().slice(0, -3);
-            return {
-                meta: metadata,
-                slug
-            };
-        })
-    );
+export async function load() {
+    const allPosts = await getPosts();
 
     return {
-        posts: allPosts.sort((a, b) => new Date(b.meta.date) - new Date(a.meta.date))
+        posts: allPosts
     };
 }

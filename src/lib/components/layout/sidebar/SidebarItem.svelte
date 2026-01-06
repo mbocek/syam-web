@@ -1,6 +1,5 @@
 <script>
   import { page } from '$app/state';
-  import { i18n } from '../../../stores/language.svelte.js';
 
   let { 
     href, 

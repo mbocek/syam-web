@@ -1,6 +1,5 @@
 <script>
   import { ChevronDown } from 'lucide-svelte';
-  import { i18n } from '../../../stores/language.svelte.js';
 
   let { 
     label, 

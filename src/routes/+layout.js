@@ -1,18 +1,10 @@
+import { getPosts } from '$lib/posts';
+
 export const prerender = true;
 export const trailingSlash = 'always';
 
 export async function load() {
-    const posts = import.meta.glob('/src/lib/posts/*.md');
-    const iterablePosts = Object.entries(posts);
-
-    const allPosts = await Promise.all(
-        iterablePosts.map(async ([path, resolver]) => {
-            const { metadata } = await resolver();
-            return {
-                meta: metadata
-            };
-        })
-    );
+    const allPosts = await getPosts();
 
     const archive = {};
 
