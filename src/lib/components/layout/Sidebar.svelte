@@ -62,7 +62,7 @@
           openYears = [...openYears, year];
         }
       }
-    } else if (pathname.startsWith('/calculator') || pathname.startsWith('/mortgage')) {
+    } else if (pathname.startsWith('/calculators')) {
       isCalculatorsOpen = true;
     }
   });
@@ -178,14 +178,14 @@
           bind:isOpen={isCalculatorsOpen}
         >
           <SidebarItem 
-            href="/calculator" 
+            href="/calculators/compound-interest" 
             label={i18n.t('sidebar.compoundInterest')} 
             icon={FileText} 
             {isCollapsed} 
             indent={true}
           />
           <SidebarItem 
-            href="/mortgage" 
+            href="/calculators/mortgage" 
             label={i18n.t('sidebar.mortgage')} 
             icon={House} 
             {isCollapsed} 
