@@ -19,6 +19,11 @@
 	};
 </script>
 
+<svelte:head>
+	<title>{i18n.t('common.blog')} - {data.year} {i18n.t(`month.${monthNames[data.month]}`)} | SYAM</title>
+	<meta name="description" content="Archive of blog posts from {i18n.t(`month.${monthNames[data.month]}`)} {data.year}." />
+</svelte:head>
+
 <div class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
 	<div class="mb-12">
 		<h1 class="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">

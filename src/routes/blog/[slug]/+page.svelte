@@ -18,6 +18,32 @@
     });
 </script>
 
+<svelte:head>
+	<title>{data.meta.title} | SYAM Blog</title>
+	<meta name="description" content={data.meta.description} />
+    {#if data.meta.tags}
+        <meta name="keywords" content={data.meta.tags.join(', ')} />
+    {/if}
+    <meta property="og:title" content={data.meta.title} />
+    <meta property="og:description" content={data.meta.description} />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content={data.meta.date} />
+    <meta name="twitter:card" content="summary" />
+    {@html `<script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "${data.meta.title}",
+          "description": "${data.meta.description}",
+          "datePublished": "${data.meta.date}",
+          "author": {
+            "@type": "Organization",
+            "name": "SYAM"
+          }
+        }
+    </script>`}
+</svelte:head>
+
 <article class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
     <div class="mb-8">
         <a href="/blog" class="group inline-flex items-center font-semibold text-blue-600 hover:text-blue-800 transition-colors">
