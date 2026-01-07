@@ -10,15 +10,15 @@
     active = false
   } = $props();
 
-  const isActive = $derived(active || page.url.pathname === href);
+  const isActive = $derived(active || page.url.pathname === href || (href !== '/' && page.url.pathname.startsWith(href)));
 </script>
 
 <li class="relative group/item">
   <a 
     {href}
     class="group/link flex items-center px-3 py-2 text-base font-medium rounded-lg transition-all duration-200 
-      {isActive ? 'bg-blue-600/10 text-blue-400' : 'text-gray-400 hover:bg-gray-800 hover:text-white'}
-      {indent ? 'ml-2' : ''}"
+      {indent ? 'ml-2' : ''}
+      {isActive ? 'bg-blue-600/10 text-blue-400' : 'text-gray-400 hover:bg-gray-800 hover:text-white'}"
   >
     <div class="flex items-center justify-center {isCollapsed ? 'mx-auto' : 'mr-3'}">
       {#if Icon}

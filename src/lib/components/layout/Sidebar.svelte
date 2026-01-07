@@ -48,30 +48,27 @@
 
   $effect(() => {
     const pathname = page.url.pathname;
+    
     // Close mobile menu on navigation
-    untrack(() => {
-      if (isMobileMenuOpen && onClose) {
-        onClose();
-      }
-    });
+    if (isMobileMenuOpen && onClose) {
+      untrack(() => onClose());
+    }
 
-    untrack(() => {
-      if (pathname.startsWith('/blog')) {
-        isBlogOpen = true;
+    // Auto-open logic based on current route
+    if (pathname.startsWith('/blog')) {
+      isBlogOpen = true;
+      if (pathname.startsWith('/blog/archive/')) {
         const parts = pathname.split('/');
-        // /blog/archive/[year] or /blog/archive/[year]/[month]
-        if (parts.length >= 4 && parts[2] === 'archive') {
-          const year = parts[3].toString();
-          if (!openYears.includes(year)) {
-            openYears = [...openYears, year];
-          }
+        const year = parts[3];
+        if (year && !openYears.includes(year)) {
+          openYears = [...openYears, year];
         }
       } else if (pathname.startsWith('/blog/tag/')) {
         isTagsOpen = true;
-      } else if (pathname.startsWith('/calculators')) {
-        isCalculatorsOpen = true;
       }
-    });
+    } else if (pathname.startsWith('/calculators')) {
+      isCalculatorsOpen = true;
+    }
   });
 
   function toggleYear(year) {
@@ -97,7 +94,9 @@
 {/if}
 
 <aside 
-  class="bg-gray-900 text-white flex flex-col fixed inset-y-0 left-0 z-50 lg:relative lg:flex {isResizing ? '' : 'transition-[width,transform] duration-300 ease-in-out'} border-r border-gray-800 {isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}"
+  class="bg-gray-900 text-white flex flex-col fixed inset-y-0 left-0 z-50 lg:relative lg:flex border-r border-gray-800 
+    {isResizing ? '' : 'transition-[width,transform] duration-300 ease-in-out'} 
+    {isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}"
   style="width: {isCollapsed ? '80px' : sidebarWidth + 'px'}"
 >
   <div class="flex items-center justify-between p-4 lg:hidden">

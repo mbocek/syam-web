@@ -12,32 +12,20 @@
     onToggle 
   } = $props();
 
-  const monthNames = {
-    1: 'january',
-    2: 'february',
-    3: 'march',
-    4: 'april',
-    5: 'may',
-    6: 'june',
-    7: 'july',
-    8: 'august',
-    9: 'september',
-    10: 'october',
-    11: 'november',
-    12: 'december'
-  };
+  const monthNames = [
+    '', 'january', 'february', 'march', 'april', 'may', 'june',
+    'july', 'august', 'september', 'october', 'november', 'december'
+  ];
 </script>
 
 <li class="flex flex-col">
   <div class="flex items-center group/year">
     <a 
       href="/blog/archive/{year}"
-      class="flex-1 px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200 flex items-center {page.url.pathname.startsWith(`/blog/archive/${year}`) ? 'text-blue-400' : 'text-gray-500 hover:bg-gray-800 hover:text-gray-300'} {!isCollapsed ? 'ml-2' : ''}"
-      onclick={(e) => {
-        if (!isOpen) {
-          onToggle();
-        }
-      }}
+      class="flex-1 px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200 flex items-center 
+        {page.url.pathname.startsWith(`/blog/archive/${year}`) ? 'text-blue-400' : 'text-gray-500 hover:bg-gray-800 hover:text-gray-300'} 
+        {!isCollapsed ? 'ml-2' : ''}"
+      onclick={() => !isOpen && onToggle()}
     >
       <Calendar size={14} class="mr-2 opacity-70" />
       {year}
