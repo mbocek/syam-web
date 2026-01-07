@@ -50,9 +50,11 @@
     const pathname = page.url.pathname;
     
     // Close mobile menu on navigation
-    if (isMobileMenuOpen && onClose) {
-      untrack(() => onClose());
-    }
+    untrack(() => {
+      if (isMobileMenuOpen && onClose) {
+        onClose();
+      }
+    });
 
     // Auto-open logic based on current route
     if (pathname.startsWith('/blog')) {
@@ -128,7 +130,7 @@
             <SidebarArchiveYear 
               {year} 
               {months} 
-              {isCollapsed} 
+              isCollapsed={false} 
               isOpen={openYears.includes(year.toString())}
               onToggle={() => toggleYear(year)}
             />
@@ -136,7 +138,7 @@
 
           <SidebarTags 
             tags={blogTags} 
-            {isCollapsed} 
+            isCollapsed={false} 
             {isBlogOpen} 
             bind:isOpen={isTagsOpen} 
           />
@@ -152,14 +154,14 @@
             href="/calculators/compound-interest" 
             label={i18n.t('sidebar.compoundInterest')} 
             icon={FileText} 
-            {isCollapsed} 
+            isCollapsed={false} 
             indent={true}
           />
           <SidebarItem 
             href="/calculators/mortgage" 
             label={i18n.t('sidebar.mortgage')} 
             icon={House} 
-            {isCollapsed} 
+            isCollapsed={false} 
             indent={true}
           />
         </SidebarGroup>

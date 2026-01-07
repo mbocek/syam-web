@@ -21,9 +21,11 @@
       onclick={toggle}
       class="flex-1 px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200 flex items-center {isOpen ? 'text-blue-400' : 'text-gray-500 hover:bg-gray-800 hover:text-gray-300'} {!isCollapsed ? 'ml-2' : ''}"
     >
-      <Tag size={14} class="mr-2 opacity-70" />
-      {i18n.t('blog.tags')}
+      <div class="flex items-center justify-center {isCollapsed ? 'mx-auto' : 'mr-2'}">
+        <Tag size={14} class="opacity-70" />
+      </div>
       {#if !isCollapsed}
+        {i18n.t('blog.tags')}
         <div class="ml-auto p-1 transition-transform duration-300 {isOpen ? 'rotate-180' : ''}">
           <ChevronDown size={14} class="text-gray-600 group-hover/tags:text-white" />
         </div>

@@ -27,9 +27,11 @@
         {!isCollapsed ? 'ml-2' : ''}"
       onclick={() => !isOpen && onToggle()}
     >
-      <Calendar size={14} class="mr-2 opacity-70" />
-      {year}
+      <div class="flex items-center justify-center {isCollapsed ? 'mx-auto' : 'mr-2'}">
+        <Calendar size={14} class="opacity-70" />
+      </div>
       {#if !isCollapsed}
+        {year}
         <div 
           class="ml-auto p-1 transition-transform duration-300 {isOpen ? 'rotate-180' : ''}"
           onclick={(e) => {
