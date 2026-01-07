@@ -119,6 +119,7 @@
         />
 
         <SidebarGroup 
+          href="/blog"
           label={i18n.t('common.blog')} 
           icon={BookOpen} 
           {isCollapsed} 

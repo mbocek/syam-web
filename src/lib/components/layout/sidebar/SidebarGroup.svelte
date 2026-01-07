@@ -2,6 +2,7 @@
   import { ChevronDown } from 'lucide-svelte';
 
   let { 
+    href,
     label, 
     icon: Icon, 
     isCollapsed = false, 
@@ -21,7 +22,9 @@
     </div>
   {/if}
   
-  <button 
+  <svelte:element 
+    this={href ? 'a' : 'button'}
+    {href}
     onclick={toggle}
     class="w-full flex items-center px-3 py-2 text-base font-medium rounded-lg transition-all duration-200 
       {isOpen && !isCollapsed ? 'text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white'}"
@@ -33,11 +36,29 @@
     </div>
     {#if !isCollapsed}
       <span class="flex-1 text-left">{label}</span>
-      <div class="transition-transform duration-300 {isOpen ? 'rotate-180' : ''}">
+      <div 
+        class="transition-transform duration-300 {isOpen ? 'rotate-180' : ''}"
+        onclick={(e) => {
+          if (href) {
+            e.preventDefault();
+            e.stopPropagation();
+            isOpen = !isOpen;
+          }
+        }}
+        role="button"
+        tabindex="0"
+        onkeydown={(e) => {
+          if (href && (e.key === 'Enter' || e.key === ' ')) {
+            e.preventDefault();
+            e.stopPropagation();
+            isOpen = !isOpen;
+          }
+        }}
+      >
         <ChevronDown size={16} class="text-gray-500 group-hover:text-white" />
       </div>
     {/if}
-  </button>
+  </svelte:element>
   
   <ul class="mt-1 space-y-1 {isCollapsed ? 'hidden group-hover:block absolute left-[52px] top-0 ml-0 w-48 bg-gray-900 border border-gray-800 rounded-lg p-2 shadow-xl z-50' : (isOpen ? 'ml-4 border-l border-gray-800' : 'hidden')}">
     {#if isCollapsed}
