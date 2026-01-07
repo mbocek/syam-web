@@ -1,5 +1,6 @@
 <script>
   import { i18n } from '../stores/language.svelte.js';
+  import { APP_VERSION, COMMIT_HASH } from '$lib/version';
   import { 
     Info,
     Calculator,
@@ -57,7 +58,7 @@
         </div>
         <div class="flex flex-col">
           <span class="text-xs font-semibold uppercase tracking-wider text-gray-400">Version</span>
-          <span class="text-lg font-bold text-white">v1.0.0</span>
+          <span class="text-lg font-bold text-white">v{APP_VERSION}-{COMMIT_HASH}</span>
         </div>
       </div>
     </div>
