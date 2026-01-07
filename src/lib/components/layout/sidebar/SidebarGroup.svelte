@@ -37,7 +37,7 @@
     {#if !isCollapsed}
       <span class="flex-1 text-left">{label}</span>
       <div 
-        class="transition-transform duration-300 {isOpen ? 'rotate-180' : ''}"
+        class="ml-auto p-1 transition-transform duration-300 {isOpen ? 'rotate-180' : ''}"
         onclick={(e) => {
           if (href) {
             e.preventDefault();
@@ -55,7 +55,7 @@
           }
         }}
       >
-        <ChevronDown size={16} class="text-gray-500 group-hover:text-white" />
+        <ChevronDown size={14} class="text-gray-500 group-hover:text-white" />
       </div>
     {/if}
   </svelte:element>

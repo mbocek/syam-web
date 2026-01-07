@@ -24,7 +24,7 @@
       <Tag size={14} class="mr-2 opacity-70" />
       {i18n.t('blog.tags')}
       {#if !isCollapsed}
-        <div class="ml-auto transition-transform duration-300 {isOpen ? 'rotate-180' : ''}">
+        <div class="ml-auto p-1 transition-transform duration-300 {isOpen ? 'rotate-180' : ''}">
           <ChevronDown size={14} class="text-gray-600 group-hover/tags:text-white" />
         </div>
       {/if}

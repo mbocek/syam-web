@@ -33,12 +33,32 @@
     <a 
       href="/blog/archive/{year}"
       class="flex-1 px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200 flex items-center {page.url.pathname.startsWith(`/blog/archive/${year}`) ? 'text-blue-400' : 'text-gray-500 hover:bg-gray-800 hover:text-gray-300'} {!isCollapsed ? 'ml-2' : ''}"
-      onclick={onToggle}
+      onclick={(e) => {
+        if (!isOpen) {
+          onToggle();
+        }
+      }}
     >
       <Calendar size={14} class="mr-2 opacity-70" />
       {year}
       {#if !isCollapsed}
-        <div class="ml-auto transition-transform duration-300 {isOpen ? 'rotate-180' : ''}">
+        <div 
+          class="ml-auto p-1 transition-transform duration-300 {isOpen ? 'rotate-180' : ''}"
+          onclick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onToggle();
+          }}
+          role="button"
+          tabindex="0"
+          onkeydown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              e.stopPropagation();
+              onToggle();
+            }
+          }}
+        >
           <ChevronDown size={14} class="text-gray-600 group-hover/year:text-white" />
         </div>
       {/if}
