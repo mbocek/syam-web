@@ -96,7 +96,7 @@
 {/if}
 
 <aside 
-  class="bg-gray-900 text-white flex flex-col fixed inset-y-0 left-0 z-50 lg:relative lg:flex border-r border-gray-800 
+  class="bg-surface-dark text-white flex flex-col fixed inset-y-0 left-0 z-50 lg:relative lg:flex border-r border-border-dark 
     {isResizing ? '' : 'transition-[width,transform] duration-300 ease-in-out'} 
     {isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}"
   style="width: {isCollapsed ? '80px' : sidebarWidth + 'px'}"

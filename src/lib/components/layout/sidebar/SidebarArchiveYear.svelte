@@ -23,7 +23,7 @@
     <a 
       href="/blog/archive/{year}"
       class="flex-1 px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200 flex items-center 
-        {page.url.pathname.startsWith(`/blog/archive/${year}`) ? 'text-blue-400' : 'text-gray-500 hover:bg-gray-800 hover:text-gray-300'} 
+        {page.url.pathname.startsWith(`/blog/archive/${year}`) ? 'text-blue-400' : 'text-gray-500 hover:bg-white/10 hover:text-gray-300'} 
         {!isCollapsed ? 'ml-2' : ''}"
       onclick={() => !isOpen && onToggle()}
     >
@@ -56,7 +56,7 @@
   </div>
   
   {#if isOpen}
-    <ul class="mt-1 space-y-1 {isCollapsed ? 'ml-4' : 'ml-4 border-l border-gray-800'}">
+    <ul class="mt-1 space-y-1 {isCollapsed ? 'ml-4' : 'ml-4 border-l border-border-dark'}">
       {#each months as month}
         <SidebarItem 
           href="/blog/archive/{year}/{month}" 

@@ -5,10 +5,10 @@
   let { onToggleSidebar } = $props();
 </script>
 
-<header class="h-[60px] bg-gray-900 text-white border-b border-gray-800 flex items-center justify-between px-4 lg:px-6">
+<header class="h-[60px] bg-surface-dark text-white border-b border-border-dark flex items-center justify-between px-4 lg:px-6">
   <div class="flex items-center gap-4">
     <button 
-      class="bg-none border-none cursor-pointer p-2 rounded-md text-white hover:bg-gray-800 transition-colors" 
+      class="bg-none border-none cursor-pointer p-2 rounded-md text-white hover:bg-white/10 transition-colors" 
       onclick={onToggleSidebar}
       aria-label={i18n.t('common.toggleSidebar')}
     >

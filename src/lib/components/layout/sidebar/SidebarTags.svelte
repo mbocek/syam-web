@@ -19,7 +19,7 @@
   <div class="flex items-center group/tags">
     <button 
       onclick={toggle}
-      class="flex-1 px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200 flex items-center {isOpen ? 'text-blue-400' : 'text-gray-500 hover:bg-gray-800 hover:text-gray-300'} {!isCollapsed ? 'ml-2' : ''}"
+      class="flex-1 px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200 flex items-center {isOpen ? 'text-blue-400' : 'text-gray-500 hover:bg-white/10 hover:text-gray-300'} {!isCollapsed ? 'ml-2' : ''}"
     >
       <div class="flex items-center justify-center {isCollapsed ? 'mx-auto' : 'mr-2'}">
         <Tag size={14} class="opacity-70" />
@@ -38,7 +38,7 @@
       {#each tags as tag}
         <a 
           href="/blog/tag/{tag}" 
-          class="px-2 py-1 text-[10px] font-medium rounded-md transition-all duration-200 {page.url.pathname === `/blog/tag/${tag}/` ? 'bg-blue-600 text-white' : 'bg-gray-800 text-gray-400 hover:text-white hover:bg-gray-700'}"
+          class="px-2 py-1 text-[10px] font-medium rounded-md transition-all duration-200 {page.url.pathname === `/blog/tag/${tag}/` ? 'bg-blue-600 text-white' : 'bg-white/10 text-gray-400 hover:text-white hover:bg-white/20'}"
         >
           #{tag}
         </a>

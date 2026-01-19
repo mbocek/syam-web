@@ -27,7 +27,7 @@
     {href}
     onclick={toggle}
     class="w-full flex items-center px-3 py-2 text-base font-medium rounded-lg transition-all duration-200 
-      {isOpen && !isCollapsed ? 'text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white'}"
+      {isOpen && !isCollapsed ? 'text-white' : 'text-gray-400 hover:bg-white/10 hover:text-white'}"
     aria-expanded={isOpen}
     role={href ? 'link' : 'button'}
   >
@@ -64,11 +64,11 @@
   
   <ul class="mt-1 space-y-1 
     {isCollapsed 
-      ? 'hidden group-hover:block absolute left-[52px] top-0 ml-0 w-48 bg-gray-900 border border-gray-800 rounded-lg p-2 shadow-xl z-50' 
-      : (isOpen ? 'ml-4 border-l border-gray-800' : 'hidden')}"
+      ? 'hidden group-hover:block absolute left-[52px] top-0 ml-0 w-48 bg-surface-dark border border-border-dark rounded-lg p-2 shadow-xl z-50' 
+      : (isOpen ? 'ml-4 border-l border-border-dark' : 'hidden')}"
   >
     {#if isCollapsed}
-      <li class="px-3 py-2 mb-1 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-800">
+      <li class="px-3 py-2 mb-1 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-border-dark">
         {label}
       </li>
     {/if}

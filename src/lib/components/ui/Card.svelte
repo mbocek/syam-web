@@ -9,12 +9,12 @@
   }
 </script>
 
-<div class="bg-white rounded-xl shadow-xs border border-gray-100 flex flex-col overflow-hidden mb-6 transition-all hover:shadow-md">
+<div class="bg-surface-primary rounded-card shadow-card border border-border-primary flex flex-col overflow-hidden mb-6 transition-all hover:shadow-card-hover">
   {#if title}
     {#if collapsible}
       <button 
         type="button"
-        class="w-full px-6 py-4 border-b border-gray-100 flex items-center justify-between cursor-pointer select-none hover:bg-gray-50/50 transition-colors" 
+        class="w-full px-6 py-4 border-b border-border-primary flex items-center justify-between cursor-pointer select-none hover:bg-surface-secondary/50 transition-colors" 
         onclick={toggle}
         aria-expanded={isOpen}
       >
@@ -24,7 +24,7 @@
         </div>
       </button>
     {:else}
-      <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+      <div class="px-6 py-4 border-b border-border-primary flex items-center justify-between">
         <h3 class="m-0 text-base font-bold text-gray-900">{title}</h3>
       </div>
     {/if}
@@ -36,7 +36,7 @@
     </div>
 
     {#if footer}
-      <div class="px-6 py-4 bg-gray-50/50 border-t border-gray-100">
+      <div class="px-6 py-4 bg-surface-secondary/50 border-t border-border-primary">
         {@render footer()}
       </div>
     {/if}

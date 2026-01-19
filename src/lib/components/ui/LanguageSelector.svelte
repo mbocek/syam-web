@@ -19,7 +19,7 @@
 
 <div class="relative">
   <button 
-    class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-800 transition-colors cursor-pointer text-xl"
+    class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-white/10 transition-colors cursor-pointer text-xl"
     onclick={() => isOpen = !isOpen}
     aria-label={i18n.t('common.selectLanguage')}
   >
@@ -27,10 +27,10 @@
   </button>
 
   {#if isOpen}
-    <div class="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-gray-100 py-1 z-50">
+    <div class="absolute right-0 mt-2 w-40 bg-surface-primary rounded-lg shadow-lg border border-border-primary py-1 z-50">
       {#each languages as lang}
         <button
-          class="w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer {i18n.current === lang.code ? 'bg-gray-50 font-semibold' : ''}"
+          class="w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-surface-secondary transition-colors cursor-pointer {i18n.current === lang.code ? 'bg-surface-secondary font-semibold' : ''}"
           onclick={() => selectLanguage(lang.code)}
         >
           <span class="text-lg">{lang.flag}</span>

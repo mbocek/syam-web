@@ -18,7 +18,7 @@
     {href}
     class="group/link flex items-center px-3 py-2 text-base font-medium rounded-lg transition-all duration-200 
       {indent ? 'ml-2' : ''}
-      {isActive ? 'bg-blue-600/10 text-blue-400' : 'text-gray-400 hover:bg-gray-800 hover:text-white'}"
+      {isActive ? 'bg-blue-600/10 text-blue-400' : 'text-gray-400 hover:bg-white/10 hover:text-white'}"
   >
     <div class="flex items-center justify-center {isCollapsed ? 'mx-auto' : 'mr-3'}">
       {#if Icon}
@@ -29,7 +29,7 @@
     {#if !isCollapsed}
       <span class={indent ? 'text-sm' : ''}>{label}</span>
     {:else if !indent}
-      <div class="hidden group-hover/item:block absolute left-[52px] top-0 ml-0 bg-gray-900 border border-gray-800 rounded-lg py-2 px-3 shadow-xl z-50 whitespace-nowrap">
+      <div class="hidden group-hover/item:block absolute left-[52px] top-0 ml-0 bg-surface-dark border border-border-dark rounded-lg py-2 px-3 shadow-xl z-50 whitespace-nowrap">
         <span class="text-sm font-medium text-white">{label}</span>
       </div>
     {/if}
