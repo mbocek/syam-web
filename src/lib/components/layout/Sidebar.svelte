@@ -1,7 +1,7 @@
 <script>
   import { page } from '$app/state';
   import { untrack } from 'svelte';
-  import { LayoutDashboard, Calculator, ChevronDown, BookOpen, Calendar, FileText, Dot, House, X, Tag } from 'lucide-svelte';
+  import { LayoutDashboard, Calculator, BookOpen, FileText, House, X } from 'lucide-svelte';
   import { i18n } from '../../stores/language.svelte.js';
   import SidebarItem from './sidebar/SidebarItem.svelte';
   import SidebarGroup from './sidebar/SidebarGroup.svelte';
@@ -9,6 +9,13 @@
   import SidebarTags from './sidebar/SidebarTags.svelte';
 
   let { isCollapsed = false, isMobileMenuOpen = false, onClose, blogArchive = [], blogTags = [] } = $props();
+
+  const MIN_SIDEBAR_WIDTH = 80;
+  const MAX_SIDEBAR_WIDTH = 600;
+  const BLOG_PATH = '/blog';
+  const BLOG_ARCHIVE_PATH = '/blog/archive/';
+  const BLOG_TAG_PATH = '/blog/tag/';
+  const CALCULATORS_PATH = '/calculators';
 
   let sidebarWidth = $state(256); // Default width (w-64)
   let isResizing = $state(false);
@@ -23,11 +30,20 @@
     event.preventDefault();
   }
 
+  function getArchiveYearFromPath(pathname) {
+    if (!pathname.startsWith(BLOG_ARCHIVE_PATH)) {
+      return null;
+    }
+
+    const year = pathname.split('/')[3];
+    return year || null;
+  }
+
   $effect(() => {
     if (isResizing) {
       const handleMouseMove = (event) => {
         const newWidth = event.clientX;
-        if (newWidth >= 80 && newWidth <= 600) {
+        if (newWidth >= MIN_SIDEBAR_WIDTH && newWidth <= MAX_SIDEBAR_WIDTH) {
           sidebarWidth = newWidth;
         }
       };
@@ -57,18 +73,21 @@
     });
 
     // Auto-open logic based on current route
-    if (pathname.startsWith('/blog')) {
+    if (pathname.startsWith(BLOG_PATH)) {
       isBlogOpen = true;
-      if (pathname.startsWith('/blog/archive/')) {
-        const parts = pathname.split('/');
-        const year = parts[3];
-        if (year && !openYears.includes(year)) {
-          openYears = [...openYears, year];
-        }
-      } else if (pathname.startsWith('/blog/tag/')) {
+
+      const archiveYear = getArchiveYearFromPath(pathname);
+      if (archiveYear && !openYears.includes(archiveYear)) {
+        openYears = [...openYears, archiveYear];
+      }
+
+      if (pathname.startsWith(BLOG_TAG_PATH)) {
         isTagsOpen = true;
       }
-    } else if (pathname.startsWith('/calculators')) {
+      return;
+    }
+
+    if (pathname.startsWith(CALCULATORS_PATH)) {
       isCalculatorsOpen = true;
     }
   });
