@@ -64,7 +64,7 @@
   
   <ul class="mt-1 space-y-1 
     {isCollapsed 
-      ? 'hidden group-hover:block absolute left-[52px] top-0 ml-0 w-48 bg-surface-dark border border-border-dark rounded-lg p-2 shadow-xl z-50' 
+      ? 'hidden group-hover:block absolute left-[52px] top-0 ml-0 w-48 bg-surface-dark border border-border-dark rounded-card p-2 shadow-card z-50' 
       : (isOpen ? 'ml-4 border-l border-border-dark' : 'hidden')}"
   >
     {#if isCollapsed}

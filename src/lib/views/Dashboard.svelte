@@ -21,7 +21,7 @@
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-    <div class="group relative bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300">
+    <div class="group relative bg-surface-primary p-8 rounded-card shadow-card border border-border-primary hover:shadow-card-hover transition-all duration-300">
       <div class="inline-flex p-3 rounded-xl bg-blue-50 text-blue-600 mb-6 group-hover:scale-110 transition-transform duration-300">
         <Calculator size={32} />
       </div>
@@ -29,7 +29,7 @@
       <p class="text-gray-600 leading-relaxed">{i18n.t('dashboard.features.calculators')}</p>
     </div>
 
-    <div class="group relative bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300">
+    <div class="group relative bg-surface-primary p-8 rounded-card shadow-card border border-border-primary hover:shadow-card-hover transition-all duration-300">
       <div class="inline-flex p-3 rounded-xl bg-emerald-50 text-emerald-600 mb-6 group-hover:scale-110 transition-transform duration-300">
         <Languages size={32} />
       </div>
@@ -37,7 +37,7 @@
       <p class="text-gray-600 leading-relaxed">{i18n.t('dashboard.features.multilingual')}</p>
     </div>
 
-    <div class="group relative bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300">
+    <div class="group relative bg-surface-primary p-8 rounded-card shadow-card border border-border-primary hover:shadow-card-hover transition-all duration-300">
       <div class="inline-flex p-3 rounded-xl bg-violet-50 text-violet-600 mb-6 group-hover:scale-110 transition-transform duration-300">
         <Cpu size={32} />
       </div>
@@ -46,7 +46,7 @@
     </div>
   </div>
 
-  <div class="relative overflow-hidden rounded-3xl bg-gray-900 px-8 py-12 shadow-2xl sm:px-12 sm:py-16">
+  <div class="relative overflow-hidden rounded-3xl bg-surface-dark px-8 py-12 shadow-2xl sm:px-12 sm:py-16">
     <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
       <div class="text-center md:text-left">
         <h3 class="text-2xl font-bold text-white sm:text-3xl">{i18n.t('common.readyToStart')}</h3>

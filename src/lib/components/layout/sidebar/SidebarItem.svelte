@@ -29,7 +29,7 @@
     {#if !isCollapsed}
       <span class={indent ? 'text-sm' : ''}>{label}</span>
     {:else if !indent}
-      <div class="hidden group-hover/item:block absolute left-[52px] top-0 ml-0 bg-surface-dark border border-border-dark rounded-lg py-2 px-3 shadow-xl z-50 whitespace-nowrap">
+      <div class="hidden group-hover/item:block absolute left-[52px] top-0 ml-0 bg-surface-dark border border-border-dark rounded-card py-2 px-3 shadow-card z-50 whitespace-nowrap">
         <span class="text-sm font-medium text-white">{label}</span>
       </div>
     {/if}

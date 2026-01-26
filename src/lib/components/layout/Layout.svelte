@@ -35,7 +35,7 @@
       {@render children()}
     </main>
 
-    <footer class="p-4 bg-white border-t border-gray-200 text-center text-sm text-gray-500">
+    <footer class="p-4 bg-surface-primary border-t border-border-primary text-center text-sm text-gray-500">
       <p>&copy; 2026 SYAM. {i18n.t('common.rightsReserved')}</p>
     </footer>
   </div>

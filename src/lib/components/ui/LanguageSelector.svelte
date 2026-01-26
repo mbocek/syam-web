@@ -27,7 +27,7 @@
   </button>
 
   {#if isOpen}
-    <div class="absolute right-0 mt-2 w-40 bg-surface-primary rounded-lg shadow-lg border border-border-primary py-1 z-50">
+    <div class="absolute right-0 mt-2 w-40 bg-surface-primary rounded-card shadow-card border border-border-primary py-1 z-50">
       {#each languages as lang}
         <button
           class="w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-surface-secondary transition-colors cursor-pointer {i18n.current === lang.code ? 'bg-surface-secondary font-semibold' : ''}"
