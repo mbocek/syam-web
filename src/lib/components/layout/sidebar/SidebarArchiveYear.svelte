@@ -47,7 +47,7 @@
       <button
         type="button"
         onclick={toggle}
-        class="px-2 text-gray-600 hover:text-white transition-colors cursor-pointer"
+        class="pl-2 pr-3 text-gray-600 hover:text-white transition-colors cursor-pointer"
         aria-expanded={isOpen}
         aria-label="{isOpen ? 'Collapse' : 'Expand'} {year}"
       >
