@@ -8,7 +8,7 @@
 
   let { year, months, isCollapsed = false } = $props();
 
-  const href = `/blog/archive/${year}`;
+  let href = $derived(`/blog/archive/${year}`);
 
   let isOpen = $state(false);
   let isActive = $derived(isActivePath(page.url.pathname, href));

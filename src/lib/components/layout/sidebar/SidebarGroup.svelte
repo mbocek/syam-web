@@ -8,6 +8,7 @@
     label,
     icon: Icon,
     isCollapsed = false,
+    autoOpenPath,
     children
   } = $props();
 
@@ -15,11 +16,13 @@
 
   let isActive = $derived(href ? isActivePath(page.url.pathname, href) : false);
 
-  // Auto-expand when the current route matches our href.
+  // Auto-expand when the current route matches our href or an explicit
+  // autoOpenPath (for toggle-only groups that aren't themselves links).
   // Runs on pathname changes only, so user-initiated collapse is preserved
   // until navigation moves elsewhere and back.
   $effect(() => {
-    if (href && isActivePath(page.url.pathname, href)) {
+    const path = autoOpenPath ?? href;
+    if (path && isActivePath(page.url.pathname, path)) {
       isOpen = true;
     }
   });

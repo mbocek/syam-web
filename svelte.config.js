@@ -30,7 +30,9 @@ const config = {
 	],
 
 	kit: {
-		adapter: adapter(),
+		// Fallback page lets client-only routes (e.g. /apps/budget/*) work
+		// alongside the mostly-prerendered marketing site.
+		adapter: adapter({ fallback: 'index.html' }),
 		prerender: {
 			handleHttpError: 'warn',
 			handleUnseenRoutes: 'ignore'

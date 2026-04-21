@@ -1,7 +1,7 @@
 <script>
   import { page } from '$app/state';
   import { untrack } from 'svelte';
-  import { LayoutDashboard, Calculator, BookOpen, FileText, House, X } from 'lucide-svelte';
+  import { LayoutDashboard, Calculator, BookOpen, FileText, House, X, AppWindow, Wallet, LayoutGrid, ListChecks, Upload, Tags, Workflow } from 'lucide-svelte';
   import { i18n } from '../../stores/language.svelte.js';
   import SidebarItem from './sidebar/SidebarItem.svelte';
   import SidebarGroup from './sidebar/SidebarGroup.svelte';
@@ -96,6 +96,7 @@
         <SidebarGroup
           label={i18n.t('common.calculators')}
           icon={Calculator}
+          autoOpenPath="/calculators"
           {isCollapsed}
         >
           <SidebarItem
@@ -112,6 +113,57 @@
             isCollapsed={false}
             indent={true}
           />
+        </SidebarGroup>
+
+        <SidebarGroup
+          label={i18n.t('common.applications')}
+          icon={AppWindow}
+          autoOpenPath="/apps"
+          {isCollapsed}
+        >
+          <SidebarGroup
+            href="/apps/budget"
+            label={i18n.t('common.budget')}
+            icon={Wallet}
+            isCollapsed={false}
+          >
+            <SidebarItem
+              href="/apps/budget"
+              label={i18n.t('apps.budget.nav.dashboard')}
+              icon={LayoutGrid}
+              isCollapsed={false}
+              indent={true}
+              exact={true}
+            />
+            <SidebarItem
+              href="/apps/budget/transactions"
+              label={i18n.t('apps.budget.nav.transactions')}
+              icon={ListChecks}
+              isCollapsed={false}
+              indent={true}
+            />
+            <SidebarItem
+              href="/apps/budget/import"
+              label={i18n.t('apps.budget.nav.import')}
+              icon={Upload}
+              isCollapsed={false}
+              indent={true}
+            />
+            <SidebarItem
+              href="/apps/budget/categories"
+              label={i18n.t('apps.budget.nav.categories')}
+              icon={Tags}
+              isCollapsed={false}
+              indent={true}
+            />
+            <SidebarItem
+              href="/apps/budget/rules"
+              label={i18n.t('apps.budget.nav.rules')}
+              icon={Workflow}
+              isCollapsed={false}
+              indent={true}
+            />
+          </SidebarGroup>
         </SidebarGroup>
       </ul>
     </nav>

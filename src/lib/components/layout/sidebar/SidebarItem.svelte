@@ -7,10 +7,11 @@
     label,
     icon: Icon,
     isCollapsed = false,
-    indent = false
+    indent = false,
+    exact = false
   } = $props();
 
-  let isActive = $derived(isActivePath(page.url.pathname, href));
+  let isActive = $derived(isActivePath(page.url.pathname, href, exact));
 </script>
 
 <li class="relative group/item">
