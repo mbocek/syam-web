@@ -40,7 +40,7 @@
   });
 </script>
 
-<div class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+<div class="max-w-6xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
   <div class="mb-12">
     <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
       {i18n.t('mortgage.title')}

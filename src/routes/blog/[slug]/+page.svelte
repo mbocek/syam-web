@@ -44,7 +44,7 @@
     </script>`}
 </svelte:head>
 
-<article class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+<article class="max-w-6xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
     <div class="mb-8">
         <a href="/blog" class="group inline-flex items-center font-semibold text-blue-600 hover:text-blue-800 transition-colors">
             <ChevronLeft class="mr-1 h-4 w-4 transition-transform group-hover:-translate-x-1" />
