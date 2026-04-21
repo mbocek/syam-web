@@ -12,111 +12,54 @@
 
   const MIN_SIDEBAR_WIDTH = 80;
   const MAX_SIDEBAR_WIDTH = 600;
-  const BLOG_PATH = '/blog';
-  const BLOG_ARCHIVE_PATH = '/blog/archive/';
-  const BLOG_TAG_PATH = '/blog/tag/';
-  const CALCULATORS_PATH = '/calculators';
 
-  let sidebarWidth = $state(256); // Default width (w-64)
+  let sidebarWidth = $state(256);
   let isResizing = $state(false);
-
-  let isCalculatorsOpen = $state(true);
-  let isBlogOpen = $state(false);
-  let isTagsOpen = $state(false);
-  let openYears = $state([]);
 
   function startResizing(event) {
     isResizing = true;
     event.preventDefault();
   }
 
-  function getArchiveYearFromPath(pathname) {
-    if (!pathname.startsWith(BLOG_ARCHIVE_PATH)) {
-      return null;
-    }
-
-    const year = pathname.split('/')[3];
-    return year || null;
-  }
-
   $effect(() => {
-    if (isResizing) {
-      const handleMouseMove = (event) => {
-        const newWidth = event.clientX;
-        if (newWidth >= MIN_SIDEBAR_WIDTH && newWidth <= MAX_SIDEBAR_WIDTH) {
-          sidebarWidth = newWidth;
-        }
-      };
-      
-      const stopResizing = () => {
-        isResizing = false;
-      };
+    if (!isResizing) return;
 
-      window.addEventListener('mousemove', handleMouseMove);
-      window.addEventListener('mouseup', stopResizing);
-      
-      return () => {
-        window.removeEventListener('mousemove', handleMouseMove);
-        window.removeEventListener('mouseup', stopResizing);
-      };
-    }
+    const handleMouseMove = (event) => {
+      const w = event.clientX;
+      if (w >= MIN_SIDEBAR_WIDTH && w <= MAX_SIDEBAR_WIDTH) sidebarWidth = w;
+    };
+    const stopResizing = () => (isResizing = false);
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', stopResizing);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', stopResizing);
+    };
   });
 
+  // Close the mobile menu on navigation.
   $effect(() => {
-    const pathname = page.url.pathname;
-    
-    // Close mobile menu on navigation
+    page.url.pathname;
     untrack(() => {
-      if (isMobileMenuOpen && onClose) {
-        onClose();
-      }
+      if (isMobileMenuOpen && onClose) onClose();
     });
-
-    // Auto-open logic based on current route
-    if (pathname.startsWith(BLOG_PATH)) {
-      isBlogOpen = true;
-
-      const archiveYear = getArchiveYearFromPath(pathname);
-      if (archiveYear && !openYears.includes(archiveYear)) {
-        openYears = [...openYears, archiveYear];
-      }
-
-      if (pathname.startsWith(BLOG_TAG_PATH)) {
-        isTagsOpen = true;
-      }
-      return;
-    }
-
-    if (pathname.startsWith(CALCULATORS_PATH)) {
-      isCalculatorsOpen = true;
-    }
   });
-
-  function toggleYear(year) {
-    const yearStr = year.toString();
-    if (openYears.includes(yearStr)) {
-      openYears = openYears.filter(y => y !== yearStr);
-    } else {
-      openYears = [...openYears, yearStr];
-    }
-  }
 </script>
 
-<!-- Mobile backdrop -->
 {#if isMobileMenuOpen}
-  <div 
-    class="fixed inset-0 bg-black/50 z-40 lg:hidden" 
+  <button
+    type="button"
     onclick={onClose}
-    onkeydown={(e) => e.key === 'Escape' && onClose()}
-    role="button"
-    tabindex="0"
+    class="fixed inset-0 bg-black/50 z-40 lg:hidden cursor-default"
     aria-label="Close sidebar"
-  ></div>
+  ></button>
 {/if}
 
-<aside 
-  class="bg-surface-dark text-white flex flex-col fixed inset-y-0 left-0 z-50 lg:relative lg:flex border-r border-border-dark 
-    {isResizing ? '' : 'transition-[width,transform] duration-300 ease-in-out'} 
+<aside
+  class="bg-surface-dark text-white flex flex-col fixed inset-y-0 left-0 z-50 lg:relative lg:flex border-r border-border-dark
+    {isResizing ? '' : 'transition-[width,transform] duration-300 ease-in-out'}
     {isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}"
   style="width: {isCollapsed ? '80px' : sidebarWidth + 'px'}"
 >
@@ -128,59 +71,45 @@
   </div>
 
   <div class="flex-1 overflow-y-auto lg:overflow-y-visible py-4 px-3">
-    <!-- Sidebar content -->
-    <nav class="space-y-1">
-      <ul>
-        <SidebarItem 
-          href="/" 
-          label={i18n.t('common.dashboard')} 
-          icon={LayoutDashboard} 
-          {isCollapsed} 
+    <nav>
+      <ul class="space-y-1">
+        <SidebarItem
+          href="/"
+          label={i18n.t('common.dashboard')}
+          icon={LayoutDashboard}
+          {isCollapsed}
         />
 
-        <SidebarGroup 
+        <SidebarGroup
           href="/blog"
-          label={i18n.t('common.blog')} 
-          icon={BookOpen} 
-          {isCollapsed} 
-          bind:isOpen={isBlogOpen}
+          label={i18n.t('common.blog')}
+          icon={BookOpen}
+          {isCollapsed}
         >
           {#each blogArchive as { year, months }}
-            <SidebarArchiveYear 
-              {year} 
-              {months} 
-              isCollapsed={false} 
-              isOpen={openYears.includes(year.toString())}
-              onToggle={() => toggleYear(year)}
-            />
+            <SidebarArchiveYear {year} {months} isCollapsed={false} />
           {/each}
 
-          <SidebarTags 
-            tags={blogTags} 
-            isCollapsed={false} 
-            {isBlogOpen} 
-            bind:isOpen={isTagsOpen} 
-          />
+          <SidebarTags tags={blogTags} isCollapsed={false} />
         </SidebarGroup>
 
-        <SidebarGroup 
-          label={i18n.t('common.calculators')} 
-          icon={Calculator} 
-          {isCollapsed} 
-          bind:isOpen={isCalculatorsOpen}
+        <SidebarGroup
+          label={i18n.t('common.calculators')}
+          icon={Calculator}
+          {isCollapsed}
         >
-          <SidebarItem 
-            href="/calculators/compound-interest" 
-            label={i18n.t('sidebar.compoundInterest')} 
-            icon={FileText} 
-            isCollapsed={false} 
+          <SidebarItem
+            href="/calculators/compound-interest"
+            label={i18n.t('sidebar.compoundInterest')}
+            icon={FileText}
+            isCollapsed={false}
             indent={true}
           />
-          <SidebarItem 
-            href="/calculators/mortgage" 
-            label={i18n.t('sidebar.mortgage')} 
-            icon={House} 
-            isCollapsed={false} 
+          <SidebarItem
+            href="/calculators/mortgage"
+            label={i18n.t('sidebar.mortgage')}
+            icon={House}
+            isCollapsed={false}
             indent={true}
           />
         </SidebarGroup>
@@ -188,7 +117,6 @@
     </nav>
   </div>
 
-  <!-- Resizer -->
   {#if !isCollapsed}
     <button
       type="button"
