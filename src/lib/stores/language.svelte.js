@@ -4,36 +4,29 @@ import sk from '../i18n/sk.js';
 import cs from '../i18n/cs.js';
 
 const translations = { en, sk, cs };
+const currencies = { en: '$', sk: '€', cs: 'Kč' };
+const STORAGE_KEY = 'language';
+
+// Match NBSP (U+00A0) and narrow NBSP (U+202F) produced by Intl.NumberFormat.
+const NBSP_RE = /[  ]/g;
 
 function getStoredLanguage() {
-  if (browser) {
-    try {
-      return localStorage.getItem('language') || 'en';
-    } catch (e) {
-      // Ignore
-    }
-  }
-  return 'en';
+  if (!browser || typeof localStorage?.getItem !== 'function') return 'en';
+  return localStorage.getItem(STORAGE_KEY) || 'en';
+}
+
+function resolve(dict, keys) {
+  return keys.reduce((acc, k) => acc?.[k], dict);
 }
 
 class LanguageStore {
   current = $state(getStoredLanguage());
-  
-  currencies = {
-    en: '$',
-    sk: '€',
-    cs: 'Kč'
-  };
 
   constructor() {
     $effect.root(() => {
       $effect(() => {
-        if (browser) {
-          try {
-            localStorage.setItem('language', this.current);
-          } catch (e) {
-            // Ignore
-          }
+        if (browser && typeof localStorage?.setItem === 'function') {
+          localStorage.setItem(STORAGE_KEY, this.current);
         }
       });
     });
@@ -45,50 +38,36 @@ class LanguageStore {
 
   t = (key, params = {}) => {
     const keys = key.split('.');
-    let value = translations[this.current] || translations['en'];
-    
-    for (const k of keys) {
-      value = value?.[k];
-      if (value === undefined) {
-        let fallback = translations['en'];
-        for (const fk of keys) {
-          fallback = fallback?.[fk];
-        }
-        value = fallback || key;
-        break;
-      }
-    }
-    
-    if (typeof value === 'string') {
-      Object.entries(params).forEach(([param, val]) => {
-        value = value.replace(`{${param}}`, val);
-      });
-    }
-    
-    return value;
+    const value = resolve(translations[this.current], keys) ?? resolve(translations.en, keys) ?? key;
+
+    if (typeof value !== 'string') return value;
+    return Object.entries(params).reduce((s, [p, v]) => s.replace(`{${p}}`, v), value);
   };
 
   formatDate = (dateString) => {
     if (!dateString) return '';
-    const date = new Date(dateString);
     return new Intl.DateTimeFormat(this.current, {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
-    }).format(date);
+    }).format(new Date(dateString));
   };
 
   formatNumber = (number, decimals = 2) => {
     if (number === undefined || number === null) return '';
     const val = typeof number === 'string' ? parseFloat(number) : number;
-    return new Intl.NumberFormat(this.current === 'en' ? 'fr-FR' : this.current, {
+    // Force space thousand separators for 'en' by using 'fr-FR'.
+    const locale = this.current === 'en' ? 'fr-FR' : this.current;
+    return new Intl.NumberFormat(locale, {
       minimumFractionDigits: decimals,
       maximumFractionDigits: decimals
-    }).format(val).replace(/\u00a0/g, ' ').replace(/\u202f/g, ' ');
+    })
+      .format(val)
+      .replace(NBSP_RE, ' ');
   };
 
   get currency() {
-    return this.currencies[this.current] || '€';
+    return currencies[this.current] || '€';
   }
 }
 

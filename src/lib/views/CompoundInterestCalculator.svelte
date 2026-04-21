@@ -1,10 +1,11 @@
 <script>
   import Card from '../components/ui/Card.svelte';
+  import NumberInput from '../components/ui/NumberInput.svelte';
+  import StatCard from '../components/ui/StatCard.svelte';
   import { PiggyBank, TrendingUp, Calendar, ChartArea } from 'lucide-svelte';
   import { i18n } from '../stores/language.svelte.js';
-  import { Chart, registerables } from 'chart.js';
-
-  Chart.register(...registerables);
+  import { calculateCompoundInterestWithVariance } from '../utils/calculators.js';
+  import { lineChartOptions, renderLineChart } from '../utils/chart.js';
 
   let chartCanvas = $state();
   let chart = null;
@@ -13,155 +14,59 @@
   let rate = $state(5);
   let variance = $state(2);
   let years = $state(10);
-  let frequency = $state(1); // Compounding frequency per year (12 = monthly, 1 = annually, etc.)
+  let frequency = $state(1);
   let monthlyContribution = $state(0);
 
-  function calculateForRate(r) {
-    let total = principal;
-    let data = [];
-    const compoundingPeriodRate = (r / 100) / frequency;
-    const totalMonths = years * 12;
-
-    let currentYearInterest = 0;
-    let currentYearContributions = 0;
-
-    for (let month = 1; month <= totalMonths; month++) {
-      total += monthlyContribution;
-      currentYearContributions += monthlyContribution;
-      
-      const balanceBeforeInterest = total;
-      if (month % (12 / frequency) === 0) {
-        total *= (1 + compoundingPeriodRate);
-      }
-      currentYearInterest += (total - balanceBeforeInterest);
-
-      if (month % 12 === 0) {
-        data.push({
-          year: month / 12,
-          totalContributions: currentYearContributions.toFixed(2),
-          totalInterest: currentYearInterest.toFixed(2),
-          balance: total.toFixed(2)
-        });
-        currentYearInterest = 0;
-        currentYearContributions = 0;
-      }
-    }
-    return {
-      total: total.toFixed(2),
-      breakdown: data
-    };
-  }
-
-  let result = $derived.by(() => {
-    const base = calculateForRate(rate);
-    const low = calculateForRate(rate - variance);
-    const high = calculateForRate(rate + variance);
-
-    // Merge breakdown data
-    const mergedBreakdown = base.breakdown.map((row, index) => {
-      return {
-        ...row,
-        lowInterest: low.breakdown[index].totalInterest,
-        highInterest: high.breakdown[index].totalInterest,
-        lowBalance: low.breakdown[index].balance,
-        highBalance: high.breakdown[index].balance
-      };
-    });
-
-    return {
-      base,
-      low,
-      high,
-      mergedBreakdown
-    };
-  });
+  let result = $derived(
+    calculateCompoundInterestWithVariance({ principal, rate, variance, years, monthlyContribution, frequency })
+  );
 
   $effect(() => {
-    if (chartCanvas && result.base.breakdown.length > 0) {
-      const ctx = chartCanvas.getContext('2d');
-      const labels = result.base.breakdown.map(d => `${i18n.t('calculator.year')} ${d.year}`);
-      
-      const datasets = [
-        {
-          label: `${i18n.t('calculator.balance')} (${i18n.currency})`,
-          data: result.base.breakdown.map(d => d.balance),
-          fill: false,
-          borderColor: 'rgb(37, 99, 235)',
-          tension: 0.4,
-          pointRadius: 2,
-          pointHoverRadius: 5,
-          zIndex: 3
-        }
-      ];
+    if (!chartCanvas || result.base.breakdown.length === 0) return;
 
-      if (variance > 0) {
-        datasets.push({
-          label: `${i18n.t('calculator.balance')} (High) (${i18n.currency})`,
-          data: result.high.breakdown.map(d => d.balance),
-          fill: '+1',
-          backgroundColor: 'rgba(37, 99, 235, 0.05)',
-          borderColor: 'rgba(37, 99, 235, 0.2)',
-          borderDash: [5, 5],
-          tension: 0.4,
-          pointRadius: 0,
-          zIndex: 1
-        });
-        datasets.push({
-          label: `${i18n.t('calculator.balance')} (Low) (${i18n.currency})`,
-          data: result.low.breakdown.map(d => d.balance),
-          fill: false,
-          borderColor: 'rgba(37, 99, 235, 0.2)',
-          borderDash: [5, 5],
-          tension: 0.4,
-          pointRadius: 0,
-          zIndex: 2
-        });
+    const labels = result.base.breakdown.map((d) => `${i18n.t('calculator.year')} ${d.year}`);
+
+    const datasets = [
+      {
+        label: `${i18n.t('calculator.balance')} (${i18n.currency})`,
+        data: result.base.breakdown.map((d) => d.balance),
+        fill: false,
+        borderColor: 'rgb(37, 99, 235)',
+        tension: 0.4,
+        pointRadius: 2,
+        pointHoverRadius: 5
       }
+    ];
 
-      const chartData = {
-        labels: labels,
-        datasets: datasets
-      };
-
-      if (chart) {
-        chart.data = chartData;
-        chart.update();
-      } else {
-        chart = new Chart(ctx, {
-          type: 'line',
-          data: chartData,
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                display: false
-              },
-              tooltip: {
-                callbacks: {
-                  label: function(context) {
-                    return `${context.dataset.label}: ${context.parsed.y} ${i18n.currency}`;
-                  }
-                }
-              }
-            },
-            scales: {
-              y: {
-                beginAtZero: false,
-                grid: {
-                  color: 'rgba(0, 0, 0, 0.05)'
-                }
-              },
-              x: {
-                grid: {
-                  display: false
-                }
-              }
-            }
-          }
-        });
-      }
+    if (variance > 0) {
+      datasets.push({
+        label: `${i18n.t('calculator.balance')} (High) (${i18n.currency})`,
+        data: result.high.breakdown.map((d) => d.balance),
+        fill: '+1',
+        backgroundColor: 'rgba(37, 99, 235, 0.05)',
+        borderColor: 'rgba(37, 99, 235, 0.2)',
+        borderDash: [5, 5],
+        tension: 0.4,
+        pointRadius: 0
+      });
+      datasets.push({
+        label: `${i18n.t('calculator.balance')} (Low) (${i18n.currency})`,
+        data: result.low.breakdown.map((d) => d.balance),
+        fill: false,
+        borderColor: 'rgba(37, 99, 235, 0.2)',
+        borderDash: [5, 5],
+        tension: 0.4,
+        pointRadius: 0
+      });
     }
+
+    chart = renderLineChart({
+      canvas: chartCanvas,
+      chart,
+      datasets,
+      labels,
+      options: lineChartOptions(() => i18n.currency)
+    });
   });
 </script>
 
@@ -178,80 +83,10 @@
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
     <Card title={i18n.t('calculator.parameters')}>
       <div class="flex flex-col gap-5">
-        <div class="flex flex-col gap-1.5">
-          <label for="principal" class="text-sm font-semibold text-gray-700 flex items-center gap-2">
-            <PiggyBank size={16} class="text-blue-500" />
-            {i18n.t('calculator.principal')}
-          </label>
-          <div class="relative">
-            <input
-              id="principal"
-              type="number"
-              bind:value={principal}
-              class="w-full pl-3 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
-            />
-            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400 text-sm font-medium">
-              {i18n.currency}
-            </div>
-          </div>
-        </div>
-
-        <div class="flex flex-col gap-1.5">
-          <label for="monthlyContribution" class="text-sm font-semibold text-gray-700 flex items-center gap-2">
-            <TrendingUp size={16} class="text-emerald-500" />
-            {i18n.t('calculator.monthlyContribution')}
-          </label>
-          <div class="relative">
-            <input
-              id="monthlyContribution"
-              type="number"
-              bind:value={monthlyContribution}
-              class="w-full pl-3 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
-            />
-            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400 text-sm font-medium">
-              {i18n.currency}
-            </div>
-          </div>
-        </div>
-
-        <div class="flex flex-col gap-1.5">
-          <label for="rate" class="text-sm font-semibold text-gray-700 flex items-center gap-2">
-            <TrendingUp size={16} class="text-amber-500 rotate-45" />
-            {i18n.t('calculator.rate')}
-          </label>
-          <div class="relative">
-            <input
-              id="rate"
-              type="number"
-              step="0.1"
-              bind:value={rate}
-              class="w-full pl-3 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
-            />
-            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
-              %
-            </div>
-          </div>
-        </div>
-
-        <div class="flex flex-col gap-1.5">
-          <label for="variance" class="text-sm font-semibold text-gray-700 flex items-center gap-2">
-            <ChartArea size={16} class="text-amber-400" />
-            {i18n.t('calculator.variance')}
-          </label>
-          <div class="relative">
-            <input
-              id="variance"
-              type="number"
-              step="0.1"
-              min="0"
-              bind:value={variance}
-              class="w-full pl-3 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
-            />
-            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
-              %
-            </div>
-          </div>
-        </div>
+        <NumberInput id="principal" label={i18n.t('calculator.principal')} bind:value={principal} icon={PiggyBank} iconClass="text-blue-500" suffix={i18n.currency} />
+        <NumberInput id="monthlyContribution" label={i18n.t('calculator.monthlyContribution')} bind:value={monthlyContribution} icon={TrendingUp} iconClass="text-emerald-500" suffix={i18n.currency} />
+        <NumberInput id="rate" label={i18n.t('calculator.rate')} bind:value={rate} icon={TrendingUp} iconClass="text-amber-500 rotate-45" suffix="%" step="0.1" />
+        <NumberInput id="variance" label={i18n.t('calculator.variance')} bind:value={variance} icon={ChartArea} iconClass="text-amber-400" suffix="%" step="0.1" min="0" />
 
         <div class="flex flex-col gap-1.5">
           <label for="frequency" class="text-sm font-semibold text-gray-700 flex items-center gap-2">
@@ -270,18 +105,7 @@
           </select>
         </div>
 
-        <div class="flex flex-col gap-1.5">
-          <label for="years" class="text-sm font-semibold text-gray-700 flex items-center gap-2">
-            <Calendar size={16} class="text-violet-500" />
-            {i18n.t('calculator.years')}
-          </label>
-          <input
-            id="years"
-            type="number"
-            bind:value={years}
-            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
-          />
-        </div>
+        <NumberInput id="years" label={i18n.t('calculator.years')} bind:value={years} icon={Calendar} iconClass="text-violet-500" />
       </div>
     </Card>
 
@@ -292,20 +116,20 @@
         </div>
       </Card>
 
-      <Card>
-        <div class="flex flex-col items-center justify-center py-10 bg-linear-to-br from-blue-50 to-indigo-50 rounded-xl">
-          <div class="text-blue-600/60 text-sm font-semibold uppercase tracking-wider mb-2">{i18n.t('calculator.estimatedValue')}</div>
-          <div class="text-5xl font-extrabold text-blue-600 tracking-tight">{i18n.formatNumber(result.base.total)} {i18n.currency}</div>
-          {#if variance > 0}
-            <div class="mt-2 text-blue-400 font-medium">
-              {i18n.t('calculator.range')}: {i18n.formatNumber(result.low.total)} - {i18n.formatNumber(result.high.total)} {i18n.currency}
-            </div>
-          {/if}
-          <div class="mt-4 text-gray-500 text-sm text-center px-6">
-            {i18n.t('calculator.basis', { rate, years })}
+      <StatCard
+        size="lg"
+        label={i18n.t('calculator.estimatedValue')}
+        value="{i18n.formatNumber(result.base.total)} {i18n.currency}"
+      >
+        {#if variance > 0}
+          <div class="mt-2 text-blue-400 font-medium">
+            {i18n.t('calculator.range')}: {i18n.formatNumber(result.low.total)} - {i18n.formatNumber(result.high.total)} {i18n.currency}
           </div>
+        {/if}
+        <div class="mt-4 text-gray-500 text-sm text-center px-6">
+          {i18n.t('calculator.basis', { rate, years })}
         </div>
-      </Card>
+      </StatCard>
 
       <Card title={i18n.t('calculator.breakdown')} collapsible={true} isOpen={false}>
         <div class="overflow-x-auto -mx-6">
@@ -314,12 +138,8 @@
               <tr class="bg-gray-50/50">
                 <th class="pl-6 pr-4 py-4 border-b border-gray-100 font-bold text-[11px] uppercase tracking-widest text-gray-400">{i18n.t('calculator.year')}</th>
                 <th class="px-4 py-4 border-b border-gray-100 font-bold text-[11px] uppercase tracking-widest text-gray-400 text-right">{i18n.t('calculator.contributions')}</th>
-                <th class="px-4 py-4 border-b border-gray-100 font-bold text-[11px] uppercase tracking-widest text-gray-400 text-right">
-                  {i18n.t('calculator.interest')}
-                </th>
-                <th class="pl-4 pr-6 py-4 border-b border-gray-100 font-bold text-[11px] uppercase tracking-widest text-gray-400 text-right">
-                  {i18n.t('calculator.balance')}
-                </th>
+                <th class="px-4 py-4 border-b border-gray-100 font-bold text-[11px] uppercase tracking-widest text-gray-400 text-right">{i18n.t('calculator.interest')}</th>
+                <th class="pl-4 pr-6 py-4 border-b border-gray-100 font-bold text-[11px] uppercase tracking-widest text-gray-400 text-right">{i18n.t('calculator.balance')}</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-100">

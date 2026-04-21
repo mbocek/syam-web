@@ -4,34 +4,26 @@ export const prerender = true;
 export const trailingSlash = 'always';
 
 export async function load() {
-    const [allPosts, allTags] = await Promise.all([
-        getPosts(),
-        getAllTags()
-    ]);
+  const posts = await getPosts();
 
-    const archive = {};
+  const archive = new Map();
+  for (const post of posts) {
+    const date = new Date(post.meta.date);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    if (!archive.has(year)) archive.set(year, new Set());
+    archive.get(year).add(month);
+  }
 
-    allPosts.forEach(post => {
-        const date = new Date(post.meta.date);
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1; // 1-indexed
+  const blogArchive = [...archive.entries()]
+    .sort(([a], [b]) => b - a)
+    .map(([year, months]) => ({
+      year,
+      months: [...months].sort((a, b) => b - a)
+    }));
 
-        if (!archive[year]) {
-            archive[year] = new Set();
-        }
-        archive[year].add(month);
-    });
-
-    // Convert Sets to sorted arrays
-    const sortedArchive = Object.keys(archive)
-        .sort((a, b) => b - a)
-        .map(year => ({
-            year: parseInt(year),
-            months: Array.from(archive[year]).sort((a, b) => b - a)
-        }));
-
-    return {
-        blogArchive: sortedArchive,
-        blogTags: allTags
-    };
+  return {
+    blogArchive,
+    blogTags: getAllTags(posts)
+  };
 }

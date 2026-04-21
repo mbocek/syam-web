@@ -2,20 +2,16 @@
   import { page } from '$app/state';
   import { Calendar, ChevronDown, Dot } from 'lucide-svelte';
   import { i18n } from '$lib/stores/language.svelte.js';
+  import { monthKey } from '$lib/utils/months.js';
   import SidebarItem from './SidebarItem.svelte';
 
-  let { 
-    year, 
-    months, 
-    isCollapsed = false, 
-    isOpen = false, 
-    onToggle 
+  let {
+    year,
+    months,
+    isCollapsed = false,
+    isOpen = false,
+    onToggle
   } = $props();
-
-  const monthNames = [
-    '', 'january', 'february', 'march', 'april', 'may', 'june',
-    'july', 'august', 'september', 'october', 'november', 'december'
-  ];
 </script>
 
 <li class="flex flex-col">
@@ -58,11 +54,11 @@
   {#if isOpen}
     <ul class="mt-1 space-y-1 {isCollapsed ? 'ml-4' : 'ml-4 border-l border-border-dark'}">
       {#each months as month}
-        <SidebarItem 
-          href="/blog/archive/{year}/{month}" 
-          label={i18n.t(`month.${monthNames[month]}`)} 
-          icon={Dot} 
-          {isCollapsed} 
+        <SidebarItem
+          href="/blog/archive/{year}/{month}"
+          label={i18n.t(monthKey(month))}
+          icon={Dot}
+          {isCollapsed}
           indent={true}
         />
       {/each}
