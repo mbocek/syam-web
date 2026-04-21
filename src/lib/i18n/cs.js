@@ -51,7 +51,20 @@ export default {
     growthProjection: 'Projekcia růstu',
     range: 'Rozpětí',
     min: 'min',
-    max: 'max'
+    max: 'max',
+    compare: {
+      enable: 'Porovnat s dalším scénářem',
+      disable: 'Zrušit porovnání',
+      scenarioA: 'Scénář A',
+      scenarioB: 'Scénář B',
+      difference: 'Rozdíl',
+      scenarioBWins: 'Scénář B končí o {delta} {currency} výše',
+      scenarioAWins: 'Scénář A končí o {delta} {currency} výše',
+      tied: 'Oba scénáře končí stejně',
+      balanceA: 'Zůstatek A',
+      balanceB: 'Zůstatek B',
+      delta: 'Δ'
+    }
   },
   mortgage: {
     title: 'Hypoteční kalkulačka',

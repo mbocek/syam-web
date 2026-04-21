@@ -51,7 +51,20 @@ export default {
     growthProjection: 'Growth Projection',
     range: 'Range',
     min: 'min',
-    max: 'max'
+    max: 'max',
+    compare: {
+      enable: 'Compare another scenario',
+      disable: 'Remove comparison',
+      scenarioA: 'Scenario A',
+      scenarioB: 'Scenario B',
+      difference: 'Difference',
+      scenarioBWins: 'Scenario B ends with {delta} {currency} more',
+      scenarioAWins: 'Scenario A ends with {delta} {currency} more',
+      tied: 'Both scenarios end at the same amount',
+      balanceA: 'Balance A',
+      balanceB: 'Balance B',
+      delta: 'Δ'
+    }
   },
   mortgage: {
     title: 'Mortgage Calculator',
