@@ -10,13 +10,13 @@ test('compound interest without monthly contribution (monthly compounding)', () 
   const result = calculateCompoundInterest({ principal: 1000, rate: 5, years: 10 });
   expect(result.total).toBeCloseTo(1647.01, 1);
   expect(result.breakdown[0].totalInterest).toBeCloseTo(51.16, 1);
-  expect(result.breakdown[0].totalContributions).toBe(0);
+  expect(result.breakdown[0].totalContributions).toBe(1000);
 });
 
 test('compound interest with monthly contribution (monthly compounding)', () => {
   const result = calculateCompoundInterest({ principal: 1000, rate: 5, years: 10, monthlyContribution: 100 });
   expect(result.total).toBeCloseTo(17239.94, 1);
-  expect(result.breakdown[0].totalContributions).toBe(1200);
+  expect(result.breakdown[0].totalContributions).toBe(2200);
   expect(result.breakdown[0].totalInterest).toBeGreaterThan(51.16);
 });
 

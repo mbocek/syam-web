@@ -9,29 +9,24 @@ export function calculateCompoundInterest({ principal, rate, years, monthlyContr
   const monthsPerCompounding = 12 / frequency;
 
   let total = principal;
-  let yearContributions = 0;
-  let yearInterest = 0;
+  let cumulativeContributions = principal;
   const breakdown = [];
 
   for (let month = 1; month <= totalMonths; month++) {
     total += monthlyContribution;
-    yearContributions += monthlyContribution;
+    cumulativeContributions += monthlyContribution;
 
-    const before = total;
     if (month % monthsPerCompounding === 0) {
       total *= 1 + compoundingPeriodRate;
     }
-    yearInterest += total - before;
 
     if (month % 12 === 0) {
       breakdown.push({
         year: month / 12,
-        totalContributions: round(yearContributions),
-        totalInterest: round(yearInterest),
+        totalContributions: round(cumulativeContributions),
+        totalInterest: round(total - cumulativeContributions),
         balance: round(total)
       });
-      yearContributions = 0;
-      yearInterest = 0;
     }
   }
 
